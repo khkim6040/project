@@ -41,7 +41,7 @@ public abstract class BaseDetectAction extends AnAction {
      * Returns the description of each story.
      * You must use html-style (<html>content</html>) for multi-line explanation.
      *
-     * @return description of each stories as a sting format
+     * @return description of each story as a sting format
      */
     public abstract String description();
 
@@ -49,7 +49,7 @@ public abstract class BaseDetectAction extends AnAction {
      * Returns the precondition of each story.
      * You must use html-style (<html>content</html>) for multi-line explanation.
      *
-     * @return description of each stories as a sting format
+     * @return description of each story as a sting format
      */
     public abstract String precondition();
 
@@ -61,19 +61,7 @@ public abstract class BaseDetectAction extends AnAction {
      */
     public abstract boolean detectSmell(AnActionEvent e);
 
-    /**
-     * Method that performs refactoring.
-     *
-     * @param e AnActionEvent
-     */
-    //public abstract void refactor(AnActionEvent e);
 
-    /**
-     * Implement this method to provide your action handler.
-     *
-     * @param e AnActionEvent
-     * @see AnAction#update(AnActionEvent)
-     */
     /**
      * Updates the state of the action.
      * If refactoring is possible, make the function enabled and visible.

@@ -18,10 +18,10 @@ public class BaseDetectManager {
     }
 
     /**
-     * Method that fetches Refactoring Method name by ID.
+     * Method that fetches Code Smell Detection Method name by ID.
      *
-     * @param id Refactoring Techinque ID
-     * @return Corresponding Refactoring name (story name)
+     * @param id Code Smell ID
+     * @return Corresponding Detecting name (story name)
      */
     public BaseDetectAction getDetectActionByID (String id) {
         switch (id) {

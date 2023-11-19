@@ -44,11 +44,10 @@ public class LongParameterList extends BaseDetectAction {
     }
 
     /**
-     * Method that checks whether candidate method is refactorable
-     * using 'Remove Unused Parameter'.
+     * Method that checks whether candidate method has long parameter list
      *
-     * @param e AnActionevent
-     * @return true if method has code smell
+     * @param e AnActionEvent
+     * @return true if method has smell code
      */
     @Override
     public boolean detectSmell(AnActionEvent e) {
