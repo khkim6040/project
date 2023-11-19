@@ -13,7 +13,7 @@ import java.util.*;
  * Class to provide detecting: 'LongParameterList'
  *
  */
-public class LongParameterList extends BaseDetectAction {
+public class PoorName extends BaseDetectAction {
 
     public Project project;
     //private PsiMethod focusMethod;
