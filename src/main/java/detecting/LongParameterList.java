@@ -7,11 +7,13 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.psi.PsiMethod;
 
 /**
  * Class to provide detecting: 'LongParameterList'
  *
+ * @author Jinyoung Kim
+ * @author Chanho Song
+ * @author Hyunbin Park
  */
 public class LongParameterList extends BaseDetectAction {
 
@@ -24,7 +26,7 @@ public class LongParameterList extends BaseDetectAction {
         return "LPL";
     }
 
-    /* Returns the story name as a string format, for message. */
+    /* Returns the story name as string for message. */
     @Override
     public String storyName() {
         return "Detect Long Parameter List";
@@ -34,7 +36,7 @@ public class LongParameterList extends BaseDetectAction {
     @Override
     public String description() {
         return "<html>When there are too many parameters in the method<br/>" +
-                "detect it as code smell long parameter list.</html>";
+                " ,detect it as code smell long parameter list.</html>";
     }
 
     /* Returns the precondition of each story. (in html-style) */
@@ -52,15 +54,14 @@ public class LongParameterList extends BaseDetectAction {
     @Override
     public boolean detectSmell(AnActionEvent e) {
         Project project = e.getProject();
-        System.out.println(project);
         if (project == null) {
-            System.out.println("No project");
+            System.out.println("project is null");
             return false;
         }
 
-        Editor editor = e.getDataContext().getData(CommonDataKeys.EDITOR);
+        Editor editor = e.getData(CommonDataKeys.EDITOR);
         if (editor == null) {
-            System.out.println("No editor");
+            System.out.println("editor is null");
             return false;
         }
 
@@ -68,15 +69,24 @@ public class LongParameterList extends BaseDetectAction {
         PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
         PsiFile psiFile = psiDocumentManager.getPsiFile(document);
         if (psiFile == null) {
-            System.out.println("Noo2");
+            System.out.println("psiFile is null");
             return false;
         }
-        System.out.println(psiFile);
-        PsiElement elementAtCaret = psiFile.findElementAt(editor.getCaretModel().getOffset());
 
-        PsiMethod focusMethod = PsiTreeUtil.getParentOfType(elementAtCaret, PsiMethod.class);
+        if (!(psiFile instanceof PsiJavaFile)) {
+            System.out.println("Not a Java file");
+            return false;
+        }
 
-        return isLongParameterList(focusMethod);
+        PsiJavaFile javaFile = (PsiJavaFile) psiFile;
+        for (PsiClass psiClass : javaFile.getClasses()) {
+            for (PsiMethod method : psiClass.getMethods()) {
+                if (isLongParameterList(method)) {
+                    return true; // Long parameter list code smell detected
+                }
+            }
+        }
+        return false; // No long parameter list code smell detected
     }
 
     /**
