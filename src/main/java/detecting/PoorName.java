@@ -21,26 +21,27 @@ public class PoorName extends BaseDetectAction {
     /* Returns the story ID. */
     @Override
     public String storyID() {
-        return "LPL";
+        return "PN";
     }
 
     /* Returns the story name as a string format, for message. */
     @Override
     public String storyName() {
-        return "Detect Long Parameter List";
+        return "Detect Poor Name";
     }
 
     /* Returns the description of each story. (in html-style) */
     @Override
     public String description() {
-        return "<html>When there are too many parameters in the method<br/>" +
-                "detect it as code smell long parameter list.</html>";
+        return "<html>When there are variables with poor names. <br/>" +
+                "detect names that is hardly reflect its function.</html>";
     }
 
     /* Returns the precondition of each story. (in html-style) */
     @Override
     public String precondition() {
-        return "<html>There are more parameters in the method than a set standard</html>";
+        return "<html>The variable which is just one alphabet or form of repeated alphabet. " +
+                "The variable whose length is less than or equal to 3.</html>";
     }
 
     /**
@@ -72,32 +73,53 @@ public class PoorName extends BaseDetectAction {
             return false;
         }
         System.out.println(psiFile);
-//        PsiElement elementAtCaret = psiFile.findElementAt(editor.getCaretModel().getOffset());
-//
-//        PsiMethod focusMethod = PsiTreeUtil.getParentOfType(elementAtCaret, PsiMethod.class);
 
+        Collection<PsiVariable> variables = PsiTreeUtil.collectElementsOfType(psiFile, PsiVariable.class);
 
-        List<PsiMethod> methods = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiMethod.class));
-        for (PsiMethod method : methods) {
-            if (isLongParameterList(method))
+        for (PsiVariable var : variables) {
+            if (hasPoorName(var))
                 return true;
         }
         return false;
-
-        //return isLongParameterList(focusMethod);
     }
 
     /**
-     * Helper method to check if the method has a long parameter list.
+     * Helper method to check if the method has a poor name
      *
-     * @param method PsiMethod
-     * @return true if method has long parameter list
+     * @param var PsiVariable
+     * @return true if method has poor name
      */
-    private boolean isLongParameterList(PsiMethod method) {
-        if (method == null) return false;
+    private boolean hasPoorName (PsiVariable var){
+        if (var == null) return false;
 
-        final int MAX_PARAMETERS = 3;  // Define a threshold for maximum allowed parameters
-        PsiParameter[] parameters = method.getParameterList().getParameters();
-        return parameters.length > MAX_PARAMETERS;
+        String name = var.getName();
+
+        //Check the length
+        if (name.length() <= 3) {
+            return true;
+        }
+        //Check repeated alphabet
+        if (name.matches( "(.)\\1+") )
+            return true;
+
+        if (isSequential(name))
+            return true;
+
+        return false;
     }
+    /**
+     * Helper method to check if
+     *
+     * @param name PsiVariable
+     * @return true if method has squential name
+     */
+    private boolean isSequential(String name) {
+        for (int i = 0; i < name.length() - 1; i++) {
+            if (name.charAt(i) + 1 != name.charAt(i + 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
