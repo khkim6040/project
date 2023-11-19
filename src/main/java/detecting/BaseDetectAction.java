@@ -1,4 +1,4 @@
-//package.4nix.detecting;
+package detecting;//package.4nix.detecting;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -59,7 +59,7 @@ public abstract class BaseDetectAction extends AnAction {
      * @param e AnActionEvent
      * @return true if method has code smell
      */
-    public abstract boolean DetectSmell(AnActionEvent e);
+    public abstract boolean detectSmell(AnActionEvent e);
 
     /**
      * Method that performs refactoring.
@@ -91,7 +91,7 @@ public abstract class BaseDetectAction extends AnAction {
     public void actionPerformed(AnActionEvent e) {
         // TODO: insert action logic here
         // Check if the current context has a code smell
-        boolean hasCodeSmell = DetectSmell(e);
+        boolean hasCodeSmell = detectSmell(e);
 
         // Get the project from the action event
         Project project = e.getProject();

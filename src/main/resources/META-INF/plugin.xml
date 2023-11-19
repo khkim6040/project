@@ -35,7 +35,7 @@
             <add-to-group group-id="MainMenu" anchor="first"/>
         </action>
 
-        <action id="LongParameterList" class="LongParameterList" text="LongParameterList">
+        <action id="detecting.LongParameterList" class="detecting.LongParameterList" text="detecting.LongParameterList">
             <add-to-group group-id="MainMenu" anchor="first"/>
         </action>
     </actions>

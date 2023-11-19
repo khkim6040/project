@@ -1,3 +1,4 @@
+package detecting;
 
 /**
  * Singleton Class with managing features of Multiple BaseDetectActions.

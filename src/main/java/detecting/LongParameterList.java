@@ -1,8 +1,7 @@
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
+package detecting;
+
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
@@ -10,12 +9,8 @@ import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.PsiMethod;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
- * Class to provide refactoring: 'Remove Unused Parameters'
+ * Class to provide detecting: 'LongParameterList'
  *
  */
 public class LongParameterList extends BaseDetectAction {
@@ -56,7 +51,7 @@ public class LongParameterList extends BaseDetectAction {
      * @return true if method has code smell
      */
     @Override
-    public boolean DetectSmell(AnActionEvent e) {
+    public boolean detectSmell(AnActionEvent e) {
         Project project = e.getProject();
         System.out.println(project);
         if (project == null) {
