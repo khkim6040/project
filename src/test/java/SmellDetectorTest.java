@@ -1,8 +1,5 @@
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
-
 public abstract class SmellDetectorTest extends LightJavaCodeInsightFixtureTestCase {
 
     @Override

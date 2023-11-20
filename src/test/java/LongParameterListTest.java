@@ -1,9 +1,9 @@
-import detecting.BaseDetectAction;
-import detecting.LongParameterList;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
+import detecting.BaseDetectAction;
+import detecting.LongParameterList;
 
 public class LongParameterListTest extends SmellDetectorTest {
 
@@ -12,8 +12,8 @@ public class LongParameterListTest extends SmellDetectorTest {
         return super.getBasePath() + "/LongParameterList";
     }
 
-    protected void doDetectSmellTest(int testNum, boolean expected)  {
-        myFixture.configureByFiles(getBasePath()+"/test"+ testNum +".java");
+    protected void doDetectSmellTest(int testNum, boolean expected) {
+        myFixture.configureByFiles(getBasePath() + "/test" + testNum + ".java");
         // Set up the action event with the necessary context
         DataContext dataContext = DataManager.getInstance().getDataContext(myFixture.getEditor().getComponent());
         AnActionEvent event = AnActionEvent.createFromDataContext(String.valueOf(ActionManager.getInstance().getAction("")), null, dataContext);
