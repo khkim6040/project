@@ -31,20 +31,11 @@
 
     </extensions>
     <actions>
-        <action id="plugintest" class="Plugintest" text="Plugintest">
+        <action id="plugintest" class="Plugintest" text="plugintest">
             <add-to-group group-id="MainMenu" anchor="first"/>
         </action>
 
-        <action id="detecting.LPL" class="detecting.LongParameterList" text="LongParameterList"
-                description="Implementation for LongParameterList">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
-        <action id="detecting.ILM" class="detecting.IdentifyLongMethod" text="IdentifyLongMethod"
-                description="Implementation for IdentifyLongMethod">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
-        <action id="detecting.DLC" class="detecting.DetectLargeClass" text="DetectLargeClass"
-                description="Implementation for DetectLargeClass">
+        <action id="detecting.LongParameterList" class="detecting.LongParameterList" text="detecting.LongParameterList">
             <add-to-group group-id="MainMenu" anchor="first"/>
         </action>
     </actions>

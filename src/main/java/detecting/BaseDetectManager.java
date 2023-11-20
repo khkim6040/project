@@ -2,9 +2,6 @@ package detecting;
 
 /**
  * Singleton Class with managing features of Multiple BaseDetectActions.
- *
- * @author Jinyoung Kim
- * @author CSED332 2020 Team Wanted
  */
 public class BaseDetectManager {
     private static BaseDetectManager manager = null;
@@ -27,13 +24,9 @@ public class BaseDetectManager {
      */
     public BaseDetectAction getDetectActionByID(String id) {
         switch (id) {
-            // Priority 1 functions
+            // Scope: Class
             case "LPL":
                 return new LongParameterList();
-            case "DLC":
-                return new DetectLargeClass();
-            case "ILM":
-                return new IdentifyLongMethod();
 
 
             default:

@@ -1,16 +1,11 @@
-package detecting;
+package detecting;//package.4nix.detecting;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * Abstract class to provide code smell techniques
- *
- * @author Jinyoung Kim
- * @author CSED332 2020 Team Wanted
- */
 
 public abstract class BaseDetectAction extends AnAction {
 
@@ -22,25 +17,25 @@ public abstract class BaseDetectAction extends AnAction {
     public abstract String storyID();
 
     /**
-     * Returns the story name as string for message.
+     * Returns the story name as a string format, for message.
      *
-     * @return story name as string
+     * @return story name as a string format
      */
     public abstract String storyName();
 
     /**
      * Returns the description of each story.
-     * Use html-style (<html>content</html>) for multi-line explanation.
+     * You must use html-style (<html>content</html>) for multi-line explanation.
      *
-     * @return description of each story as string
+     * @return description of each story as a sting format
      */
     public abstract String description();
 
     /**
      * Returns the precondition of each story.
-     * Use html-style (<html>content</html>) for multi-line explanation.
+     * You must use html-style (<html>content</html>) for multi-line explanation.
      *
-     * @return description of each story as string
+     * @return description of each story as a sting format
      */
     public abstract String precondition();
 
@@ -51,6 +46,20 @@ public abstract class BaseDetectAction extends AnAction {
      * @return true if method has code smell
      */
     public abstract boolean detectSmell(AnActionEvent e);
+
+
+    /**
+     * Updates the state of the action.
+     * If refactoring is possible, make the function enabled and visible.
+     *
+     * @param e AnActionEvent
+     * @see AnAction#update(AnActionEvent)
+     */
+    @Override
+    public void update(@NotNull AnActionEvent e) {
+        super.update(e);
+    }
+
 
     @Override
     public void actionPerformed(AnActionEvent e) {
