@@ -6,12 +6,11 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
 public class FindDuplicatedCode extends BaseDetectAction {
 
@@ -74,19 +73,34 @@ public class FindDuplicatedCode extends BaseDetectAction {
         }
         System.out.println(psiFile);
 
-        PsiElement[] allElements = PsiTreeUtil.collectElements(psiFile, element -> true);
-        Map<String, PsiElement> codeBlocks = new HashMap<>();
 
-        for (PsiElement element : allElements) {
-            String codeText = element.getText();
-            if (codeBlocks.containsKey(codeText)) {
-                System.out.println(codeText);
+        String fileText = psiFile.getText();
+        Scanner scanner = new Scanner(fileText);
+        Set<String> lineSet = new HashSet<>();
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine().trim();
+
+            /*
+            Todo : This code is analyze code line by line,
+                    but we need to see the "code block"
+             */
+            if (isCommentOrBlankLine(line) || line.length() < 10) {
+                continue;
+            }
+            if (!lineSet.add(line)) {
+                System.out.println(line);
                 return true;
-            } else {
-                codeBlocks.put(codeText, element);
             }
         }
         return false;
+    }
+
+    private boolean isCommentOrBlankLine(String line) {
+        /*
+        Todo : multiline commnet is not implemented yet.
+         */
+        return line.isEmpty() || line.startsWith("//") || line.startsWith("/*") || line.startsWith("*");
     }
 
 }
