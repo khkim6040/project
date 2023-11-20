@@ -5,8 +5,6 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.InputValidator;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
 
 /**
@@ -72,9 +70,10 @@ public class IdentifyLongMethod extends BaseDetectAction {
             return false;
         }
 
-        int userDefinedMaxLineCount = getUserDefinedMaxLineCount(project, 25);
+//        int userDefinedMaxLineCount = getUserDefinedMaxLineCount(project, 25);
         // 25 is the default value
-        
+        int userDefinedMaxLineCount = 25;
+
         PsiJavaFile psiJavaFile = (PsiJavaFile) psiFile;
         for (PsiClass psiClass : psiJavaFile.getClasses()) {
             for (PsiMethod method : psiClass.getMethods()) {
@@ -112,42 +111,42 @@ public class IdentifyLongMethod extends BaseDetectAction {
         return lineCount > maxLineCount;
     }
 
-    private int getUserDefinedMaxLineCount(Project project, int defaultMaxLineCount) {
-        String response = Messages.showInputDialog(
-                project,
-                "Enter the maximum line count for a method:",
-                "Configure Max Line Count",
-                Messages.getQuestionIcon(),
-                Integer.toString(defaultMaxLineCount),
-                new IntegerInputValidator()
-        );
+    /**
+     private int getUserDefinedMaxLineCount(Project project, int defaultMaxLineCount) {
+     String response = Messages.showInputDialog(
+     project,
+     "Enter the maximum line count for a method:",
+     "Configure Max Line Count",
+     Messages.getQuestionIcon(),
+     Integer.toString(defaultMaxLineCount),
+     new IntegerInputValidator()
+     );
 
-        if (response == null) {
-            return defaultMaxLineCount; // User pressed Cancel or closed the dialog
-        }
+     if (response == null) {
+     return defaultMaxLineCount; // User pressed Cancel or closed the dialog
+     }
 
-        try {
-            return Integer.parseInt(response);
-        } catch (NumberFormatException e) {
-            return defaultMaxLineCount;
-        }
+     try {
+     return Integer.parseInt(response);
+     } catch (NumberFormatException e) {
+     return defaultMaxLineCount;
+     }
+     }
+
+     private static class IntegerInputValidator implements InputValidator {
+    @Override public boolean checkInput(String inputString) {
+    try {
+    int value = Integer.parseInt(inputString);
+    return value > 0;
+    } catch (NumberFormatException e) {
+    return false;
+    }
     }
 
-    private static class IntegerInputValidator implements InputValidator {
-        @Override
-        public boolean checkInput(String inputString) {
-            try {
-                int value = Integer.parseInt(inputString);
-                return value > 0;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        }
-
-        @Override
-        public boolean canClose(String inputString) {
-            return checkInput(inputString);
-        }
+    @Override public boolean canClose(String inputString) {
+    return checkInput(inputString);
     }
+    }
+     **/
 }
 

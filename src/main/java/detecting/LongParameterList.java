@@ -5,8 +5,6 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.InputValidator;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
 
 /**
@@ -71,7 +69,8 @@ public class LongParameterList extends BaseDetectAction {
             return false;
         }
 
-        int userDefinedMaxParameters = getUserDefinedMaxParameters(project, 5); // 5 is the default value
+//        int userDefinedMaxParameters = getUserDefinedMaxParameters(project, 5); // 5 is the default value
+        int userDefinedMaxParameters = 5;
 
         for (PsiElement element : psiFile.getChildren()) {
             if (element instanceof PsiClass) {
@@ -99,41 +98,41 @@ public class LongParameterList extends BaseDetectAction {
         return parameters.length > maxParameters;
     }
 
-    private int getUserDefinedMaxParameters(Project project, int defaultMaxParameters) {
-        String response = Messages.showInputDialog(
-                project,
-                "Enter the maximum number of parameters for a method:",
-                "Configure Max Parameters",
-                Messages.getQuestionIcon(),
-                Integer.toString(defaultMaxParameters),
-                new IntegerInputValidator()
-        );
-
-        if (response == null) {
-            return defaultMaxParameters; // User pressed Cancel or closed the dialog
-        }
-
-        try {
-            return Integer.parseInt(response);
-        } catch (NumberFormatException e) {
-            return defaultMaxParameters;
-        }
-    }
-
-    private static class IntegerInputValidator implements InputValidator {
-        @Override
-        public boolean checkInput(String inputString) {
-            try {
-                int value = Integer.parseInt(inputString);
-                return value > 0;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        }
-
-        @Override
-        public boolean canClose(String inputString) {
-            return checkInput(inputString);
-        }
-    }
+//    private int getUserDefinedMaxParameters(Project project, int defaultMaxParameters) {
+//        String response = Messages.showInputDialog(
+//                project,
+//                "Enter the maximum number of parameters for a method:",
+//                "Configure Max Parameters",
+//                Messages.getQuestionIcon(),
+//                Integer.toString(defaultMaxParameters),
+//                new IntegerInputValidator()
+//        );
+//
+//        if (response == null) {
+//            return defaultMaxParameters; // User pressed Cancel or closed the dialog
+//        }
+//
+//        try {
+//            return Integer.parseInt(response);
+//        } catch (NumberFormatException e) {
+//            return defaultMaxParameters;
+//        }
+//    }
+//
+//    private static class IntegerInputValidator implements InputValidator {
+//        @Override
+//        public boolean checkInput(String inputString) {
+//            try {
+//                int value = Integer.parseInt(inputString);
+//                return value > 0;
+//            } catch (NumberFormatException e) {
+//                return false;
+//            }
+//        }
+//
+//        @Override
+//        public boolean canClose(String inputString) {
+//            return checkInput(inputString);
+//        }
+//    }
 }
