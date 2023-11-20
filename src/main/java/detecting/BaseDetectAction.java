@@ -2,24 +2,13 @@ package detecting;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.diff.*;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.ui.WindowWrapper;
-import com.intellij.psi.PsiDocumentManager;
-import org.jetbrains.annotations.NotNull;
-import java.util.*;
 
 /**
  * Abstract class to provide code smell techniques
  *
  * @author Jinyoung Kim
- * @author Chanho Song
- * @author Hyunbin Park
  * @author CSED332 2020 Team Wanted
  */
 

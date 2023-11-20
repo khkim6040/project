@@ -1,22 +1,21 @@
 public class TestLongParameterList {
 
+    public static void main(String[] args) {
+        TestLongParameterList example = new TestLongParameterList();
+
+        // Example usage of the method with long parameter list
+        example.exampleMethodWithLongParameterList(
+                "Jinyoung Kim", 24, "postech", "010-1234-5678", "jyk2000@postech.ac.kr",
+                "Software Engineer", "Korean", 180, 60, "Male", "Not Married", "Gaming"
+        );
+    }
+
     /**
      * An example method with a long parameter list, demonstrating the code smell.
      * This method has 12 parameters.
      *
-     * @param name Name of the person.
-     * @param age Age of the person.
-     * @param address Address of the person.
-     * @param phoneNumber Phone number of the person.
-     * @param email Email address of the person.
-     * @param occupation Occupation of the person.
-     * @param nationality Nationality of the person.
-     * @param height Height of the person.
-     * @param weight Weight of the person.
-     * @param gender Gender of the person.
-     * @param maritalStatus Marital status of the person.
-     * @param hobby Hobby of the person.
-     *
+     * @param name, age, address, phoneNumber, email, occupation, nationality, height,
+     *              weight, gender, maritalStatus, hobby
      * @author Jinyoung Kim
      */
     public void exampleMethodWithLongParameterList(String name, int age, String address, String phoneNumber, String email,
@@ -35,15 +34,5 @@ public class TestLongParameterList {
         System.out.println("Gender: " + gender);
         System.out.println("Marital Status: " + maritalStatus);
         System.out.println("Hobby: " + hobby);
-    }
-
-    public static void main(String[] args) {
-        TestLongParameterList example = new TestLongParameterList();
-
-        // Example usage of the method with long parameter list
-        example.exampleMethodWithLongParameterList(
-                "John Doe", 30, "123 Main Street", "555-1234", "john@example.com",
-                "Software Engineer", "American", 5.9, 175.0, "Male", "Married", "Photography"
-        );
     }
 }

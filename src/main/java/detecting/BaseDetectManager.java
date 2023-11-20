@@ -4,15 +4,14 @@ package detecting;
  * Singleton Class with managing features of Multiple BaseDetectActions.
  *
  * @author Jinyoung Kim
- * @author Chanho Song
- * @author Hyunbin Park
  * @author CSED332 2020 Team Wanted
  */
 public class BaseDetectManager {
     private static BaseDetectManager manager = null;
 
     /* Design Pattern: Singleton */
-    protected BaseDetectManager () { }
+    protected BaseDetectManager() {
+    }
 
     public static BaseDetectManager getInstance() {
         if (manager == null)
@@ -26,7 +25,7 @@ public class BaseDetectManager {
      * @param id Code Smell ID
      * @return Corresponding Detecting name (story name)
      */
-    public BaseDetectAction getDetectActionByID (String id) {
+    public BaseDetectAction getDetectActionByID(String id) {
         switch (id) {
             // Priority 1 functions
             case "LPL":
@@ -35,7 +34,6 @@ public class BaseDetectManager {
                 return new DetectLargeClass();
             case "ILM":
                 return new IdentifyLongMethod();
-
 
 
             default:

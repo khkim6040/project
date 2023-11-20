@@ -6,14 +6,11 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
 
 /**
  * Class to provide detecting: 'LongParameterList'
  *
  * @author Jinyoung Kim
- * @author Chanho Song
- * @author Hyunbin Park
  */
 public class LongParameterList extends BaseDetectAction {
 
