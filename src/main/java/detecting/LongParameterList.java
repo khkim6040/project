@@ -7,11 +7,9 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.psi.PsiMethod;
 
 /**
  * Class to provide detecting: 'LongParameterList'
- *
  */
 public class LongParameterList extends BaseDetectAction {
 

@@ -2,23 +2,9 @@ package detecting;//package.4nix.detecting;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.diff.*;
-import com.intellij.diff.chains.SimpleDiffRequestChain;
-import com.intellij.diff.contents.DiffContent;
-import com.intellij.diff.requests.SimpleDiffRequest;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.ui.WindowWrapper;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
-import java.util.*;
 
 
 public abstract class BaseDetectAction extends AnAction {
