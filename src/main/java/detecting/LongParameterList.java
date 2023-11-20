@@ -5,6 +5,8 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.InputValidator;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
 
 /**
@@ -63,23 +65,21 @@ public class LongParameterList extends BaseDetectAction {
         }
 
         Document document = editor.getDocument();
-        PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
-        PsiFile psiFile = psiDocumentManager.getPsiFile(document);
+        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
         if (psiFile == null) {
             System.out.println("psiFile is null");
             return false;
         }
 
-        if (!(psiFile instanceof PsiJavaFile)) {
-            System.out.println("Not a Java file");
-            return false;
-        }
+        int userDefinedMaxParameters = getUserDefinedMaxParameters(project, 5); // 5 is the default value
 
-        PsiJavaFile javaFile = (PsiJavaFile) psiFile;
-        for (PsiClass psiClass : javaFile.getClasses()) {
-            for (PsiMethod method : psiClass.getMethods()) {
-                if (isLongParameterList(method)) {
-                    return true; // Long parameter list code smell detected
+        for (PsiElement element : psiFile.getChildren()) {
+            if (element instanceof PsiClass) {
+                PsiClass psiClass = (PsiClass) element;
+                for (PsiMethod method : psiClass.getMethods()) {
+                    if (isLongParameterList(method, userDefinedMaxParameters)) {
+                        return true; // Long parameter list code smell detected
+                    }
                 }
             }
         }
@@ -92,11 +92,48 @@ public class LongParameterList extends BaseDetectAction {
      * @param method PsiMethod
      * @return true if method has long parameter list
      */
-    private boolean isLongParameterList(PsiMethod method) {
+    private boolean isLongParameterList(PsiMethod method, int maxParameters) {
         if (method == null) return false;
 
-        final int MAX_PARAMETERS = 5;  // Define a threshold for maximum allowed parameters
         PsiParameter[] parameters = method.getParameterList().getParameters();
-        return parameters.length > MAX_PARAMETERS;
+        return parameters.length > maxParameters;
+    }
+
+    private int getUserDefinedMaxParameters(Project project, int defaultMaxParameters) {
+        String response = Messages.showInputDialog(
+                project,
+                "Enter the maximum number of parameters for a method:",
+                "Configure Max Parameters",
+                Messages.getQuestionIcon(),
+                Integer.toString(defaultMaxParameters),
+                new IntegerInputValidator()
+        );
+
+        if (response == null) {
+            return defaultMaxParameters; // User pressed Cancel or closed the dialog
+        }
+
+        try {
+            return Integer.parseInt(response);
+        } catch (NumberFormatException e) {
+            return defaultMaxParameters;
+        }
+    }
+
+    private static class IntegerInputValidator implements InputValidator {
+        @Override
+        public boolean checkInput(String inputString) {
+            try {
+                int value = Integer.parseInt(inputString);
+                return value > 0;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+
+        @Override
+        public boolean canClose(String inputString) {
+            return checkInput(inputString);
+        }
     }
 }

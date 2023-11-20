@@ -6,8 +6,9 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.InputValidator;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
 
 /**
  * Class to provide detecting: 'LargeClass'
@@ -68,13 +69,18 @@ public class DetectLargeClass extends BaseDetectAction {
             return false;
         }
 
-        PsiElement elementAtCaret = psiFile.findElementAt(editor.getCaretModel().getOffset());
-        PsiClass psiClass = PsiTreeUtil.getParentOfType(elementAtCaret, PsiClass.class);
-        if (psiClass == null) {
-            return false;
-        }
+        int userDefinedMaxFields = getUserDefinedThreshold(project, "Enter the maximum number of fields for a class:", 5);
+        int userDefinedMaxMethods = getUserDefinedThreshold(project, "Enter the maximum number of methods for a class:", 5);
 
-        return isLargeClass(psiClass);
+        for (PsiElement element : psiFile.getChildren()) {
+            if (element instanceof PsiClass) {
+                PsiClass psiClass = (PsiClass) element;
+                if (isLargeClass(psiClass, userDefinedMaxFields, userDefinedMaxMethods)) {
+                    return true; // Large class code smell detected
+                }
+            }
+        }
+        return false; // No large class code smell detected
     }
 
     /**
@@ -83,14 +89,48 @@ public class DetectLargeClass extends BaseDetectAction {
      * @param psiClass PsiClass
      * @return true if the class is larger than set thresholds for fields and methods
      */
-    private boolean isLargeClass(PsiClass psiClass) {
-        final int MAX_FIELDS = 5;  // Example threshold for maximum allowed fields
-        final int MAX_METHODS = 5; // Example threshold for maximum allowed methods
-
+    private boolean isLargeClass(PsiClass psiClass, int maxFields, int maxMethods) {
         PsiField[] fields = psiClass.getFields();
         PsiMethod[] methods = psiClass.getMethods();
+        return fields.length > maxFields || methods.length > maxMethods;
+    }
 
-        return fields.length > MAX_FIELDS || methods.length > MAX_METHODS;
+    private int getUserDefinedThreshold(Project project, String prompt, int defaultValue) {
+        String response = Messages.showInputDialog(
+                project,
+                prompt,
+                "Configure Threshold",
+                Messages.getQuestionIcon(),
+                Integer.toString(defaultValue),
+                new IntegerInputValidator()
+        );
+
+        if (response == null) {
+            return defaultValue; // User pressed Cancel or closed the dialog
+        }
+
+        try {
+            return Integer.parseInt(response);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
+    private static class IntegerInputValidator implements InputValidator {
+        @Override
+        public boolean checkInput(String inputString) {
+            try {
+                int value = Integer.parseInt(inputString);
+                return value > 0;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+
+        @Override
+        public boolean canClose(String inputString) {
+            return checkInput(inputString);
+        }
     }
 
 }
