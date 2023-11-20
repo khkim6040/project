@@ -6,11 +6,12 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiVariable;
 import com.intellij.psi.util.PsiTreeUtil;
 
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FindDuplicatedCode extends BaseDetectAction {
 
@@ -73,53 +74,19 @@ public class FindDuplicatedCode extends BaseDetectAction {
         }
         System.out.println(psiFile);
 
-        Collection<PsiVariable> variables = PsiTreeUtil.collectElementsOfType(psiFile, PsiVariable.class);
+        PsiElement[] allElements = PsiTreeUtil.collectElements(psiFile, element -> true);
+        Map<String, PsiElement> codeBlocks = new HashMap<>();
 
-        for (PsiVariable var : variables) {
-            if (hasPoorName(var))
+        for (PsiElement element : allElements) {
+            String codeText = element.getText();
+            if (codeBlocks.containsKey(codeText)) {
+                System.out.println(codeText);
                 return true;
-        }
-        return false;
-    }
-
-    /**
-     * Helper method to check if the method has a poor name
-     *
-     * @param var PsiVariable
-     * @return true if method has poor name
-     */
-    private boolean hasPoorName(PsiVariable var) {
-        if (var == null) return false;
-
-        String name = var.getName();
-
-        //Check the length
-        if (name.length() <= 3) {
-            return true;
-        }
-        //Check repeated alphabet
-        if (name.matches("(.)\\1+"))
-            return true;
-
-        if (isSequential(name))
-            return true;
-
-        return false;
-    }
-
-    /**
-     * Helper method to check if
-     *
-     * @param name PsiVariable
-     * @return true if method has squential name
-     */
-    private boolean isSequential(String name) {
-        for (int i = 0; i < name.length() - 1; i++) {
-            if (name.charAt(i) + 1 != name.charAt(i + 1)) {
-                return false;
+            } else {
+                codeBlocks.put(codeText, element);
             }
         }
-        return true;
+        return false;
     }
 
 }
