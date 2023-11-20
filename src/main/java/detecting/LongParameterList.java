@@ -1,22 +1,21 @@
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
+package detecting;
+
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiParameter;
+import com.intellij.psi.util.PsiTreeUtil;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
- * Class to provide refactoring: 'Remove Unused Parameters'
- *
+ * Class to provide detecting: 'LongParameterList'
  */
 public class LongParameterList extends BaseDetectAction {
 
@@ -49,14 +48,13 @@ public class LongParameterList extends BaseDetectAction {
     }
 
     /**
-     * Method that checks whether candidate method is refactorable
-     * using 'Remove Unused Parameter'.
+     * Method that checks whether candidate method has long parameter list
      *
-     * @param e AnActionevent
-     * @return true if method has code smell
+     * @param e AnActionEvent
+     * @return true if method has smell code
      */
     @Override
-    public boolean DetectSmell(AnActionEvent e) {
+    public boolean detectSmell(AnActionEvent e) {
         Project project = e.getProject();
         System.out.println(project);
         if (project == null) {
@@ -74,15 +72,23 @@ public class LongParameterList extends BaseDetectAction {
         PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
         PsiFile psiFile = psiDocumentManager.getPsiFile(document);
         if (psiFile == null) {
-            System.out.println("Noo2");
+            System.out.println("No File");
             return false;
         }
         System.out.println(psiFile);
-        PsiElement elementAtCaret = psiFile.findElementAt(editor.getCaretModel().getOffset());
+//        PsiElement elementAtCaret = psiFile.findElementAt(editor.getCaretModel().getOffset());
+//
+//        PsiMethod focusMethod = PsiTreeUtil.getParentOfType(elementAtCaret, PsiMethod.class);
 
-        PsiMethod focusMethod = PsiTreeUtil.getParentOfType(elementAtCaret, PsiMethod.class);
 
-        return isLongParameterList(focusMethod);
+        List<PsiMethod> methods = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiMethod.class));
+        for (PsiMethod method : methods) {
+            if (isLongParameterList(method))
+                return true;
+        }
+        return false;
+
+        //return isLongParameterList(focusMethod);
     }
 
     /**
@@ -94,7 +100,7 @@ public class LongParameterList extends BaseDetectAction {
     private boolean isLongParameterList(PsiMethod method) {
         if (method == null) return false;
 
-        final int MAX_PARAMETERS = 5;  // Define a threshold for maximum allowed parameters
+        final int MAX_PARAMETERS = 3;  // Define a threshold for maximum allowed parameters
         PsiParameter[] parameters = method.getParameterList().getParameters();
         return parameters.length > MAX_PARAMETERS;
     }

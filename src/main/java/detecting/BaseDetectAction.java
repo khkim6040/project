@@ -1,24 +1,10 @@
-//package.4nix.detecting;
+package detecting;//package.4nix.detecting;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.diff.*;
-import com.intellij.diff.chains.SimpleDiffRequestChain;
-import com.intellij.diff.contents.DiffContent;
-import com.intellij.diff.requests.SimpleDiffRequest;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.ui.WindowWrapper;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
-import java.util.*;
 
 
 public abstract class BaseDetectAction extends AnAction {
@@ -41,7 +27,7 @@ public abstract class BaseDetectAction extends AnAction {
      * Returns the description of each story.
      * You must use html-style (<html>content</html>) for multi-line explanation.
      *
-     * @return description of each stories as a sting format
+     * @return description of each story as a sting format
      */
     public abstract String description();
 
@@ -49,7 +35,7 @@ public abstract class BaseDetectAction extends AnAction {
      * Returns the precondition of each story.
      * You must use html-style (<html>content</html>) for multi-line explanation.
      *
-     * @return description of each stories as a sting format
+     * @return description of each story as a sting format
      */
     public abstract String precondition();
 
@@ -59,21 +45,9 @@ public abstract class BaseDetectAction extends AnAction {
      * @param e AnActionEvent
      * @return true if method has code smell
      */
-    public abstract boolean DetectSmell(AnActionEvent e);
+    public abstract boolean detectSmell(AnActionEvent e);
 
-    /**
-     * Method that performs refactoring.
-     *
-     * @param e AnActionEvent
-     */
-    //public abstract void refactor(AnActionEvent e);
 
-    /**
-     * Implement this method to provide your action handler.
-     *
-     * @param e AnActionEvent
-     * @see AnAction#update(AnActionEvent)
-     */
     /**
      * Updates the state of the action.
      * If refactoring is possible, make the function enabled and visible.
@@ -91,7 +65,7 @@ public abstract class BaseDetectAction extends AnAction {
     public void actionPerformed(AnActionEvent e) {
         // TODO: insert action logic here
         // Check if the current context has a code smell
-        boolean hasCodeSmell = DetectSmell(e);
+        boolean hasCodeSmell = detectSmell(e);
 
         // Get the project from the action event
         Project project = e.getProject();
