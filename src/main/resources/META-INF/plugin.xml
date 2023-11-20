@@ -28,7 +28,7 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-
+        <toolWindow id="Code Scent" anchor="bottom" factoryClass="MyToolWindowFactory"/>
     </extensions>
     <actions>
         <action id="plugintest" class="Plugintest" text="plugintest">
@@ -52,10 +52,19 @@
                 description="Implementation for IdentifyLongMethod">
             <add-to-group group-id="MainMenu" anchor="first"/>
         </action>
+
         <action id="detecting.DLC" class="detecting.DetectLargeClass" text="DetectLargeClass"
                 description="Implementation for DetectLargeClass">
             <add-to-group group-id="MainMenu" anchor="first"/>
         </action>
-
-    </actions>
+        
+        <group id="GroupedActions" text="Code Scent" popup="true">
+            <add-to-group group-id="MainMenu" anchor="after" relative-to-action="org.intellij.sdk.action.PopupDialogAction"/>
+            <action id="Analyze" class="utils.MyToolWindowAction" text="Analyze">
+            </action>
+            <action id="AnalyzeAll" class="utils.MyToolWindowAction" text="Analyze All">
+            </action>
+            <action id="Customize" class="utils.MyToolWindowAction" text="Customize">
+            </action>
+        </group>    </actions>
 </idea-plugin>
