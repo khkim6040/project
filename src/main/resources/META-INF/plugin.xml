@@ -57,6 +57,11 @@
                 description="Implementation for DetectLargeClass">
             <add-to-group group-id="MainMenu" anchor="first"/>
         </action>
+
+        <action id="detecting.SS" class="detecting.SwitchStatement" text="SwitchStatement"
+                description="Implementation for SwitchStatement">
+            <add-to-group group-id="MainMenu" anchor="first"/>
+        </action>
         
         <group id="GroupedActions" text="Code Scent" popup="true">
             <add-to-group group-id="MainMenu" anchor="after" relative-to-action="org.intellij.sdk.action.PopupDialogAction"/>

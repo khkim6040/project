@@ -34,6 +34,12 @@ public class BaseDetectManager {
                 return new DetectLargeClass();
             case "ILM":
                 return new IdentifyLongMethod();
+            case "SS":
+                return new SwitchStatement();
+            case "FDC":
+                return new FindDuplicatedCode();
+            case "PN":
+                return new PoorName();
 
 
             default:
