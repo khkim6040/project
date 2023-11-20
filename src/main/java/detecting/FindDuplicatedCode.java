@@ -7,44 +7,44 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiParameter;
-import com.intellij.psi.util.PsiTreeUtil;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
-/**
- * Class to provide detecting: 'LongParameterList'
+/*
+@author : Chanho Song
  */
-public class LongParameterList extends BaseDetectAction {
+public class FindDuplicatedCode extends BaseDetectAction {
 
     public Project project;
     //private PsiMethod focusMethod;
 
+
     /* Returns the story ID. */
     @Override
     public String storyID() {
-        return "LPL";
+        return "FDC";
     }
 
     /* Returns the story name as a string format, for message. */
     @Override
     public String storyName() {
-        return "Detect Long Parameter List";
+        return "Find Duplicated Code";
     }
 
     /* Returns the description of each story. (in html-style) */
     @Override
     public String description() {
-        return "<html>When there are too many parameters in the method<br/>" +
-                "detect it as code smell long parameter list.</html>";
+        return "<html>When there duplicated code. <br/>" +
+                "Detect codes where the same code is repeated..</html>";
     }
 
     /* Returns the precondition of each story. (in html-style) */
     @Override
     public String precondition() {
-        return "<html>There are more parameters in the method than a set standard</html>";
+        return "<html>Find the parts where identical or very similar code exists in multiple locations. " +
+                "Identical or similar code blocks or methods .</html>";
     }
 
     /**
@@ -76,32 +76,35 @@ public class LongParameterList extends BaseDetectAction {
             return false;
         }
         System.out.println(psiFile);
-//        PsiElement elementAtCaret = psiFile.findElementAt(editor.getCaretModel().getOffset());
-//
-//        PsiMethod focusMethod = PsiTreeUtil.getParentOfType(elementAtCaret, PsiMethod.class);
 
 
-        List<PsiMethod> methods = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiMethod.class));
-        for (PsiMethod method : methods) {
-            if (isLongParameterList(method))
+        String fileText = psiFile.getText();
+        Scanner scanner = new Scanner(fileText);
+        Set<String> lineSet = new HashSet<>();
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine().trim();
+
+            /*
+            Todo : This code is analyze code line by line,
+                    but we need to see the "code block"
+             */
+            if (isCommentOrBlankLine(line) || line.length() < 10) {
+                continue;
+            }
+            if (!lineSet.add(line)) {
+                System.out.println(line);
                 return true;
+            }
         }
         return false;
-
-        //return isLongParameterList(focusMethod);
     }
 
-    /**
-     * Helper method to check if the method has a long parameter list.
-     *
-     * @param method PsiMethod
-     * @return true if method has long parameter list
-     */
-    private boolean isLongParameterList(PsiMethod method) {
-        if (method == null) return false;
-
-        final int MAX_PARAMETERS = 3;  // Define a threshold for maximum allowed parameters
-        PsiParameter[] parameters = method.getParameterList().getParameters();
-        return parameters.length > MAX_PARAMETERS;
+    private boolean isCommentOrBlankLine(String line) {
+        /*
+        Todo : multiline commnet is not implemented yet.
+         */
+        return line.isEmpty() || line.startsWith("//") || line.startsWith("/*") || line.startsWith("*");
     }
+
 }
