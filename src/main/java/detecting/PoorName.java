@@ -105,10 +105,10 @@ public class PoorName extends BaseDetectAction {
             return true;
         }
         //Check repeated alphabet
-        if (name.matches("(.)\\1+"))
+        if (name.matches("(.)\\1+")) //aaaa
             return true;
 
-        if (isSequential(name))
+        if (isSequential(name)) //abcd
             return true;
 
         return false;
