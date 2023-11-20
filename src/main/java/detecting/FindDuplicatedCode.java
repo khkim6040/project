@@ -12,6 +12,9 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+/*
+@author : Chanho Song
+ */
 public class FindDuplicatedCode extends BaseDetectAction {
 
     public Project project;

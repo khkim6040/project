@@ -15,6 +15,10 @@ import java.util.Collection;
 /**
  * Class to provide detecting: 'LongParameterList'
  */
+
+/*
+@author : Chanho Song
+*/
 public class PoorName extends BaseDetectAction {
 
     public Project project;
