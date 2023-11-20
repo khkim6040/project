@@ -38,5 +38,13 @@
         <action id="detecting.LongParameterList" class="detecting.LongParameterList" text="detecting.LongParameterList">
             <add-to-group group-id="MainMenu" anchor="first"/>
         </action>
+
+        <action id="detecting.PoorName" class="detecting.PoorName" text="detecting.PoorName">
+            <add-to-group group-id="MainMenu" anchor="first"/>
+        </action>
+
+        <action id="detecting.FindDuplicatedCode" class="detecting.FindDuplicatedCode" text="detecting.FindDuplicatedCode">
+            <add-to-group group-id="MainMenu" anchor="first"/>
+        </action>
     </actions>
 </idea-plugin>
