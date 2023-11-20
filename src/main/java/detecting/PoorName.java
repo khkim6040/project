@@ -5,13 +5,15 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiVariable;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.psi.PsiMethod;
-import java.util.*;
+
+import java.util.Collection;
+
 /**
  * Class to provide detecting: 'LongParameterList'
- *
  */
 public class PoorName extends BaseDetectAction {
 
@@ -89,7 +91,7 @@ public class PoorName extends BaseDetectAction {
      * @param var PsiVariable
      * @return true if method has poor name
      */
-    private boolean hasPoorName (PsiVariable var){
+    private boolean hasPoorName(PsiVariable var) {
         if (var == null) return false;
 
         String name = var.getName();
@@ -99,7 +101,7 @@ public class PoorName extends BaseDetectAction {
             return true;
         }
         //Check repeated alphabet
-        if (name.matches( "(.)\\1+") )
+        if (name.matches("(.)\\1+"))
             return true;
 
         if (isSequential(name))
@@ -107,6 +109,7 @@ public class PoorName extends BaseDetectAction {
 
         return false;
     }
+
     /**
      * Helper method to check if
      *

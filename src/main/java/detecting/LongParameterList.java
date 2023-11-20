@@ -5,13 +5,17 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
-import java.util.*;
+import com.intellij.psi.PsiParameter;
+import com.intellij.psi.util.PsiTreeUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class to provide detecting: 'LongParameterList'
- *
  */
 public class LongParameterList extends BaseDetectAction {
 
