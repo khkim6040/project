@@ -13,12 +13,10 @@ import com.intellij.psi.util.PsiTreeUtil;
 import java.util.Collection;
 
 /**
- * Class to provide detecting: 'LongParameterList'
+ * Class to provide detecting: 'Poor Name'
+ *
+ * @author Chanho Song
  */
-
-/*
-@author : Chanho Song
-*/
 public class PoorName extends BaseDetectAction {
 
     public Project project;
