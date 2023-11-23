@@ -12,8 +12,9 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-/*
-@author : Chanho Song
+/**
+ * Class to provide detecting code smell: 'Duplicated code'
+ * @author : Chanho Song
  */
 public class FindDuplicatedCode extends BaseDetectAction {
 
