@@ -69,7 +69,7 @@
             </action>
             <action id="AnalyzeAll" class="utils.MyToolWindowAction" text="Analyze All">
             </action>
-            <action id="Customize" class="utils.MyToolWindowAction" text="Customize">
+            <action id="Customize" class="utils.CustomizeAction" text="Customize">
             </action>
         </group>    </actions>
 </idea-plugin>
