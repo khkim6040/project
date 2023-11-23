@@ -4,7 +4,14 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import detecting.BaseDetectAction;
 import detecting.IdentifyLongMethod;
+import com.intellij.psi.PsiElement;
+import java.util.List;
 
+/**
+ * Test for detecting: 'LongMethod'
+ *
+ * @author Jinyoung Kim
+ */
 public class IdentifyLongMethodTest extends SmellDetectorTest {
 
     @Override
@@ -12,23 +19,25 @@ public class IdentifyLongMethodTest extends SmellDetectorTest {
         return super.getBasePath() + "/IdentifyLongMethod";
     }
 
-    protected void doDetectSmellTest(int testNum, boolean expected) {
+    protected void doDetectSmellTest(int testNum, int expectedCount) {
         myFixture.configureByFiles(getBasePath() + "/test" + testNum + ".java");
         // Set up the action event with the necessary context
         DataContext dataContext = DataManager.getInstance().getDataContext(myFixture.getEditor().getComponent());
         AnActionEvent event = AnActionEvent.createFromDataContext(String.valueOf(ActionManager.getInstance().getAction("")), null, dataContext);
         // Run the action
         BaseDetectAction action = new IdentifyLongMethod();
-        boolean result = action.detectSmell(event);
+        List<PsiElement> result = action.findSmells(event);
+
         // Check the result
-        assertEquals(expected, result);
+        int detectedCount = result.size();
+        assertEquals(expectedCount, detectedCount);
     }
 
     public void testIdentifyLongMethod1() {
-        doDetectSmellTest(1, true);
+        doDetectSmellTest(1, 1);
     }
 
     public void testIdentifyLongMethod2() {
-        doDetectSmellTest(1, false);
+        doDetectSmellTest(2, 0);
     }
 }

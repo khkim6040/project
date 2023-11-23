@@ -12,5 +12,5 @@ public abstract class SmellDetectorTest extends LightJavaCodeInsightFixtureTestC
         return "testData";
     }
 
-    protected abstract void doDetectSmellTest(int testNum, boolean expected);
+    protected abstract void doDetectSmellTest(int testNum, int expectedCount);
 }
