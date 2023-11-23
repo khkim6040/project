@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DeadCode {
+public class DeadCode extends BaseDetectAction{
     public Project project;
     //private PsiMethod focusMethod;
 
