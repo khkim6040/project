@@ -7,9 +7,12 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import java.util.*;
 
+/**
+ * Class to provide detecting code smell: 'Switch statement'
+ * @author : Hyeonbenn Park
+ */
 public class SwitchStatement extends BaseDetectAction {
 
     /* Returns the story ID. */

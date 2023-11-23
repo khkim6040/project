@@ -7,6 +7,9 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class to provide detecting: 'LongMethod'
  *
@@ -49,40 +52,39 @@ public class IdentifyLongMethod extends BaseDetectAction {
      * @return true if method has code smell, is long method
      */
     @Override
-    public boolean detectSmell(AnActionEvent e) {
+    public List<PsiElement> findSmells(AnActionEvent e) {
+        List<PsiElement> longMethods = new ArrayList<>();
         Project project = e.getProject();
         if (project == null) {
-            System.out.println("project is null");
-            return false;
+            return longMethods;
         }
 
         Editor editor = e.getData(CommonDataKeys.EDITOR);
-
         if (editor == null) {
-            System.out.println("editor is null");
-            return false;
+            return longMethods;
         }
         Document document = editor.getDocument();
 
         PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-        if (psiFile == null || !(psiFile instanceof PsiJavaFile)) {
-            System.out.println("psiFile is null or not a Java file");
-            return false;
+        if (psiFile == null) {
+            return longMethods;
         }
 
 //        int userDefinedMaxLineCount = getUserDefinedMaxLineCount(project, 25);
         // 25 is the default value
         int userDefinedMaxLineCount = 25;
 
-        PsiJavaFile psiJavaFile = (PsiJavaFile) psiFile;
-        for (PsiClass psiClass : psiJavaFile.getClasses()) {
-            for (PsiMethod method : psiClass.getMethods()) {
-                if (isLongMethod(method, userDefinedMaxLineCount)) {
-                    return true; // Long method code smell detected
+        for (PsiElement element : psiFile.getChildren()) {
+            if (element instanceof PsiClass) {
+                PsiClass psiClass = (PsiClass) element;
+                for (PsiMethod method : psiClass.getMethods()) {
+                    if (detectSmell(method, userDefinedMaxLineCount)) {
+                        longMethods.add(method);
+                    }
                 }
             }
         }
-        return false; // No long method code smell detected
+        return longMethods;
     }
 
     /**
@@ -91,7 +93,7 @@ public class IdentifyLongMethod extends BaseDetectAction {
      * @param method PsiMethod
      * @return true if the method is longer than a set threshold
      */
-    private boolean isLongMethod(PsiMethod method, int maxLineCount) {
+    private boolean detectSmell(PsiMethod method, int maxLineCount) {
 
         PsiCodeBlock methodBody = method.getBody();
         if (methodBody == null) {

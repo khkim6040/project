@@ -11,9 +11,14 @@ import com.intellij.psi.util.PsiTreeUtil;
 import java.util.*;
 
 /**
+<<<<<<< HEAD
+ * Class to provide detecting code smell: 'Duplicated code'
+ * @author : Chanho Song
+=======
  * Class to provide detecting: 'LongMethod'
  *
  * @author Chanho Song
+>>>>>>> f4ab195bdeaa45dacb5e7da29fe7b922f809ae41
  */
 public class FindDuplicatedCode extends BaseDetectAction {
 
