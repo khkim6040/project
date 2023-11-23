@@ -5,12 +5,11 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiVariable;
+import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to provide detecting: 'Poor Name'
@@ -55,36 +54,24 @@ public class PoorName extends BaseDetectAction {
      * @return true if method has smell code
      */
     @Override
-    public boolean detectSmell(AnActionEvent e) {
+    public List<PsiElement> findSmells(AnActionEvent e) {
         Project project = e.getProject();
-        System.out.println(project);
-        if (project == null) {
-            System.out.println("No project");
-            return false;
-        }
+        assert project!= null;
 
-        Editor editor = e.getDataContext().getData(CommonDataKeys.EDITOR);
-        if (editor == null) {
-            System.out.println("No editor");
-            return false;
-        }
+        Editor editor = e.getData(CommonDataKeys.EDITOR);
+        assert editor!= null;
 
         Document document = editor.getDocument();
-        PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
-        PsiFile psiFile = psiDocumentManager.getPsiFile(document);
-        if (psiFile == null) {
-            System.out.println("No File");
-            return false;
-        }
-        System.out.println(psiFile);
+        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
+        assert (psiFile instanceof PsiJavaFile);
 
-        Collection<PsiVariable> variables = PsiTreeUtil.collectElementsOfType(psiFile, PsiVariable.class);
-
+        List<PsiVariable> variables = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiVariable.class));
+        List<PsiElement> poorNameVariables = new ArrayList<>();
         for (PsiVariable var : variables) {
-            if (hasPoorName(var))
-                return true;
+            if (detectSmell(var))
+                poorNameVariables.add(var);
         }
-        return false;
+        return poorNameVariables;
     }
 
     /**
@@ -93,7 +80,7 @@ public class PoorName extends BaseDetectAction {
      * @param var PsiVariable
      * @return true if method has poor name
      */
-    private boolean hasPoorName(PsiVariable var) {
+    private boolean detectSmell(PsiVariable var) {
         if (var == null) return false;
 
         String name = var.getName();
