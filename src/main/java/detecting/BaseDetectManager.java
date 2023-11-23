@@ -40,6 +40,8 @@ public class BaseDetectManager {
                 return new FindDuplicatedCode();
             case "PN":
                 return new PoorName();
+            case "DC":
+                return new DeadCode();
 
 
             default:

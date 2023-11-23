@@ -8,6 +8,8 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 
+import java.util.List;
+
 /**
  * Class to provide detecting: 'LargeClass'
  *
@@ -50,7 +52,7 @@ public class DetectLargeClass extends BaseDetectAction {
      * @return true if method has smell code
      */
     @Override
-    public boolean detectSmell(AnActionEvent e) {
+    public List<PsiElement> detectSmell(AnActionEvent e) {
         Project project = e.getProject();
         if (project == null) {
             return false;
