@@ -101,42 +101,4 @@ public class DetectLargeClass extends BaseDetectAction {
         return fields.length > maxFields || methods.length > maxMethods;
     }
 
-
-    /**
-     private int getUserDefinedThreshold(Project project, String prompt, int defaultValue) {
-     String response = Messages.showInputDialog(
-     project,
-     prompt,
-     "Configure Threshold",
-     Messages.getQuestionIcon(),
-     Integer.toString(defaultValue),
-     new IntegerInputValidator()
-     );
-
-     if (response == null) {
-     return defaultValue; // User pressed Cancel or closed the dialog
-     }
-
-     try {
-     return Integer.parseInt(response);
-     } catch (NumberFormatException e) {
-     return defaultValue;
-     }
-     }
-
-     private static class IntegerInputValidator implements InputValidator {
-    @Override public boolean checkInput(String inputString) {
-    try {
-    int value = Integer.parseInt(inputString);
-    return value > 0;
-    } catch (NumberFormatException e) {
-    return false;
-    }
-    }
-
-    @Override public boolean canClose(String inputString) {
-    return checkInput(inputString);
-    }
-    }
-     **/
 }

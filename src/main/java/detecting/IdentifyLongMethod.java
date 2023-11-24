@@ -113,42 +113,5 @@ public class IdentifyLongMethod extends BaseDetectAction {
         return lineCount > maxLineCount;
     }
 
-    /**
-     private int getUserDefinedMaxLineCount(Project project, int defaultMaxLineCount) {
-     String response = Messages.showInputDialog(
-     project,
-     "Enter the maximum line count for a method:",
-     "Configure Max Line Count",
-     Messages.getQuestionIcon(),
-     Integer.toString(defaultMaxLineCount),
-     new IntegerInputValidator()
-     );
-
-     if (response == null) {
-     return defaultMaxLineCount; // User pressed Cancel or closed the dialog
-     }
-
-     try {
-     return Integer.parseInt(response);
-     } catch (NumberFormatException e) {
-     return defaultMaxLineCount;
-     }
-     }
-
-     private static class IntegerInputValidator implements InputValidator {
-    @Override public boolean checkInput(String inputString) {
-    try {
-    int value = Integer.parseInt(inputString);
-    return value > 0;
-    } catch (NumberFormatException e) {
-    return false;
-    }
-    }
-
-    @Override public boolean canClose(String inputString) {
-    return checkInput(inputString);
-    }
-    }
-     **/
 }
 
