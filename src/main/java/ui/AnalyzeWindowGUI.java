@@ -5,6 +5,11 @@ import com.intellij.ui.components.JBList;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The GUI class that shows list of messages for analyze button
+ *
+ * @author Jinmin Goh, Seokhwan Choi
+ */
 public class AnalyzeWindowGUI {
     static private AnalyzeWindowGUI instance;
 
@@ -15,7 +20,7 @@ public class AnalyzeWindowGUI {
     private JPanel mainPanel;
 
     /**
-     * Construct MessageWindowGUI
+     * Construct AnalyzeWindowGUI
      */
     public AnalyzeWindowGUI() {
         mainPanel = new JPanel(new BorderLayout());
@@ -29,9 +34,9 @@ public class AnalyzeWindowGUI {
     }
 
     /**
-     * A Method to get instance of MessageWindowGUI
+     * A Method to get instance of AnalyzeWindowGUI
      *
-     * @return instance of MessageWindowGUI
+     * @return instance of AnalyzeWindowGUI
      */
     public static AnalyzeWindowGUI getInstance() {
         return instance;

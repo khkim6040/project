@@ -18,6 +18,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * The GUI class that shows pop-up window for customize button
+ *
+ * @author Jinmin Goh, Seokhwan Choi
+ */
 public class CustomizePopupGUI extends JFrame implements TableModelListener {
     private JTable customizeTable;
     private JBScrollPane scrollPane;

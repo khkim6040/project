@@ -4,6 +4,11 @@ import ui.AnalyzeWindowGUI;
 
 import javax.swing.*;
 
+/**
+ * The Window class shows analyze window.
+ *
+ * @author Jinmin Goh, Seokhwan Choi
+ */
 public class AnalyzeWindow implements WindowInterface {
     private final JPanel testWindowContent;
 
