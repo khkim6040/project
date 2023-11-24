@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
+import utils.UserConfigHandler;
 
 /**
  * The GUI class that shows pop-up window for customize button
@@ -24,8 +25,6 @@ import java.util.Properties;
  * @author Jinmin Goh, Seokhwan Choi
  */
 public class CustomizePopupGUI extends JFrame implements TableModelListener {
-    public Properties prop;
-    public File configFile;
     private JTable customizeTable;
     private JBScrollPane scrollPane;
     private String[] columnType = {"Parameter", "Input"};
@@ -34,12 +33,11 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
 
     public CustomizePopupGUI(@Nullable Project p, AnActionEvent e) throws IOException {
         project = p;
-        prop = new Properties();
-        String contentRoot = String.valueOf(ModuleRootManager.getInstance(ModuleManager.getInstance(project).getModules()[0]).getContentRoots()[0]);
-        contentRoot = contentRoot.replace("file://", "");
-        configFile = new File(contentRoot + "/codescent.properties");
-        FileInputStream fis = new FileInputStream(configFile);
-        prop.load(fis);
+        UserConfigHandler handler = UserConfigHandler.getHandler(project);
+        Properties prop = handler.getProp();
+
+        System.out.println(prop);
+        prop.load(handler.getFis());
         data = new Object[][]{
                 {"Long Method (Lines of code)", prop.getProperty("PARAM_IDENTIFY_LONG_METHOD")},
                 {"Large Class (Number of fields)", prop.getProperty("PARAM_DETECT_LARGE_CLASS_FIELD")},
@@ -74,7 +72,13 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
     public void tableChanged(TableModelEvent e) {
         int row = e.getFirstRow();
         int column = e.getColumn();
-
+        UserConfigHandler handler = null;
+        try {
+            handler = UserConfigHandler.getHandler(project);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        Properties prop = handler.getProp();
         if (column == 1) {
             TableModel model = (TableModel) e.getSource();
             String str = (String) model.getValueAt(row, column);
@@ -104,7 +108,7 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
                             break;
                     }
                 }
-                FileWriter writer = new FileWriter(configFile);
+                FileWriter writer = handler.getWriter();
                 prop.store(writer, "");
             } catch (NumberFormatException exception) {
                 JOptionPane.showMessageDialog(this, "Not valid input. Please enter integer bigger than 0.", "Warning",
