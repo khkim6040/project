@@ -7,6 +7,10 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import java.util.List;
 
 /**
  * Class to provide detecting: 'LargeClass'
@@ -50,21 +54,22 @@ public class DetectLargeClass extends BaseDetectAction {
      * @return true if method has smell code
      */
     @Override
-    public boolean detectSmell(AnActionEvent e) {
+    public List<PsiElement> findSmells(AnActionEvent e) {
+        List<PsiElement> largeClasses = new ArrayList<>();
         Project project = e.getProject();
         if (project == null) {
-            return false;
+            return largeClasses;
         }
 
         Editor editor = e.getData(CommonDataKeys.EDITOR);
         if (editor == null) {
-            return false;
+            return largeClasses;
         }
 
         Document document = editor.getDocument();
         PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
         if (psiFile == null) {
-            return false;
+            return largeClasses;
         }
 
         //int userDefinedMaxFields = getUserDefinedThreshold(project, "Enter the maximum number of fields for a class:", 5);
@@ -72,15 +77,16 @@ public class DetectLargeClass extends BaseDetectAction {
 
         int userDefinedMaxFields = 5;
         int userDefinedMaxMethods = 5;
+
         for (PsiElement element : psiFile.getChildren()) {
             if (element instanceof PsiClass) {
                 PsiClass psiClass = (PsiClass) element;
-                if (isLargeClass(psiClass, userDefinedMaxFields, userDefinedMaxMethods)) {
-                    return true; // Large class code smell detected
+                if (detectSmell(psiClass, userDefinedMaxFields, userDefinedMaxMethods)) {
+                    largeClasses.add(psiClass);
                 }
             }
         }
-        return false; // No large class code smell detected
+        return largeClasses; // No large class code smell detected
     }
 
     /**
@@ -89,7 +95,7 @@ public class DetectLargeClass extends BaseDetectAction {
      * @param psiClass PsiClass
      * @return true if the class is larger than set thresholds for fields and methods
      */
-    private boolean isLargeClass(PsiClass psiClass, int maxFields, int maxMethods) {
+    private boolean detectSmell(PsiClass psiClass, int maxFields, int maxMethods) {
         PsiField[] fields = psiClass.getFields();
         PsiMethod[] methods = psiClass.getMethods();
         return fields.length > maxFields || methods.length > maxMethods;

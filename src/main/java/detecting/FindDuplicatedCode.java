@@ -5,15 +5,20 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiFile;
+import com.intellij.psi.*;
+import com.intellij.psi.util.PsiTreeUtil;
 
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
-/*
-@author : Chanho Song
+/**
+<<<<<<< HEAD
+ * Class to provide detecting code smell: 'Duplicated code'
+ * @author : Chanho Song
+=======
+ * Class to provide detecting: 'LongMethod'
+ *
+ * @author Chanho Song
+>>>>>>> f4ab195bdeaa45dacb5e7da29fe7b922f809ae41
  */
 public class FindDuplicatedCode extends BaseDetectAction {
 
@@ -48,63 +53,73 @@ public class FindDuplicatedCode extends BaseDetectAction {
     }
 
     /**
-     * Method that checks whether candidate method has long parameter list
+     * Method that checks duplicated code
      *
      * @param e AnActionEvent
-     * @return true if method has smell code
+     * @return smelly PsiElmment list
      */
     @Override
-    public boolean detectSmell(AnActionEvent e) {
-        Project project = e.getProject();
-        System.out.println(project);
-        if (project == null) {
-            System.out.println("No project");
-            return false;
-        }
+    public List<PsiElement> findSmells(AnActionEvent e) {
 
-        Editor editor = e.getDataContext().getData(CommonDataKeys.EDITOR);
-        if (editor == null) {
-            System.out.println("No editor");
-            return false;
-        }
+        Project project = e.getProject();
+        assert project!= null;
+
+        Editor editor = e.getData(CommonDataKeys.EDITOR);
+        assert editor!= null;
 
         Document document = editor.getDocument();
-        PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
-        PsiFile psiFile = psiDocumentManager.getPsiFile(document);
-        if (psiFile == null) {
-            System.out.println("No File");
-            return false;
-        }
-        System.out.println(psiFile);
+        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
+        assert (psiFile instanceof PsiJavaFile);
 
+        List<PsiCodeBlock> codeBlocks = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiCodeBlock.class));
 
-        String fileText = psiFile.getText();
-        Scanner scanner = new Scanner(fileText);
-        Set<String> lineSet = new HashSet<>();
+        Set<String> uniqueBlocks = new HashSet<>();
+        List<PsiElement> duplicatedCodeBlocks = new ArrayList<>();
 
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine().trim();
+        for (PsiCodeBlock block : codeBlocks) {
+            String blockText = block.getText();
 
-            /*
-            Todo : This code is analyze code line by line,
-                    but we need to see the "code block"
-             */
-            if (isCommentOrBlankLine(line) || line.length() < 10) {
+            if (blockText.length() <= 10) {
                 continue;
             }
-            if (!lineSet.add(line)) {
-                System.out.println(line);
-                return true;
+
+            if (!uniqueBlocks.add(blockText)) {
+                // find the duplicated code
+                duplicatedCodeBlocks.add(block);
             }
         }
-        return false;
+
+        return duplicatedCodeBlocks;
+
+
+//        String fileText = psiFile.getText();
+//        Scanner scanner = new Scanner(fileText);
+//        Set<String> lineSet = new HashSet<>();
+//
+//        List<PsiElement> duplicatedCodes = new ArrayList<>();
+//
+//        while (scanner.hasNextLine()) {
+//            String line = scanner.nextLine().trim();
+//
+//            /*
+//            Todo : This code is analyze code line by line,
+//                    but we need to see the "code block"
+//             */
+//            if (isCommentOrBlankLine(line) || line.length() < 10) {
+//                continue;
+//            }
+//            if (!lineSet.add(line)) {
+//                duplicatedCodes.add();
+//            }
+//        }
+//        return duplicatedCodes;
     }
 
-    private boolean isCommentOrBlankLine(String line) {
-        /*
-        Todo : multiline commnet is not implemented yet.
-         */
-        return line.isEmpty() || line.startsWith("//") || line.startsWith("/*") || line.startsWith("*");
-    }
+//    private boolean isCommentOrBlankLine(String line) {
+//        /*
+//        Todo : multiline commnet is not implemented yet.
+//         */
+//        return line.isEmpty() || line.startsWith("//") || line.startsWith("/*") || line.startsWith("*");
+//    }
 
 }

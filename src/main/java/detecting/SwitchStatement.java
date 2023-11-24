@@ -7,13 +7,13 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import java.util.*;
 
+/**
+ * Class to provide detecting code smell: 'Switch statement'
+ * @author : Hyeonbenn Park
+ */
 public class SwitchStatement extends BaseDetectAction {
-
-    public Project project;
-    //private PsiMethod focusMethod;
 
     /* Returns the story ID. */
     @Override
@@ -30,14 +30,14 @@ public class SwitchStatement extends BaseDetectAction {
     /* Returns the description of each story. (in html-style) */
     @Override
     public String description() {
-        return "<html></html>";
+        return "<html>There are conditional statements that identify class of object that leads to " +
+                "casting of the object to use method of the class</html>";
     }
 
     /* Returns the precondition of each story. (in html-style) */
     @Override
     public String precondition() {
-        return "<html>There are conditional statements that identify class of object that leads to " +
-                "casting of the object to use method of the class</html>";
+        return "<html>instanceof in if statement and multiple casting of object dependent to condition</html>";
     }
 
     /**
@@ -47,34 +47,23 @@ public class SwitchStatement extends BaseDetectAction {
      * @return true if method has smell code
      */
     @Override
-    public boolean detectSmell(AnActionEvent e) {
+    public List<PsiElement> findSmells(AnActionEvent e) {
         Project project = e.getProject();
-        System.out.println(project);
-        if (project == null) {
-            System.out.println("No project");
-            return false;
-        }
+        assert project != null;
 
-        Editor editor = e.getDataContext().getData(CommonDataKeys.EDITOR);
-        if (editor == null) {
-            System.out.println("No editor");
-            return false;
-        }
-
+        Editor editor = e.getData(CommonDataKeys.EDITOR);
+        assert editor != null;
         Document document = editor.getDocument();
-        PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
-        PsiFile psiFile = psiDocumentManager.getPsiFile(document);
-        if (psiFile == null) {
-            System.out.println("No psiFile");
-            return false;
-        }
+        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
+        assert (psiFile instanceof PsiJavaFile);
 
         List<PsiIfStatement> IfStatements = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiIfStatement.class));
+        List<PsiElement> SwitchStatements = new ArrayList<>();
         for (PsiIfStatement statement : IfStatements) {
-            if (isSwitchStatement(statement))
-                return true;
+            if (detectSmell(statement))
+                SwitchStatements.add(statement);
         }
-        return false;
+        return SwitchStatements;
     }
 
     /**
@@ -83,7 +72,7 @@ public class SwitchStatement extends BaseDetectAction {
      * @param method PsiMethod
      * @return true if method has long parameter list
      */
-    private boolean isSwitchStatement(PsiIfStatement statement) {
+    private boolean detectSmell(PsiIfStatement statement) {
         List<Map<String, PsiType>> castingMapList = new ArrayList<>();
         if (statement == null) return false;
         if (statement.getCondition() == null) return false;
@@ -94,23 +83,23 @@ public class SwitchStatement extends BaseDetectAction {
 
         if (!condition.getText().contains("instanceof"))
             return false;
-        if (CastingMap(thenBranch) != null)
-            castingMapList.add(CastingMap(thenBranch));
+        if (CreateCastingMap(thenBranch) != null)
+            castingMapList.add(CreateCastingMap(thenBranch));
 
-        if (CastingMap(elseBranch) != null)
-            castingMapList.add(CastingMap(elseBranch));
+        if (CreateCastingMap(elseBranch) != null)
+            castingMapList.add(CreateCastingMap(elseBranch));
 
         while (elseBranch != null && elseBranch instanceof PsiIfStatement) {
             elseBranch = ((PsiIfStatement) elseBranch).getElseBranch();
-            if (CastingMap(elseBranch) != null)
-                castingMapList.add(CastingMap(elseBranch));
+            if (CreateCastingMap(elseBranch) != null)
+                castingMapList.add(CreateCastingMap(elseBranch));
         }
 
-        return objectCasted(castingMapList);
+        return FindMultiCastedObject(castingMapList);
 
     }
 
-    private Map<String, PsiType> CastingMap(PsiStatement statement) {
+    private Map<String, PsiType> CreateCastingMap(PsiStatement statement) {
         Map<String, PsiType> casting = new HashMap<>();
         statement.accept(new PsiRecursiveElementVisitor() {
             @Override
@@ -126,7 +115,7 @@ public class SwitchStatement extends BaseDetectAction {
             return casting;
     }
 
-    private boolean objectCasted(List<Map<String, PsiType>> castingMapList) {
+    private boolean FindMultiCastedObject(List<Map<String, PsiType>> castingMapList) {
         Set<String> commonKeys = castingMapList.get(0).keySet();
         System.out.println(castingMapList);
         for (Map<String, PsiType> map : castingMapList) {
