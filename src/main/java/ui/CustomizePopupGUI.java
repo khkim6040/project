@@ -24,13 +24,13 @@ import java.util.Properties;
  * @author Jinmin Goh, Seokhwan Choi
  */
 public class CustomizePopupGUI extends JFrame implements TableModelListener {
+    public Properties prop;
+    public File configFile;
     private JTable customizeTable;
     private JBScrollPane scrollPane;
     private String[] columnType = {"Parameter", "Input"};
     private Object[][] data;
-    private Properties prop;
     private Project project;
-    private File configFile;
 
     public CustomizePopupGUI(@Nullable Project p, AnActionEvent e) throws IOException {
         project = p;
