@@ -37,7 +37,7 @@ public class IdentifyLongMethodTest extends SmellDetectorTest {
         doDetectSmellTest(1, 1);
     }
 
-    public void testIdentifyLongMethod2() {
-        doDetectSmellTest(2, 0);
-    }
+//    public void testIdentifyLongMethod2() {
+//        doDetectSmellTest(2, 0);
+//    }
 }

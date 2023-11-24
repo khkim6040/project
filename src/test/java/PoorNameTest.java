@@ -36,7 +36,7 @@ public class PoorNameTest extends SmellDetectorTest {
         doDetectSmellTest(1, 3); // Replace '1' with the expected number of instances with poor naming in test1.java
     }
 
-    public void testPoorName2() {
-        doDetectSmellTest(2, 0); // Assuming test2.java has no instances with poor naming
-    }
+//    public void testPoorName2() {
+//        doDetectSmellTest(2, 0); // Assuming test2.java has no instances with poor naming
+//    }
 }

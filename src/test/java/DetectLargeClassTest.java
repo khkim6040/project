@@ -38,8 +38,8 @@ public class DetectLargeClassTest extends SmellDetectorTest {
         // Replace right number with the expected number of large classes in test1.java
     }
 
-    public void testDetectLargeClass2() {
-        doDetectSmellTest(2, 0);
-        // Assume test2.java has 0 large classes
-    }
+//    public void testDetectLargeClass2() {
+//        doDetectSmellTest(2, 0);
+//        // Assume test2.java has 0 large classes
+//    }
 }

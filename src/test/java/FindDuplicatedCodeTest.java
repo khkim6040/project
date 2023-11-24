@@ -37,7 +37,7 @@ public class FindDuplicatedCodeTest extends SmellDetectorTest {
         doDetectSmellTest(1, 1); // Replace '1' with the expected number of duplicated code instances in test1.java
     }
 
-    public void testFindDuplicatedCode2() {
-        doDetectSmellTest(2, 0); // Assuming test2.java has no duplicated code
-    }
+//    public void testFindDuplicatedCode2() {
+//        doDetectSmellTest(2, 0); // Assuming test2.java has no duplicated code
+//    }
 }

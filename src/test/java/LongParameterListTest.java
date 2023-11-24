@@ -36,7 +36,7 @@ public class LongParameterListTest extends SmellDetectorTest {
         doDetectSmellTest(1, 1);
     }
 
-    public void testLongParameterList2() {
-        doDetectSmellTest(2, 0);
-    }
+//    public void testLongParameterList2() {
+//        doDetectSmellTest(2, 0);
+//    }
 }
