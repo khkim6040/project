@@ -18,7 +18,6 @@ import java.util.List;
 public class LongParameterList extends BaseDetectAction {
 
     public Project project;
-    //private PsiMethod focusMethod;
 
     /* Returns the story ID. */
     @Override
@@ -55,24 +54,22 @@ public class LongParameterList extends BaseDetectAction {
     public List<PsiElement> findSmells(AnActionEvent e) {
         List<PsiElement> longParameters = new ArrayList<>();
         Project project = e.getProject();
-          if (project == null) {
-          return longParameters;
-      }
+        if (project == null) {
+            return longParameters;
+        }
 
         Editor editor = e.getData(CommonDataKeys.EDITOR);
-          if (editor == null) {
-              return longParameters;
-          }
+        if (editor == null) {
+            return longParameters;
+        }
 
         Document document = editor.getDocument();
         PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-          if (psiFile == null) {
-          return longParameters;
-      }
+        if (psiFile == null) {
+            return longParameters;
+        }
 
-//      int userDefinedMaxParameters = getUserDefinedMaxParameters(project, 5); // 5 is the default value
         int userDefinedMaxParameters = 5;
-
         for (PsiElement element : psiFile.getChildren()) {
             if (element instanceof PsiClass) {
                 PsiClass psiClass = (PsiClass) element;
@@ -92,7 +89,6 @@ public class LongParameterList extends BaseDetectAction {
      * @param method PsiMethod
      * @return true if method has long parameter list
      */
-
     public boolean detectSmell(PsiMethod method, int maxParameters) {
         if (method == null) return false;
 

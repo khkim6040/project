@@ -23,7 +23,6 @@ public class DeadCodeTest extends SmellDetectorTest {
         // Run the action
         BaseDetectAction action = new DeadCode();
         List<PsiElement> result = action.findSmells(event);
-
         // Check the result
         int detectedCount = result.size();
         assertEquals(expectedCount, detectedCount);

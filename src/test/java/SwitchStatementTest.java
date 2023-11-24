@@ -23,7 +23,6 @@ public class SwitchStatementTest extends SmellDetectorTest {
         // Run the action
         BaseDetectAction action = new SwitchStatement();
         List<PsiElement> result = action.findSmells(event);
-
         // Check the result
         int detectedCount = result.size();
         assertEquals(expectedCount, detectedCount);

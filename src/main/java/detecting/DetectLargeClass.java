@@ -1,15 +1,13 @@
 package detecting;
 
-
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,10 +69,7 @@ public class DetectLargeClass extends BaseDetectAction {
         if (psiFile == null) {
             return largeClasses;
         }
-
-        //int userDefinedMaxFields = getUserDefinedThreshold(project, "Enter the maximum number of fields for a class:", 5);
-        //int userDefinedMaxMethods = getUserDefinedThreshold(project, "Enter the maximum number of methods for a class:", 5);
-
+        
         int userDefinedMaxFields = 5;
         int userDefinedMaxMethods = 5;
 

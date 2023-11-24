@@ -54,7 +54,6 @@ public abstract class BaseDetectAction extends AnAction {
      * @return true if method has code smell
      */
     public abstract List<PsiElement> findSmells(AnActionEvent e);
-    //public abstract boolean detectSmell(PsiMethod method, int maxParameters);
 
 
     @Override
@@ -69,14 +68,6 @@ public abstract class BaseDetectAction extends AnAction {
 
         // Prepare the message to be displayed
         String message = String.valueOf(smellList.size());
-        // String message;
-//        if (!smellList.isEmpty()) {
-//            message = "Code smell detected: " + storyName() + "\n"
-//                  + "Number of smells: " + smellList.size() + "\n"
-//                  + description();
-//    } else {
-//        message = "No code smell detected for: " + storyName();
-//    }
 
         // Display the message in a dialog box
         Messages.showMessageDialog(project, message, storyName(), Messages.getInformationIcon());

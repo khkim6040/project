@@ -8,17 +8,15 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
-<<<<<<< HEAD
- * Class to provide detecting code smell: 'Duplicated code'
- * @author : Chanho Song
-=======
  * Class to provide detecting: 'LongMethod'
  *
  * @author Chanho Song
->>>>>>> f4ab195bdeaa45dacb5e7da29fe7b922f809ae41
  */
 public class FindDuplicatedCode extends BaseDetectAction {
 
@@ -62,10 +60,10 @@ public class FindDuplicatedCode extends BaseDetectAction {
     public List<PsiElement> findSmells(AnActionEvent e) {
 
         Project project = e.getProject();
-        assert project!= null;
+        assert project != null;
 
         Editor editor = e.getData(CommonDataKeys.EDITOR);
-        assert editor!= null;
+        assert editor != null;
 
         Document document = editor.getDocument();
         PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
@@ -90,36 +88,5 @@ public class FindDuplicatedCode extends BaseDetectAction {
         }
 
         return duplicatedCodeBlocks;
-
-
-//        String fileText = psiFile.getText();
-//        Scanner scanner = new Scanner(fileText);
-//        Set<String> lineSet = new HashSet<>();
-//
-//        List<PsiElement> duplicatedCodes = new ArrayList<>();
-//
-//        while (scanner.hasNextLine()) {
-//            String line = scanner.nextLine().trim();
-//
-//            /*
-//            Todo : This code is analyze code line by line,
-//                    but we need to see the "code block"
-//             */
-//            if (isCommentOrBlankLine(line) || line.length() < 10) {
-//                continue;
-//            }
-//            if (!lineSet.add(line)) {
-//                duplicatedCodes.add();
-//            }
-//        }
-//        return duplicatedCodes;
     }
-
-//    private boolean isCommentOrBlankLine(String line) {
-//        /*
-//        Todo : multiline commnet is not implemented yet.
-//         */
-//        return line.isEmpty() || line.startsWith("//") || line.startsWith("/*") || line.startsWith("*");
-//    }
-
 }

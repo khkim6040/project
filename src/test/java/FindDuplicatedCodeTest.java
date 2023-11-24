@@ -7,6 +7,7 @@ import detecting.BaseDetectAction;
 import detecting.FindDuplicatedCode;
 
 import java.util.List;
+
 /**
  * Test for detecting: 'Duplicated code'
  *
@@ -27,7 +28,6 @@ public class FindDuplicatedCodeTest extends SmellDetectorTest {
         // Run the action
         BaseDetectAction action = new FindDuplicatedCode();
         List<PsiElement> result = action.findSmells(event);
-
         // Check the result
         int detectedCount = result.size();
         assertEquals(expectedCount, detectedCount);

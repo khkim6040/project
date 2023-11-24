@@ -2,9 +2,10 @@ import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.psi.PsiElement;
 import detecting.BaseDetectAction;
 import detecting.IdentifyLongMethod;
-import com.intellij.psi.PsiElement;
+
 import java.util.List;
 
 /**
@@ -27,7 +28,6 @@ public class IdentifyLongMethodTest extends SmellDetectorTest {
         // Run the action
         BaseDetectAction action = new IdentifyLongMethod();
         List<PsiElement> result = action.findSmells(event);
-
         // Check the result
         int detectedCount = result.size();
         assertEquals(expectedCount, detectedCount);

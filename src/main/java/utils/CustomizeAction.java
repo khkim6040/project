@@ -35,6 +35,4 @@ public class CustomizeAction extends AnAction {
             throw new RuntimeException(ex);
         }
     }
-
-
 }
