@@ -3,20 +3,20 @@ import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import detecting.BaseDetectAction;
-import detecting.LongParameterList;
+import detecting.IdentifyLongMethod;
 import com.intellij.psi.PsiElement;
 import java.util.List;
 
 /**
- * Test for detecting: 'Long parameter list'
+ * Test for detecting: 'LongMethod'
  *
  * @author Jinyoung Kim
  */
-public class LongParameterListTest extends SmellDetectorTest {
+public class IdentifyLongMethodTest extends SmellDetectorTest {
 
     @Override
     protected String getBasePath() {
-        return super.getBasePath() + "/LongParameterList";
+        return super.getBasePath() + "/IdentifyLongMethod";
     }
 
     protected void doDetectSmellTest(int testNum, int expectedCount) {
@@ -25,18 +25,19 @@ public class LongParameterListTest extends SmellDetectorTest {
         DataContext dataContext = DataManager.getInstance().getDataContext(myFixture.getEditor().getComponent());
         AnActionEvent event = AnActionEvent.createFromDataContext(String.valueOf(ActionManager.getInstance().getAction("")), null, dataContext);
         // Run the action
-        BaseDetectAction action = new LongParameterList();
+        BaseDetectAction action = new IdentifyLongMethod();
         List<PsiElement> result = action.findSmells(event);
+
         // Check the result
         int detectedCount = result.size();
         assertEquals(expectedCount, detectedCount);
     }
 
-    public void testLongParameterList1() {
+    public void testIdentifyLongMethod1() {
         doDetectSmellTest(1, 1);
     }
 
-//    public void testLongParameterList2() {
+//    public void testIdentifyLongMethod2() {
 //        doDetectSmellTest(2, 0);
 //    }
 }

@@ -1,5 +1,10 @@
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
 
+/**
+ * Abstract class to implement light test through files.
+ *
+ * @author Gwanho Kim
+ */
 public abstract class SmellDetectorTest extends LightJavaCodeInsightFixtureTestCase {
 
     @Override
@@ -12,5 +17,11 @@ public abstract class SmellDetectorTest extends LightJavaCodeInsightFixtureTestC
         return "testData";
     }
 
-    protected abstract void doDetectSmellTest(int testNum, boolean expected);
+    /**
+     * Test detectSmell() and check the result
+     *
+     * @param testNum       the number of test cases
+     * @param expectedCount the number of expected smells
+     */
+    protected abstract void doDetectSmellTest(int testNum, int expectedCount);
 }

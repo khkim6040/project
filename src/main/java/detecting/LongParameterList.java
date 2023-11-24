@@ -7,6 +7,9 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class to provide detecting: 'LongParameterList'
  *
@@ -49,40 +52,38 @@ public class LongParameterList extends BaseDetectAction {
      * @return true if method has smell code
      */
     @Override
-    public boolean detectSmell(AnActionEvent e) {
+    public List<PsiElement> findSmells(AnActionEvent e) {
+        List<PsiElement> longParameters = new ArrayList<>();
         Project project = e.getProject();
-        if (project == null) {
-            System.out.println("project is null");
-            return false;
-        }
+          if (project == null) {
+          return longParameters;
+      }
 
         Editor editor = e.getData(CommonDataKeys.EDITOR);
-        if (editor == null) {
-            System.out.println("editor is null");
-            return false;
-        }
+          if (editor == null) {
+              return longParameters;
+          }
 
         Document document = editor.getDocument();
         PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-        if (psiFile == null) {
-            System.out.println("psiFile is null");
-            return false;
-        }
+          if (psiFile == null) {
+          return longParameters;
+      }
 
-//        int userDefinedMaxParameters = getUserDefinedMaxParameters(project, 5); // 5 is the default value
+//      int userDefinedMaxParameters = getUserDefinedMaxParameters(project, 5); // 5 is the default value
         int userDefinedMaxParameters = 5;
 
         for (PsiElement element : psiFile.getChildren()) {
             if (element instanceof PsiClass) {
                 PsiClass psiClass = (PsiClass) element;
                 for (PsiMethod method : psiClass.getMethods()) {
-                    if (isLongParameterList(method, userDefinedMaxParameters)) {
-                        return true; // Long parameter list code smell detected
+                    if (detectSmell(method, userDefinedMaxParameters)) {
+                        longParameters.add(method); // Long parameter list code smell detected
                     }
                 }
             }
         }
-        return false; // No long parameter list code smell detected
+        return longParameters; // No long parameter list code smell detected
     }
 
     /**
@@ -91,7 +92,8 @@ public class LongParameterList extends BaseDetectAction {
      * @param method PsiMethod
      * @return true if method has long parameter list
      */
-    private boolean isLongParameterList(PsiMethod method, int maxParameters) {
+
+    public boolean detectSmell(PsiMethod method, int maxParameters) {
         if (method == null) return false;
 
         PsiParameter[] parameters = method.getParameterList().getParameters();
