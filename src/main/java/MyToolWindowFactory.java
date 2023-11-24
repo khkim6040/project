@@ -8,8 +8,19 @@ import window.WindowInterface;
 
 import java.util.Arrays;
 
+/**
+ * The factory class which creates MyToolWindow on the IDE.
+ *
+ * @author Jinmin Goh, Seokhwan Choi
+ */
 public class MyToolWindowFactory implements ToolWindowFactory {
-    public static void addTab(Project project, ToolWindow toolWindow, TabType type) {
+    /**
+     * Adds the tab into the ToolWindow.
+     *
+     * @param toolWindow current tool window
+     * @param type       type of tab
+     */
+    public static void addTab(ToolWindow toolWindow, TabType type) {
         WindowInterface myWindow = windowFactory(type);
         Content content = toolWindow.getContentManager().getFactory()
                 .createContent(myWindow.getContent(), type.getName(), false);
@@ -24,9 +35,15 @@ public class MyToolWindowFactory implements ToolWindowFactory {
         return null;
     }
 
+    /**
+     * Create the tool window content.
+     *
+     * @param project    current project
+     * @param toolWindow current tool window
+     */
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         Arrays.asList(TabType.values())
-                .forEach(x -> addTab(project, toolWindow, x));
+                .forEach(x -> addTab(toolWindow, x));
     }
 
     enum TabType {
