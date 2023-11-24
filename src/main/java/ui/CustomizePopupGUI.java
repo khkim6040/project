@@ -41,14 +41,15 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
         FileInputStream fis = new FileInputStream(configFile);
         prop.load(fis);
         data = new Object[][]{
-                {"Long Method", prop.getProperty("PARAM_ILM")},
-                {"Large Class", prop.getProperty("PARAM_DLC")},
-                {"Long Parameter List", prop.getProperty("PARAM_LPL")},
-                {"Message Chain", prop.getProperty("PARAM_MESSAGE_CHAIN")},
-                {"Comments - Low Level", prop.getProperty("PARAM_COMMENTS_LOW")}
+                {"Long Method (Lines of code)", prop.getProperty("PARAM_IDENTIFY_LONG_METHOD")},
+                {"Large Class (Number of fields)", prop.getProperty("PARAM_DETECT_LARGE_CLASS_FIELD")},
+                {"Large Class (Number of methods)", prop.getProperty("PARAM_DETECT_LARGE_CLASS_METHOD")},
+                {"Long Parameter List (Parameter count)", prop.getProperty("PARAM_LONG_PARAMETER_LIST")},
+                {"Message Chain (Length)", prop.getProperty("PARAM_MESSAGE_CHAIN")},
+                {"Comments;Low Level (Lines of comments)", prop.getProperty("PARAM_COMMENTS_LOW")}
         };
         setTitle("Parameter Customization");
-        setSize(400, 200);
+        setSize(600, 200);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -84,18 +85,21 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
                 } else {
                     switch (row) {
                         case 0:
-                            prop.setProperty("PARAM_ILM", str);
+                            prop.setProperty("PARAM_IDENTIFY_LONG_METHOD", str);
                             break;
                         case 1:
-                            prop.setProperty("PARAM_DLC", str);
+                            prop.setProperty("PARAM_DETECT_LARGE_CLASS_FIELD", str);
                             break;
                         case 2:
-                            prop.setProperty("PARAM_LPL", str);
+                            prop.setProperty("PARAM_DETECT_LARGE_CLASS_METHOD", str);
                             break;
                         case 3:
-                            prop.setProperty("PARAM_MESSAGE_CHAIN", str);
+                            prop.setProperty("PARAM_LONG_PARAMETER_LIST", str);
                             break;
                         case 4:
+                            prop.setProperty("PARAM_MESSAGE_CHAIN", str);
+                            break;
+                        case 5:
                             prop.setProperty("PARAM_COMMENTS_LOW", str);
                             break;
                     }
