@@ -9,11 +9,20 @@ import ui.CustomizePopupGUI;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+
+/**
+ * Customize Action class implements the action when the CustomizePopupGUI has been invoked.
+ *
+ * @author Jinmin Goh, Seokhwan Choi
+ */
 public class CustomizeAction extends AnAction {
+    /**
+     * Invoke when CustomizePopupGUI(Tools > CodeScent > Customize) action is performed.
+     *
+     * @param e action event.
+     */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        // TODO: insert action logic here
-
         Project project = e.getProject();
         if (project == null) return;
 
@@ -25,10 +34,6 @@ public class CustomizeAction extends AnAction {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        //String message = dialog.getMessage();
-
-        // Display the message in a dialog box
-        //Messages.showMessageDialog(project, message, "Test Customization", Messages.getInformationIcon());
     }
 
 
