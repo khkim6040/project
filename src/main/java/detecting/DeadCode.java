@@ -1,19 +1,20 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiVariable;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.psi.util.PsiTreeUtil;
+import utils.LoadPsi;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class DeadCode extends BaseDetectAction{
+public class DeadCode extends BaseDetectAction {
     public Project project;
     //private PsiMethod focusMethod;
 
@@ -50,24 +51,17 @@ public class DeadCode extends BaseDetectAction{
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
-        Project project = e.getProject();
-        assert project != null;
-
-        Editor editor = e.getData(CommonDataKeys.EDITOR);
-        assert editor != null;
-        Document document = editor.getDocument();
-        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-        assert (psiFile instanceof PsiJavaFile);
+        PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
         List<PsiVariable> variables = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiVariable.class));
         List<PsiMethod> methods = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiMethod.class));
-        List<PsiElement> members= new ArrayList<>();
+        List<PsiElement> members = new ArrayList<>();
         List<PsiElement> deadElement = new ArrayList<>();
         members.addAll(variables);
         members.addAll(methods);
 
-        for (PsiElement member : members){
-            if(detectSmell(member))
+        for (PsiElement member : members) {
+            if (detectSmell(member))
                 deadElement.add(member);
         }
         return deadElement;

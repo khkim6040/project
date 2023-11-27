@@ -1,11 +1,10 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
+import utils.LoadPsi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,23 +53,8 @@ public class IdentifyLongMethod extends BaseDetectAction {
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
         List<PsiElement> longMethods = new ArrayList<>();
-        Project project = e.getProject();
-        if (project == null) {
-            return longMethods;
-        }
+        PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        Editor editor = e.getData(CommonDataKeys.EDITOR);
-        if (editor == null) {
-            return longMethods;
-        }
-        Document document = editor.getDocument();
-
-        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-        if (psiFile == null) {
-            return longMethods;
-        }
-
-//        int userDefinedMaxLineCount = getUserDefinedMaxLineCount(project, 25);
         // 25 is the default value
         int userDefinedMaxLineCount = 25;
 
