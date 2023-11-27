@@ -1,12 +1,12 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiCodeBlock;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
+import utils.LoadPsi;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -59,15 +59,7 @@ public class FindDuplicatedCode extends BaseDetectAction {
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
 
-        Project project = e.getProject();
-        assert project != null;
-
-        Editor editor = e.getData(CommonDataKeys.EDITOR);
-        assert editor != null;
-
-        Document document = editor.getDocument();
-        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-        assert (psiFile instanceof PsiJavaFile);
+        PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
         List<PsiCodeBlock> codeBlocks = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiCodeBlock.class));
 

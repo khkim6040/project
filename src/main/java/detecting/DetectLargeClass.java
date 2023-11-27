@@ -1,11 +1,9 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
+import utils.LoadPsi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,22 +52,8 @@ public class DetectLargeClass extends BaseDetectAction {
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
         List<PsiElement> largeClasses = new ArrayList<>();
-        Project project = e.getProject();
-        if (project == null) {
-            return largeClasses;
-        }
+        PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        Editor editor = e.getData(CommonDataKeys.EDITOR);
-        if (editor == null) {
-            return largeClasses;
-        }
-
-        Document document = editor.getDocument();
-        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-        if (psiFile == null) {
-            return largeClasses;
-        }
-        
         int userDefinedMaxFields = 5;
         int userDefinedMaxMethods = 5;
 

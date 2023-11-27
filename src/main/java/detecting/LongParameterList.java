@@ -51,21 +51,6 @@ public class LongParameterList extends BaseDetectAction {
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
         List<PsiElement> longParameters = new ArrayList<>();
-//        Project project = e.getProject();
-//        if (project == null) {
-//            return longParameters;
-//        }
-//
-//        Editor editor = e.getData(CommonDataKeys.EDITOR);
-//        if (editor == null) {
-//            return longParameters;
-//        }
-//
-//        Document document = editor.getDocument();
-//        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-//        if (psiFile == null) {
-//            return longParameters;
-//        }
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
         int userDefinedMaxParameters = 5;
