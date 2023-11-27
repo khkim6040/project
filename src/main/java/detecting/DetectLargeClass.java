@@ -1,14 +1,15 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
-
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiMethod;
 import java.util.ArrayList;
 import java.util.List;
+import utils.LoadPsi;
 
 /**
  * Class to provide detecting: 'LargeClass'
@@ -36,7 +37,7 @@ public class DetectLargeClass extends BaseDetectAction {
     @Override
     public String description() {
         return "<html>When there are too many methods or fields in the class<br/>" +
-                " ,detect it as code smell large class.</html>";
+            " ,detect it as code smell large class.</html>";
     }
 
     /* Returns the precondition of each story. (in html-style) */
@@ -54,22 +55,8 @@ public class DetectLargeClass extends BaseDetectAction {
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
         List<PsiElement> largeClasses = new ArrayList<>();
-        Project project = e.getProject();
-        if (project == null) {
-            return largeClasses;
-        }
+        PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        Editor editor = e.getData(CommonDataKeys.EDITOR);
-        if (editor == null) {
-            return largeClasses;
-        }
-
-        Document document = editor.getDocument();
-        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-        if (psiFile == null) {
-            return largeClasses;
-        }
-        
         int userDefinedMaxFields = 5;
         int userDefinedMaxMethods = 5;
 

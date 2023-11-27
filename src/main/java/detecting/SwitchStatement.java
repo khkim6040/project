@@ -1,16 +1,26 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiExpression;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiIfStatement;
+import com.intellij.psi.PsiRecursiveElementVisitor;
+import com.intellij.psi.PsiStatement;
+import com.intellij.psi.PsiType;
+import com.intellij.psi.PsiTypeCastExpression;
 import com.intellij.psi.util.PsiTreeUtil;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import utils.LoadPsi;
 
 /**
  * Class to provide detecting code smell: 'Switch statement'
+ *
  * @author : Hyeonbenn Park
  */
 public class SwitchStatement extends BaseDetectAction {
@@ -31,7 +41,7 @@ public class SwitchStatement extends BaseDetectAction {
     @Override
     public String description() {
         return "<html>There are conditional statements that identify class of object that leads to " +
-                "casting of the object to use method of the class</html>";
+            "casting of the object to use method of the class</html>";
     }
 
     /* Returns the precondition of each story. (in html-style) */
@@ -48,20 +58,15 @@ public class SwitchStatement extends BaseDetectAction {
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
-        Project project = e.getProject();
-        assert project != null;
+        PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        Editor editor = e.getData(CommonDataKeys.EDITOR);
-        assert editor != null;
-        Document document = editor.getDocument();
-        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-        assert (psiFile instanceof PsiJavaFile);
-
-        List<PsiIfStatement> IfStatements = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiIfStatement.class));
+        List<PsiIfStatement> IfStatements = new ArrayList<>(
+            PsiTreeUtil.collectElementsOfType(psiFile, PsiIfStatement.class));
         List<PsiElement> SwitchStatements = new ArrayList<>();
         for (PsiIfStatement statement : IfStatements) {
-            if (detectSmell(statement))
+            if (detectSmell(statement)) {
                 SwitchStatements.add(statement);
+            }
         }
         return SwitchStatements;
     }
@@ -74,25 +79,33 @@ public class SwitchStatement extends BaseDetectAction {
      */
     private boolean detectSmell(PsiIfStatement statement) {
         List<Map<String, PsiType>> castingMapList = new ArrayList<>();
-        if (statement == null) return false;
-        if (statement.getCondition() == null) return false;
+        if (statement == null) {
+            return false;
+        }
+        if (statement.getCondition() == null) {
+            return false;
+        }
 
         PsiExpression condition = statement.getCondition();
         PsiStatement thenBranch = statement.getThenBranch();
         PsiStatement elseBranch = statement.getElseBranch();
 
-        if (!condition.getText().contains("instanceof"))
+        if (!condition.getText().contains("instanceof")) {
             return false;
-        if (CreateCastingMap(thenBranch) != null)
+        }
+        if (CreateCastingMap(thenBranch) != null) {
             castingMapList.add(CreateCastingMap(thenBranch));
+        }
 
-        if (CreateCastingMap(elseBranch) != null)
+        if (CreateCastingMap(elseBranch) != null) {
             castingMapList.add(CreateCastingMap(elseBranch));
+        }
 
         while (elseBranch != null && elseBranch instanceof PsiIfStatement) {
             elseBranch = ((PsiIfStatement) elseBranch).getElseBranch();
-            if (CreateCastingMap(elseBranch) != null)
+            if (CreateCastingMap(elseBranch) != null) {
                 castingMapList.add(CreateCastingMap(elseBranch));
+            }
         }
 
         return FindMultiCastedObject(castingMapList);
@@ -105,14 +118,17 @@ public class SwitchStatement extends BaseDetectAction {
             @Override
             public void visitElement(PsiElement element) {
                 super.visitElement(element);
-                if (element instanceof PsiTypeCastExpression)
-                    casting.put(((PsiTypeCastExpression) element).getOperand().getText(), ((PsiTypeCastExpression) element).getType());
+                if (element instanceof PsiTypeCastExpression) {
+                    casting.put(((PsiTypeCastExpression) element).getOperand().getText(),
+                        ((PsiTypeCastExpression) element).getType());
+                }
             }
         });
-        if (casting.isEmpty())
+        if (casting.isEmpty()) {
             return null;
-        else
+        } else {
             return casting;
+        }
     }
 
     private boolean FindMultiCastedObject(List<Map<String, PsiType>> castingMapList) {
@@ -125,11 +141,13 @@ public class SwitchStatement extends BaseDetectAction {
             for (String key : commonKeys) {
                 Set<PsiType> values = new HashSet<>();
                 for (Map<String, PsiType> map : castingMapList) {
-                    if (map.get(key) != null)
+                    if (map.get(key) != null) {
                         values.add(map.get(key));
+                    }
                 }
-                if (values.size() > 1)
+                if (values.size() > 1) {
                     return true;
+                }
             }
         }
         return false;
