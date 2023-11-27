@@ -1,22 +1,19 @@
 package ui;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.ui.components.JBScrollPane;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Properties;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Properties;
+import org.jetbrains.annotations.Nullable;
 import utils.UserConfigHandler;
 
 /**
@@ -25,6 +22,7 @@ import utils.UserConfigHandler;
  * @author Jinmin Goh, Seokhwan Choi
  */
 public class CustomizePopupGUI extends JFrame implements TableModelListener {
+
     private JTable customizeTable;
     private JBScrollPane scrollPane;
     private String[] columnType = {"Parameter", "Input"};
@@ -39,12 +37,12 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
         System.out.println(prop);
         prop.load(handler.getFis());
         data = new Object[][]{
-                {"Long Method (Lines of code)", prop.getProperty("PARAM_IDENTIFY_LONG_METHOD")},
-                {"Large Class (Number of fields)", prop.getProperty("PARAM_DETECT_LARGE_CLASS_FIELD")},
-                {"Large Class (Number of methods)", prop.getProperty("PARAM_DETECT_LARGE_CLASS_METHOD")},
-                {"Long Parameter List (Parameter count)", prop.getProperty("PARAM_LONG_PARAMETER_LIST")},
-                {"Message Chain (Length)", prop.getProperty("PARAM_MESSAGE_CHAIN")},
-                {"Comments;Low Level (Lines of comments)", prop.getProperty("PARAM_COMMENTS_LOW")}
+            {"Long Method (Lines of code)", prop.getProperty("PARAM_IDENTIFY_LONG_METHOD")},
+            {"Large Class (Number of fields)", prop.getProperty("PARAM_DETECT_LARGE_CLASS_FIELD")},
+            {"Large Class (Number of methods)", prop.getProperty("PARAM_DETECT_LARGE_CLASS_METHOD")},
+            {"Long Parameter List (Parameter count)", prop.getProperty("PARAM_LONG_PARAMETER_LIST")},
+            {"Message Chain (Length)", prop.getProperty("PARAM_MESSAGE_CHAIN")},
+            {"Comments;Low Level (Lines of comments)", prop.getProperty("PARAM_COMMENTS_LOW")}
         };
         setTitle("Parameter Customization");
         setSize(600, 200);
@@ -84,8 +82,9 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
             String str = (String) model.getValueAt(row, column);
             try {
                 if (!(Integer.parseInt(str) > 0)) {
-                    JOptionPane.showMessageDialog(this, "Not valid input. Please enter integer bigger than 0.", "Warning",
-                            JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Not valid input. Please enter integer bigger than 0.",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
                 } else {
                     switch (row) {
                         case 0:
@@ -112,7 +111,7 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
                 prop.store(writer, "");
             } catch (NumberFormatException exception) {
                 JOptionPane.showMessageDialog(this, "Not valid input. Please enter integer bigger than 0.", "Warning",
-                        JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.WARNING_MESSAGE);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
