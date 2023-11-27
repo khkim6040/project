@@ -1,6 +1,6 @@
 package ui;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 /**
  * The Window class shows analyze window.
@@ -8,6 +8,7 @@ import javax.swing.*;
  * @author Jinmin Goh, Seokhwan Choi
  */
 public class AnalyzeWindow implements WindowInterface {
+
     private final JPanel testWindowContent;
 
     public AnalyzeWindow() {

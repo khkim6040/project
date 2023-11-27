@@ -4,9 +4,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The factory class which creates MyToolWindow on the IDE.
@@ -14,6 +13,7 @@ import java.util.Arrays;
  * @author Jinmin Goh, Seokhwan Choi
  */
 public class MyToolWindowFactory implements ToolWindowFactory {
+
     /**
      * Adds the tab into the ToolWindow.
      *
@@ -23,7 +23,7 @@ public class MyToolWindowFactory implements ToolWindowFactory {
     public static void addTab(ToolWindow toolWindow, TabType type) {
         WindowInterface myWindow = windowFactory(type);
         Content content = toolWindow.getContentManager().getFactory()
-                .createContent(myWindow.getContent(), type.getName(), false);
+            .createContent(myWindow.getContent(), type.getName(), false);
         toolWindow.getContentManager().addContent(content);
     }
 
@@ -43,7 +43,7 @@ public class MyToolWindowFactory implements ToolWindowFactory {
      */
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         Arrays.asList(TabType.values())
-                .forEach(x -> addTab(toolWindow, x));
+            .forEach(x -> addTab(toolWindow, x));
     }
 
     enum TabType {

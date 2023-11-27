@@ -8,13 +8,13 @@ import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiVariable;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.psi.util.PsiTreeUtil;
-import utils.LoadPsi;
-
 import java.util.ArrayList;
 import java.util.List;
+import utils.LoadPsi;
 
 
 public class DeadCode extends BaseDetectAction {
+
     public Project project;
     //private PsiMethod focusMethod;
 
@@ -34,7 +34,7 @@ public class DeadCode extends BaseDetectAction {
     @Override
     public String description() {
         return "<html>When variable or method is not used<br/>" +
-                " ,detect it as code smell deadcode.</html>";
+            " ,detect it as code smell deadcode.</html>";
     }
 
     /* Returns the precondition of each story. (in html-style) */
@@ -61,8 +61,9 @@ public class DeadCode extends BaseDetectAction {
         members.addAll(methods);
 
         for (PsiElement member : members) {
-            if (detectSmell(member))
+            if (detectSmell(member)) {
                 deadElement.add(member);
+            }
         }
         return deadElement;
     }

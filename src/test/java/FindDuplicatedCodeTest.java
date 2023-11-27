@@ -5,7 +5,6 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.psi.PsiElement;
 import detecting.BaseDetectAction;
 import detecting.FindDuplicatedCode;
-
 import java.util.List;
 
 /**
@@ -24,7 +23,8 @@ public class FindDuplicatedCodeTest extends SmellDetectorTest {
         myFixture.configureByFiles(getBasePath() + "/test" + testNum + ".java");
         // Set up the action event with the necessary context
         DataContext dataContext = DataManager.getInstance().getDataContext(myFixture.getEditor().getComponent());
-        AnActionEvent event = AnActionEvent.createFromDataContext(String.valueOf(ActionManager.getInstance().getAction("")), null, dataContext);
+        AnActionEvent event = AnActionEvent.createFromDataContext(
+            String.valueOf(ActionManager.getInstance().getAction("")), null, dataContext);
         // Run the action
         BaseDetectAction action = new FindDuplicatedCode();
         List<PsiElement> result = action.findSmells(event);
