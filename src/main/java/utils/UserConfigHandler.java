@@ -34,6 +34,11 @@ public class UserConfigHandler {
         return handler;
     }
 
+    // TODO: Implement method that return value in codescent.properties according to storyID
+    public String getProperty(String storyID) {
+        return null;
+    }
+
     public Properties getProp() {
         return prop;
     }
