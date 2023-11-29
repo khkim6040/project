@@ -51,10 +51,10 @@ public class SwitchStatement extends BaseDetectAction {
     }
 
     /**
-     * Method that checks whether candidate method has long parameter list
+     * Method that checks whether code has switch statement
      *
      * @param e AnActionEvent
-     * @return true if method has smell code
+     * @return list of smelly PsiElement
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
@@ -72,10 +72,10 @@ public class SwitchStatement extends BaseDetectAction {
     }
 
     /**
-     * Helper method to check if the method has a long parameter list.
+     * Helper method to check if code has switch statement
      *
-     * @param method PsiMethod
-     * @return true if method has long parameter list
+     * @param statement PsiStatement
+     * @return true if method has switch statement
      */
     private boolean detectSmell(PsiIfStatement statement) {
         List<Map<String, PsiType>> castingMapList = new ArrayList<>();

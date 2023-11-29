@@ -2,8 +2,16 @@ package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiCodeBlock;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiExpression;
+import com.intellij.psi.PsiExpressionStatement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiMethodCallExpression;
+import com.intellij.psi.PsiReferenceExpression;
+import com.intellij.psi.PsiStatement;
 import java.util.ArrayList;
 import java.util.List;
 import utils.LoadPsi;
@@ -43,25 +51,65 @@ public class MessageChain extends BaseDetectAction {
     }
 
     /**
-     * Method that checks whether candidate method has message chain
+     * Method that checks whether code has message chain
      *
      * @param e AnActionEvent
-     * @return true if method has smell code
+     * @return list of smelly PsiElement
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
         List<PsiElement> messageChains = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
+        for (PsiElement element : psiFile.getChildren()) {
+            if (element instanceof PsiClass) {
+                PsiClass psiClass = (PsiClass) element;
+                for (PsiMethod method : psiClass.getMethods()) {
+                    messageChains.addAll(detectSmell(method));
+                }
+            }
+        }
         return messageChains;
     }
 
     /**
-     * Helper method to check if the method has a long parameter list.
+     * Helper method to check if code has message chain.
      *
      * @param method PsiMethod
-     * @return true if method has long parameter list
+     * @return list of PsiElement
      */
+    private List<PsiElement> detectSmell(PsiMethod method) {
+        List<PsiElement> chains = new ArrayList<>();
+        PsiCodeBlock body = method.getBody();
+        if (body != null) {
+            for (PsiStatement statement : body.getStatements()) {
+                checkStatementForChains(statement, chains);
+            }
+        }
+        return chains;
+    }
 
+    private void checkStatementForChains(PsiStatement statement, List<PsiElement> chains) {
+        if (statement instanceof PsiExpressionStatement) {
+            PsiExpression expression = ((PsiExpressionStatement) statement).getExpression();
+            int chainLength = calculateChainLength(expression);
+            if (chainLength > 3) {
+                chains.add(expression);
+            }
+        }
+    }
+
+    private int calculateChainLength(PsiElement element) {
+        int length = 0;
+        while (element instanceof PsiMethodCallExpression || element instanceof PsiReferenceExpression) {
+            length++;
+            if (element instanceof PsiMethodCallExpression) {
+                element = ((PsiMethodCallExpression) element).getMethodExpression().getQualifierExpression();
+            } else if (element instanceof PsiReferenceExpression) {
+                element = ((PsiReferenceExpression) element).getQualifier();
+            }
+        }
+        return length;
+    }
 
 }

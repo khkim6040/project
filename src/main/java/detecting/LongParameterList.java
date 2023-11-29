@@ -49,7 +49,7 @@ public class LongParameterList extends BaseDetectAction {
      * Method that checks whether candidate method has long parameter list
      *
      * @param e AnActionEvent
-     * @return true if method has smell code
+     * @return list of smelly PsiElement
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
@@ -73,7 +73,8 @@ public class LongParameterList extends BaseDetectAction {
     /**
      * Helper method to check if the method has a long parameter list.
      *
-     * @param method PsiMethod
+     * @param method        PsiMethod
+     * @param maxParameters condition for number of maximum parameters
      * @return true if method has long parameter list
      */
     public boolean detectSmell(PsiMethod method, int maxParameters) {
