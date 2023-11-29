@@ -3,9 +3,7 @@ package ui;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.components.JBScrollPane;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -14,7 +12,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.jetbrains.annotations.Nullable;
-import utils.UserConfigHandler;
 
 /**
  * The GUI class that shows pop-up window for customize button
@@ -30,19 +27,13 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
     private Project project;
 
     public CustomizePopupGUI(@Nullable Project p, AnActionEvent e) throws IOException {
-        project = p;
-        UserConfigHandler handler = UserConfigHandler.getHandler(project);
-        Properties prop = handler.getProp();
-
-        System.out.println(prop);
-        prop.load(handler.getFis());
         data = new Object[][]{
-            {"Long Method (Lines of code)", prop.getProperty("PARAM_IDENTIFY_LONG_METHOD")},
-            {"Large Class (Number of fields)", prop.getProperty("PARAM_DETECT_LARGE_CLASS_FIELD")},
-            {"Large Class (Number of methods)", prop.getProperty("PARAM_DETECT_LARGE_CLASS_METHOD")},
-            {"Long Parameter List (Parameter count)", prop.getProperty("PARAM_LONG_PARAMETER_LIST")},
-            {"Message Chain (Length)", prop.getProperty("PARAM_MESSAGE_CHAIN")},
-            {"Comments;Low Level (Lines of comments)", prop.getProperty("PARAM_COMMENTS_LOW")}
+            {"Long Method (Lines of code)", UserProperties.getParam("ILM")},
+            {"Large Class (Number of fields)", UserProperties.getParam("DLC_F")},
+            {"Large Class (Number of methods)", UserProperties.getParam("DLC_M")},
+            {"Long Parameter List (Parameter count)", UserProperties.getParam("LPL")},
+            {"Message Chain (Length)", UserProperties.getParam("MC")},
+            {"Comments;Low Level (Lines of comments)", UserProperties.getParam("COM")}
         };
         setTitle("Parameter Customization");
         setSize(600, 200);
@@ -70,13 +61,6 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
     public void tableChanged(TableModelEvent e) {
         int row = e.getFirstRow();
         int column = e.getColumn();
-        UserConfigHandler handler = null;
-        try {
-            handler = UserConfigHandler.getHandler(project);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        Properties prop = handler.getProp();
         if (column == 1) {
             TableModel model = (TableModel) e.getSource();
             String str = (String) model.getValueAt(row, column);
@@ -88,32 +72,28 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
                 } else {
                     switch (row) {
                         case 0:
-                            prop.setProperty("PARAM_IDENTIFY_LONG_METHOD", str);
+                            UserProperties.setILM(Integer.parseInt(str));
                             break;
                         case 1:
-                            prop.setProperty("PARAM_DETECT_LARGE_CLASS_FIELD", str);
+                            UserProperties.setDLC_F(Integer.parseInt(str));
                             break;
                         case 2:
-                            prop.setProperty("PARAM_DETECT_LARGE_CLASS_METHOD", str);
+                            UserProperties.setDLC_M(Integer.parseInt(str));
                             break;
                         case 3:
-                            prop.setProperty("PARAM_LONG_PARAMETER_LIST", str);
+                            UserProperties.setLPL(Integer.parseInt(str));
                             break;
                         case 4:
-                            prop.setProperty("PARAM_MESSAGE_CHAIN", str);
+                            UserProperties.setMC(Integer.parseInt(str));
                             break;
                         case 5:
-                            prop.setProperty("PARAM_COMMENTS_LOW", str);
+                            UserProperties.setCOM(Integer.parseInt(str));
                             break;
                     }
                 }
-                FileWriter writer = handler.getWriter();
-                prop.store(writer, "");
             } catch (NumberFormatException exception) {
                 JOptionPane.showMessageDialog(this, "Not valid input. Please enter integer bigger than 0.", "Warning",
                     JOptionPane.WARNING_MESSAGE);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
             }
         }
     }

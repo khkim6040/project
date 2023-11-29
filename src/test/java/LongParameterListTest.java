@@ -33,6 +33,7 @@ public class LongParameterListTest extends SmellDetectorTest {
         assertEquals(expectedCount, detectedCount);
     }
 
+
     public void testLongParameterList1() {
         doDetectSmellTest(1, 1);
     }

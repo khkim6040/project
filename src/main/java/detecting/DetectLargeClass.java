@@ -9,6 +9,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
 import java.util.ArrayList;
 import java.util.List;
+import ui.UserProperties;
 import utils.LoadPsi;
 
 /**
@@ -57,8 +58,8 @@ public class DetectLargeClass extends BaseDetectAction {
         List<PsiElement> largeClasses = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        int userDefinedMaxFields = 5;
-        int userDefinedMaxMethods = 5;
+        int userDefinedMaxFields = UserProperties.getParam("DLC_F");
+        int userDefinedMaxMethods = UserProperties.getParam("DLC_M");
 
         for (PsiElement element : psiFile.getChildren()) {
             if (element instanceof PsiClass) {
