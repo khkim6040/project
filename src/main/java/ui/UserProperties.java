@@ -6,10 +6,10 @@ package ui;
  * @author Jinmin Goh, Gwanho Kim
  */
 public class UserProperties {
-    
+
     private static int ILM = 25;
     private static int DLC_F = 6;
-    private static int DLC_M = 10;
+    private static int DLC_M = 5;
     private static int LPL = 5;
     private static int MC = 5;
     private static int COM = 5;

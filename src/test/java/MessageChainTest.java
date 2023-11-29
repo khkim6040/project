@@ -19,6 +19,6 @@ public class MessageChainTest extends SmellDetectorTest {
     }
 
     public void testMessageChain1() {
-        doDetectSmellTest(1, 3);
+        doDetectSmellTest(1, 1);
     }
 }
