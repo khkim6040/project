@@ -2,8 +2,10 @@ package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiAssignmentExpression;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiCodeBlock;
+import com.intellij.psi.PsiDeclarationStatement;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiExpression;
 import com.intellij.psi.PsiExpressionStatement;
@@ -12,6 +14,7 @@ import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiMethodCallExpression;
 import com.intellij.psi.PsiReferenceExpression;
 import com.intellij.psi.PsiStatement;
+import com.intellij.psi.PsiVariable;
 import java.util.ArrayList;
 import java.util.List;
 import utils.LoadPsi;
@@ -92,12 +95,36 @@ public class MessageChain extends BaseDetectAction {
     private void checkStatementForChains(PsiStatement statement, List<PsiElement> chains) {
         if (statement instanceof PsiExpressionStatement) {
             PsiExpression expression = ((PsiExpressionStatement) statement).getExpression();
+            checkExpressionForChain(expression, chains);
+        } else if (statement instanceof PsiDeclarationStatement) {
+            // Extract any initializers from the declaration and check them
+            for (PsiElement element : statement.getChildren()) {
+                if (element instanceof PsiVariable) {
+                    PsiExpression initializer = ((PsiVariable) element).getInitializer();
+                    if (initializer != null) {
+                        checkExpressionForChain(initializer, chains);
+                    }
+                }
+            }
+        }
+        // Handle other types of statements that might contain method call expressions
+    }
+
+    private void checkExpressionForChain(PsiExpression expression, List<PsiElement> chains) {
+        if (expression instanceof PsiMethodCallExpression) {
             int chainLength = calculateChainLength(expression);
             if (chainLength > 3) {
                 chains.add(expression);
             }
+        } else if (expression instanceof PsiAssignmentExpression) {
+            PsiExpression rValue = ((PsiAssignmentExpression) expression).getRExpression();
+            if (rValue instanceof PsiMethodCallExpression) {
+                checkExpressionForChain(rValue, chains);
+            }
         }
+        // Handle other expression types that might contain method call expressions
     }
+
 
     private int calculateChainLength(PsiElement element) {
         int length = 0;
