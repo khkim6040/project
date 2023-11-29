@@ -8,6 +8,7 @@ import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiFile;
 import java.util.ArrayList;
 import java.util.List;
+import ui.UserProperties;
 import utils.LoadPsi;
 
 /**
@@ -22,7 +23,7 @@ public class DetectLargeClassField extends BaseDetectAction {
     /* Returns the story ID. */
     @Override
     public String storyID() {
-        return "DLCF";
+        return "DLC_F";
     }
 
     /* Returns the story name as a string format for message. */
@@ -55,7 +56,7 @@ public class DetectLargeClassField extends BaseDetectAction {
         List<PsiElement> largeClassesField = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        int userDefinedMaxFields = 5;
+        int userDefinedMaxFields = UserProperties.getParam("DLC_F");
 
         for (PsiElement element : psiFile.getChildren()) {
             if (element instanceof PsiClass) {

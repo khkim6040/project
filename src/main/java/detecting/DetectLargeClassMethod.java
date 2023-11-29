@@ -8,6 +8,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
 import java.util.ArrayList;
 import java.util.List;
+import ui.UserProperties;
 import utils.LoadPsi;
 
 /**
@@ -22,7 +23,7 @@ public class DetectLargeClassMethod extends BaseDetectAction {
     /* Returns the story ID. */
     @Override
     public String storyID() {
-        return "DLCM";
+        return "DLC_M";
     }
 
     /* Returns the story name as a string format for message. */
@@ -55,7 +56,7 @@ public class DetectLargeClassMethod extends BaseDetectAction {
         List<PsiElement> largeClassesMethod = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        int userDefinedMaxMethods = 5;
+        int userDefinedMaxMethods = UserProperties.getParam("DLC_M");
 
         for (PsiElement element : psiFile.getChildren()) {
             if (element instanceof PsiClass) {
@@ -71,7 +72,7 @@ public class DetectLargeClassMethod extends BaseDetectAction {
     /**
      * Helper method to check if the class is considered 'large'.
      *
-     * @param psiClass PsiClass
+     * @param psiClass   PsiClass
      * @param maxMethods Max number of methods possible
      * @return true if the class is larger than set thresholds for methods
      */
