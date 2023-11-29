@@ -2,7 +2,6 @@ package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiAssignmentExpression;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiCodeBlock;
 import com.intellij.psi.PsiDeclarationStatement;
@@ -68,12 +67,15 @@ public class MessageChain extends BaseDetectAction {
             if (element instanceof PsiClass) {
                 PsiClass psiClass = (PsiClass) element;
                 for (PsiMethod method : psiClass.getMethods()) {
-                    messageChains.addAll(detectSmell(method));
+                    if (detectSmell(method)) {
+                        messageChains.add(method);
+                    }
                 }
             }
         }
         return messageChains;
     }
+
 
     /**
      * Helper method to check if code has message chain.
@@ -81,48 +83,29 @@ public class MessageChain extends BaseDetectAction {
      * @param method PsiMethod
      * @return list of PsiElement
      */
-    private List<PsiElement> detectSmell(PsiMethod method) {
-        List<PsiElement> chains = new ArrayList<>();
+    private boolean detectSmell(PsiMethod method) {
         PsiCodeBlock body = method.getBody();
         if (body != null) {
             for (PsiStatement statement : body.getStatements()) {
-                checkStatementForChains(statement, chains);
-            }
-        }
-        return chains;
-    }
-
-    private void checkStatementForChains(PsiStatement statement, List<PsiElement> chains) {
-        if (statement instanceof PsiExpressionStatement) {
-            PsiExpression expression = ((PsiExpressionStatement) statement).getExpression();
-            checkExpressionForChain(expression, chains);
-        } else if (statement instanceof PsiDeclarationStatement) {
-            // Extract any initializers from the declaration and check them
-            for (PsiElement element : statement.getChildren()) {
-                if (element instanceof PsiVariable) {
-                    PsiExpression initializer = ((PsiVariable) element).getInitializer();
-                    if (initializer != null) {
-                        checkExpressionForChain(initializer, chains);
+                if (statement instanceof PsiExpressionStatement) {
+                    PsiExpression expression = ((PsiExpressionStatement) statement).getExpression();
+                    if (calculateChainLength(expression) > 3) {
+                        return true;
+                    }
+                } else if (statement instanceof PsiDeclarationStatement) {
+                    for (PsiElement element : statement.getChildren()) {
+                        if (element instanceof PsiVariable) {
+                            PsiExpression initializer = ((PsiVariable) element).getInitializer();
+                            if (initializer != null && calculateChainLength(initializer) > 3) {
+                                return true;
+                            }
+                        }
                     }
                 }
+                //
             }
         }
-        // Handle other types of statements that might contain method call expressions
-    }
-
-    private void checkExpressionForChain(PsiExpression expression, List<PsiElement> chains) {
-        if (expression instanceof PsiMethodCallExpression) {
-            int chainLength = calculateChainLength(expression);
-            if (chainLength > 3) {
-                chains.add(expression);
-            }
-        } else if (expression instanceof PsiAssignmentExpression) {
-            PsiExpression rValue = ((PsiAssignmentExpression) expression).getRExpression();
-            if (rValue instanceof PsiMethodCallExpression) {
-                checkExpressionForChain(rValue, chains);
-            }
-        }
-        // Handle other expression types that might contain method call expressions
+        return false;
     }
 
 
@@ -138,5 +121,6 @@ public class MessageChain extends BaseDetectAction {
         }
         return length;
     }
+
 
 }
