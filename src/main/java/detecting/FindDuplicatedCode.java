@@ -20,9 +20,7 @@ import utils.LoadPsi;
 public class FindDuplicatedCode extends BaseDetectAction {
 
     public Project project;
-    //private PsiMethod focusMethod;
-
-
+    
     /* Returns the story ID. */
     @Override
     public String storyID() {

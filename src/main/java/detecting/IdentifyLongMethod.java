@@ -11,6 +11,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
 import java.util.ArrayList;
 import java.util.List;
+import ui.UserProperties;
 import utils.LoadPsi;
 
 /**
@@ -59,8 +60,7 @@ public class IdentifyLongMethod extends BaseDetectAction {
         List<PsiElement> longMethods = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        // 25 is the default value
-        int userDefinedMaxLineCount = 25;
+        int userDefinedMaxLineCount = UserProperties.getParam(storyID());
 
         for (PsiElement element : psiFile.getChildren()) {
             if (element instanceof PsiClass) {
@@ -78,7 +78,7 @@ public class IdentifyLongMethod extends BaseDetectAction {
     /**
      * Helper method to check if a method is considered 'long'.
      *
-     * @param method PsiMethod
+     * @param method       PsiMethod
      * @param maxLineCount maximum line count
      * @return true if the method is longer than a set threshold
      */
