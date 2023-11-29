@@ -2,7 +2,7 @@ public class MessageChainExample {
 
     /**
      * An example code with a message chain code smell.
-     * This code has message length of 6.
+     * This code has message length of 7.
      *
      * @author Jinyoung Kim
      */
