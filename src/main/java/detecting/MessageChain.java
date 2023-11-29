@@ -102,7 +102,11 @@ public class MessageChain extends BaseDetectAction {
                         }
                     }
                 }
-                //
+                //Else if
+                
+                /*
+                 * TODO: check switch, if, return ...
+                 */
             }
         }
         return false;
