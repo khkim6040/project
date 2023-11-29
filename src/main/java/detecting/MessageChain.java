@@ -7,13 +7,21 @@ import com.intellij.psi.PsiCodeBlock;
 import com.intellij.psi.PsiDeclarationStatement;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiExpression;
+import com.intellij.psi.PsiExpressionListStatement;
 import com.intellij.psi.PsiExpressionStatement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiForStatement;
+import com.intellij.psi.PsiIfStatement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiMethodCallExpression;
 import com.intellij.psi.PsiReferenceExpression;
+import com.intellij.psi.PsiReturnStatement;
 import com.intellij.psi.PsiStatement;
+import com.intellij.psi.PsiSwitchLabelStatement;
+import com.intellij.psi.PsiSwitchLabeledRuleStatement;
+import com.intellij.psi.PsiSwitchStatement;
 import com.intellij.psi.PsiVariable;
+import com.intellij.psi.PsiWhileStatement;
 import java.util.ArrayList;
 import java.util.List;
 import utils.LoadPsi;
@@ -94,7 +102,8 @@ public class MessageChain extends BaseDetectAction {
                         return true;
                     }
                 } else if (statement instanceof PsiDeclarationStatement) {
-                    for (PsiElement element : statement.getChildren()) {
+                    PsiDeclarationStatement declarationStatement = (PsiDeclarationStatement) statement;
+                    for (PsiElement element : declarationStatement.getDeclaredElements()) {
                         if (element instanceof PsiVariable) {
                             PsiExpression initializer = ((PsiVariable) element).getInitializer();
                             if (initializer != null && calculateChainLength(initializer) > 3) {
@@ -102,17 +111,107 @@ public class MessageChain extends BaseDetectAction {
                             }
                         }
                     }
+                } else if (statement instanceof PsiReturnStatement) {
+                    PsiExpression returnExpression = ((PsiReturnStatement) statement).getReturnValue();
+                    if (returnExpression != null && calculateChainLength(returnExpression) > 3) {
+                        return true;
+                    }
+                } else if (statement instanceof PsiIfStatement) {
+                    PsiIfStatement ifStatement = (PsiIfStatement) statement;
+                    // Check condition
+                    PsiExpression condition = ifStatement.getCondition();
+                    if (condition != null && calculateChainLength(condition) > 3) {
+                        return true;
+                    }
+                    // Recursively check then-branch and else-branch
+                    if (detectSmell(ifStatement.getThenBranch()) || detectSmell(ifStatement.getElseBranch())) {
+                        return true;
+                    }
+                } else if (statement instanceof PsiWhileStatement) {
+                    PsiWhileStatement whileStatement = (PsiWhileStatement) statement;
+                    PsiExpression condition = whileStatement.getCondition();
+                    if (condition != null && calculateChainLength(condition) > 3) {
+                        return true;
+                    }
+                    if (detectSmell(whileStatement.getBody())) {
+                        return true;
+                    }
+                } else if (statement instanceof PsiSwitchStatement) {
+                    PsiSwitchStatement switchStatement = (PsiSwitchStatement) statement;
+
+                    // Check the switch expression (if needed)
+                    PsiExpression switchExpression = switchStatement.getExpression();
+                    if (switchExpression != null && calculateChainLength(switchExpression) > 3) {
+                        return true;
+                    }
+
+                    // Iterate through the children of the switch statement to find case statements
+                    for (PsiElement child : switchStatement.getChildren()) {
+                        if (child instanceof PsiSwitchLabelStatement) {
+                            PsiSwitchLabelStatement labelStatement = (PsiSwitchLabelStatement) child;
+                            // Process the case statement if needed
+                        } else if (child instanceof PsiSwitchLabeledRuleStatement) {
+                            PsiSwitchLabeledRuleStatement ruleStatement = (PsiSwitchLabeledRuleStatement) child;
+                            // Process the case rule if needed, including its body
+                            if (detectSmell(ruleStatement.getBody())) {
+                                return true;
+                            }
+                        }
+                    }
+                } else if (statement instanceof PsiForStatement) {
+                    PsiForStatement forStatement = (PsiForStatement) statement;
+
+                    // Check initialization part
+                    PsiStatement initialization = forStatement.getInitialization();
+                    if (initialization instanceof PsiDeclarationStatement) {
+                        for (PsiElement element : initialization.getChildren()) {
+                            if (element instanceof PsiVariable) {
+                                PsiExpression initializer = ((PsiVariable) element).getInitializer();
+                                if (initializer != null && calculateChainLength(initializer) > 3) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+
+                    // Check condition part
+                    PsiExpression condition = forStatement.getCondition();
+                    if (condition != null && calculateChainLength(condition) > 3) {
+                        return true;
+                    }
+
+                    // Check the update part
+                    PsiStatement update = forStatement.getUpdate();
+                    if (update instanceof PsiExpressionListStatement) {
+                        for (PsiExpression expression : ((PsiExpressionListStatement) update).getExpressionList()
+                            .getExpressions()) {
+                            if (calculateChainLength(expression) > 3) {
+                                return true;
+                            }
+                        }
+                    }
+
+                    // Check the body of the for loop
+                    if (detectSmell(forStatement.getBody())) {
+                        return true;
+                    }
                 }
-                //Else if
-                
-                /*
-                 * TODO: check switch, if, return ...
-                 */
             }
         }
         return false;
     }
 
+    private boolean detectSmell(PsiElement element) {
+        // Recursive method to handle compound statements like if, while
+        if (element instanceof PsiCodeBlock) {
+            for (PsiStatement statement : ((PsiCodeBlock) element).getStatements()) {
+                if (detectSmell(statement)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     private int calculateChainLength(PsiElement element) {
         int length = 0;
@@ -126,6 +225,4 @@ public class MessageChain extends BaseDetectAction {
         }
         return length;
     }
-
-
 }

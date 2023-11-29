@@ -15,7 +15,7 @@ public class TestMessageChain {
     public void testMethod() {
         // Usage of a method with a message chain of length 6
         String result = level1.getLevel2().getLevel3().getLevel4().getLevel5().getLevel6().getData();
-        System.out.println("Result of the message chain: " + result);
+        //System.out.println("Result of the message chain: " + result);
     }
 
     // Helper classes to create a message chain with "getLevel" methods
