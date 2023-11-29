@@ -11,6 +11,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
 import java.util.ArrayList;
 import java.util.List;
+import ui.UserProperties;
 import utils.LoadPsi;
 
 /**
@@ -58,9 +59,8 @@ public class IdentifyLongMethod extends BaseDetectAction {
     public List<PsiElement> findSmells(AnActionEvent e) {
         List<PsiElement> longMethods = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
-
-        // 25 is the default value
-        int userDefinedMaxLineCount = 25;
+        
+        int userDefinedMaxLineCount = UserProperties.getParam(storyID());
 
         for (PsiElement element : psiFile.getChildren()) {
             if (element instanceof PsiClass) {
