@@ -24,6 +24,7 @@ import com.intellij.psi.PsiVariable;
 import com.intellij.psi.PsiWhileStatement;
 import java.util.ArrayList;
 import java.util.List;
+import ui.UserProperties;
 import utils.LoadPsi;
 
 /**
@@ -94,11 +95,13 @@ public class MessageChain extends BaseDetectAction {
      */
     private boolean detectSmell(PsiMethod method) {
         PsiCodeBlock body = method.getBody();
+        int userDefinedMessageChainLength = UserProperties.getParam("MC");
+        
         if (body != null) {
             for (PsiStatement statement : body.getStatements()) {
                 if (statement instanceof PsiExpressionStatement) {
                     PsiExpression expression = ((PsiExpressionStatement) statement).getExpression();
-                    if (calculateChainLength(expression) > 3) {
+                    if (calculateChainLength(expression) > userDefinedMessageChainLength) {
                         return true;
                     }
                 } else if (statement instanceof PsiDeclarationStatement) {
@@ -106,21 +109,23 @@ public class MessageChain extends BaseDetectAction {
                     for (PsiElement element : declarationStatement.getDeclaredElements()) {
                         if (element instanceof PsiVariable) {
                             PsiExpression initializer = ((PsiVariable) element).getInitializer();
-                            if (initializer != null && calculateChainLength(initializer) > 3) {
+                            if (initializer != null
+                                && calculateChainLength(initializer) > userDefinedMessageChainLength) {
                                 return true;
                             }
                         }
                     }
                 } else if (statement instanceof PsiReturnStatement) {
                     PsiExpression returnExpression = ((PsiReturnStatement) statement).getReturnValue();
-                    if (returnExpression != null && calculateChainLength(returnExpression) > 3) {
+                    if (returnExpression != null
+                        && calculateChainLength(returnExpression) > userDefinedMessageChainLength) {
                         return true;
                     }
                 } else if (statement instanceof PsiIfStatement) {
                     PsiIfStatement ifStatement = (PsiIfStatement) statement;
                     // Check condition
                     PsiExpression condition = ifStatement.getCondition();
-                    if (condition != null && calculateChainLength(condition) > 3) {
+                    if (condition != null && calculateChainLength(condition) > userDefinedMessageChainLength) {
                         return true;
                     }
                     // Recursively check then-branch and else-branch
@@ -130,7 +135,7 @@ public class MessageChain extends BaseDetectAction {
                 } else if (statement instanceof PsiWhileStatement) {
                     PsiWhileStatement whileStatement = (PsiWhileStatement) statement;
                     PsiExpression condition = whileStatement.getCondition();
-                    if (condition != null && calculateChainLength(condition) > 3) {
+                    if (condition != null && calculateChainLength(condition) > userDefinedMessageChainLength) {
                         return true;
                     }
                     if (detectSmell(whileStatement.getBody())) {
@@ -141,7 +146,8 @@ public class MessageChain extends BaseDetectAction {
 
                     // Check the switch expression (if needed)
                     PsiExpression switchExpression = switchStatement.getExpression();
-                    if (switchExpression != null && calculateChainLength(switchExpression) > 3) {
+                    if (switchExpression != null
+                        && calculateChainLength(switchExpression) > userDefinedMessageChainLength) {
                         return true;
                     }
 
@@ -167,7 +173,8 @@ public class MessageChain extends BaseDetectAction {
                         for (PsiElement element : initialization.getChildren()) {
                             if (element instanceof PsiVariable) {
                                 PsiExpression initializer = ((PsiVariable) element).getInitializer();
-                                if (initializer != null && calculateChainLength(initializer) > 3) {
+                                if (initializer != null
+                                    && calculateChainLength(initializer) > userDefinedMessageChainLength) {
                                     return true;
                                 }
                             }
@@ -176,7 +183,7 @@ public class MessageChain extends BaseDetectAction {
 
                     // Check condition part
                     PsiExpression condition = forStatement.getCondition();
-                    if (condition != null && calculateChainLength(condition) > 3) {
+                    if (condition != null && calculateChainLength(condition) > userDefinedMessageChainLength) {
                         return true;
                     }
 
@@ -185,7 +192,7 @@ public class MessageChain extends BaseDetectAction {
                     if (update instanceof PsiExpressionListStatement) {
                         for (PsiExpression expression : ((PsiExpressionListStatement) update).getExpressionList()
                             .getExpressions()) {
-                            if (calculateChainLength(expression) > 3) {
+                            if (calculateChainLength(expression) > userDefinedMessageChainLength) {
                                 return true;
                             }
                         }
