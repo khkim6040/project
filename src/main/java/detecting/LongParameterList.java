@@ -2,11 +2,14 @@ package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
-import utils.LoadPsi;
-
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiParameter;
 import java.util.ArrayList;
 import java.util.List;
+import utils.LoadPsi;
 
 /**
  * Class to provide detecting: 'LongParameterList'
@@ -33,7 +36,7 @@ public class LongParameterList extends BaseDetectAction {
     @Override
     public String description() {
         return "<html>When there are too many parameters in the method<br/>" +
-                " ,detect it as code smell long parameter list.</html>";
+            " ,detect it as code smell long parameter list.</html>";
     }
 
     /* Returns the precondition of each story. (in html-style) */
@@ -74,7 +77,9 @@ public class LongParameterList extends BaseDetectAction {
      * @return true if method has long parameter list
      */
     public boolean detectSmell(PsiMethod method, int maxParameters) {
-        if (method == null) return false;
+        if (method == null) {
+            return false;
+        }
 
         PsiParameter[] parameters = method.getParameterList().getParameters();
         return parameters.length > maxParameters;

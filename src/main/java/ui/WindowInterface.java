@@ -1,6 +1,6 @@
 package ui;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 /**
  * Interface to employ observer pattern
@@ -8,5 +8,6 @@ import javax.swing.*;
  * @author Jinmin Goh, Seokhwan Choi
  */
 public interface WindowInterface {
+
     JPanel getContent();
 }

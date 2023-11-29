@@ -6,12 +6,11 @@ import com.intellij.psi.PsiCodeBlock;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
-import utils.LoadPsi;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import utils.LoadPsi;
 
 /**
  * Class to provide detecting: 'LongMethod'
@@ -40,14 +39,14 @@ public class FindDuplicatedCode extends BaseDetectAction {
     @Override
     public String description() {
         return "<html>When there duplicated code. <br/>" +
-                "Detect codes where the same code is repeated..</html>";
+            "Detect codes where the same code is repeated..</html>";
     }
 
     /* Returns the precondition of each story. (in html-style) */
     @Override
     public String precondition() {
         return "<html>Find the parts where identical or very similar code exists in multiple locations. " +
-                "Identical or similar code blocks or methods .</html>";
+            "Identical or similar code blocks or methods .</html>";
     }
 
     /**

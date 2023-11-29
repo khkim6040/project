@@ -1,9 +1,9 @@
 package ui;
 
 import com.intellij.ui.components.JBList;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 
 /**
  * The GUI class that shows list of messages for analyze button
@@ -11,6 +11,7 @@ import java.awt.*;
  * @author Jinmin Goh, Seokhwan Choi
  */
 public class AnalyzeWindowGUI {
+
     static private AnalyzeWindowGUI instance;
 
     static {

@@ -5,7 +5,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiElement;
-
 import java.util.List;
 
 /**
@@ -64,7 +63,9 @@ public abstract class BaseDetectAction extends AnAction {
 
         // Get the project from the action event
         Project project = e.getProject();
-        if (project == null) return;
+        if (project == null) {
+            return;
+        }
 
         // Prepare the message to be displayed
         String message = String.valueOf(smellList.size());

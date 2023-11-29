@@ -68,5 +68,10 @@
             </action>
             <action id="Customize" class="ui.CustomizeAction" text="Customize">
             </action>
-        </group>    </actions>
+        </group>
+      <action id="MessageChain" class="detecting.MessageChain" text="MessageChain"
+        description="MessageChain">
+        <add-to-group group-id="MainMenu" anchor="first"/>
+      </action>
+    </actions>
 </idea-plugin>

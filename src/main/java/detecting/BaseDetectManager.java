@@ -7,6 +7,7 @@ package detecting;
  * @author CSED332 2020 Team Wanted
  */
 public class BaseDetectManager {
+
     private static BaseDetectManager manager = null;
 
     /* Design Pattern: Singleton */
@@ -14,8 +15,9 @@ public class BaseDetectManager {
     }
 
     public static BaseDetectManager getInstance() {
-        if (manager == null)
+        if (manager == null) {
             manager = new BaseDetectManager();
+        }
         return manager;
     }
 
@@ -42,7 +44,8 @@ public class BaseDetectManager {
                 return new PoorName();
             case "DC":
                 return new DeadCode();
-
+            case "MC":
+                return new MessageChain();
 
             default:
                 return null;

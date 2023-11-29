@@ -4,19 +4,19 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.psi.PsiElement;
 import detecting.BaseDetectAction;
-import detecting.IdentifyLongMethod;
+import detecting.MessageChain;
 import java.util.List;
 
 /**
- * Test for detecting: 'LongMethod'
+ * Test for detecting: 'Message Chain'
  *
  * @author Jinyoung Kim
  */
-public class IdentifyLongMethodTest extends SmellDetectorTest {
+public class MessageChainTest extends SmellDetectorTest {
 
     @Override
     protected String getBasePath() {
-        return super.getBasePath() + "/IdentifyLongMethod";
+        return super.getBasePath() + "/MessageChain";
     }
 
     protected void doDetectSmellTest(int testNum, int expectedCount) {
@@ -25,19 +25,19 @@ public class IdentifyLongMethodTest extends SmellDetectorTest {
         DataContext dataContext = DataManager.getInstance().getDataContext(myFixture.getEditor().getComponent());
         AnActionEvent event = AnActionEvent.createFromDataContext(
             String.valueOf(ActionManager.getInstance().getAction("")), null, dataContext);
-        // Run the action
-        BaseDetectAction action = new IdentifyLongMethod();
+        // Run the action to detect message chains
+        BaseDetectAction action = new MessageChain();
         List<PsiElement> result = action.findSmells(event);
-        // Check the result
+        // Check the result to see if the number of detected message chains matches the expectation
         int detectedCount = result.size();
         assertEquals(expectedCount, detectedCount);
     }
 
-    public void testIdentifyLongMethod1() {
+    public void testMessageChain1() {
         doDetectSmellTest(1, 1);
     }
 
-//    public void testIdentifyLongMethod2() {
+//    public void testLongParameterList2() {
 //        doDetectSmellTest(2, 0);
 //    }
 }
