@@ -4,20 +4,20 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.psi.PsiElement;
 import detecting.BaseDetectAction;
-import detecting.DetectLargeClass;
+import detecting.DetectLargeClassField;
 import java.util.List;
 
 /**
- * Test for detecting large class'
+ * Test for detecting large class due to methods
  *
  * @author Jinyoung Kim
  */
 
-public class DetectLargeClassTest extends SmellDetectorTest {
+public class DetectLargeClassFieldTest extends SmellDetectorTest {
 
     @Override
     protected String getBasePath() {
-        return super.getBasePath() + "/DetectLargeClass";
+        return super.getBasePath() + "/DetectLargeClassField";
     }
 
     protected void doDetectSmellTest(int testNum, int expectedCount) {
@@ -27,19 +27,19 @@ public class DetectLargeClassTest extends SmellDetectorTest {
         AnActionEvent event = AnActionEvent.createFromDataContext(
             String.valueOf(ActionManager.getInstance().getAction("")), null, dataContext);
         // Run the action
-        BaseDetectAction action = new DetectLargeClass();
+        BaseDetectAction action = new DetectLargeClassField();
         List<PsiElement> result = action.findSmells(event);
         // Check the result
         int detectedCount = result.size();
         assertEquals(expectedCount, detectedCount);
     }
 
-    public void testDetectLargeClass1() {
+    public void testDetectLargeClassField1() {
         doDetectSmellTest(1, 1);
         // Replace right number with the expected number of large classes in test1.java
     }
 
-//    public void testDetectLargeClass2() {
+//    public void testDetectLargeClassField2() {
 //        doDetectSmellTest(2, 0);
 //        // Assume test2.java has 0 large classes
 //    }

@@ -22,6 +22,7 @@ import utils.LoadPsi;
  * Class to provide detecting: 'Message Chain'
  *
  * @author Jinyoung Kim
+ * @author Chanho Song
  */
 public class MessageChain extends BaseDetectAction {
 
@@ -81,7 +82,7 @@ public class MessageChain extends BaseDetectAction {
      * Helper method to check if code has message chain.
      *
      * @param method PsiMethod
-     * @return list of PsiElement
+     * @return true if code has message chain
      */
     private boolean detectSmell(PsiMethod method) {
         PsiCodeBlock body = method.getBody();

@@ -32,8 +32,10 @@ public class BaseDetectManager {
             // Priority 1 functions
             case "LPL":
                 return new LongParameterList();
-            case "DLC":
-                return new DetectLargeClass();
+            case "DLCF":
+                return new DetectLargeClassField();
+            case "DLCM":
+                return new DetectLargeClassMethod();
             case "ILM":
                 return new IdentifyLongMethod();
             case "SS":
