@@ -59,14 +59,17 @@
                 description="Implementation for SwitchStatement">
             <add-to-group group-id="MainMenu" anchor="first"/>
         </action>
-        
-        <group id="GroupedActions" text="Code Scent" popup="true">
-            <add-to-group group-id="MainMenu" anchor="after" relative-to-action="org.intellij.sdk.action.PopupDialogAction"/>
-            <action id="Analyze" class="ui.MyToolWindowAction" text="Analyze">
-            </action>
-            <action id="AnalyzeAll" class="ui.MyToolWindowAction" text="Analyze All">
-            </action>
-            <action id="Customize" class="ui.CustomizeAction" text="Customize">
-            </action>
-        </group>    </actions>
+
+        <action id="MyToolWindow" class="ui.MyToolWindowAction" text="CodeScent" description="ToolWindow">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+        </action>
+
+        <action id="Analyze" class="ui.AnalyzeAction" text="Analyze">
+        </action>
+        <action id="AnalyzeAll" class="ui.MyToolWindowAction" text="Analyze All">
+        </action>
+        <action id="Customize" class="ui.CustomizeAction" text="Customize">
+        </action>
+
+    </actions>
 </idea-plugin>
