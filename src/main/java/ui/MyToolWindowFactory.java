@@ -13,12 +13,14 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.ContentFactory;
 import java.awt.BorderLayout;
+import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -68,6 +70,7 @@ public class MyToolWindowFactory implements ToolWindowFactory {
 
         analyzeButton.addActionListener(e -> {
             AnAction action = ActionManager.getInstance().getAction("Analyze");
+            AnalyzeAction analyzeAction = (AnalyzeAction) action;
             if (action != null) {
                 DataContext dataContext = DataManager.getInstance().getDataContext(analyzeButton);
                 VirtualFile currentFile = FileEditorManager.getInstance(project).getSelectedFiles()[0];
@@ -96,6 +99,7 @@ public class MyToolWindowFactory implements ToolWindowFactory {
                 AnActionEvent event = AnActionEvent.createFromDataContext(
                     ActionPlaces.UNKNOWN, action.getTemplatePresentation().clone(), customDataContext);
                 action.actionPerformed(event);
+                analyzeAction.setResultListener(this::updateUIWithAnalyzeResult);
 
 //                Project currentProject = CommonDataKeys.PROJECT.getData(dataContext);
 //                FileEditorManager fileEditorManager = FileEditorManager.getInstance(currentProject);
@@ -104,14 +108,14 @@ public class MyToolWindowFactory implements ToolWindowFactory {
 //
 //                listModel.addElement(String.valueOf(currentProject));
 //                listModel.addElement(String.valueOf(currentFile));
-
 //                int detectedCount = analyzeAction.getDetectedCount();
 //                for (int i = 0; i < detectedCount; i++) {
 //                    PsiElement element = analyzeAction.getDetected(i);
 //                    if (element != null) {
-//                        listModel.addElement(element);
+//                        listModel.addElement(String.valueOf(element));
 //                    }
 //                }
+//                listModel.addElement(String.valueOf(detectedCount));
             }
         });
 
@@ -137,8 +141,11 @@ public class MyToolWindowFactory implements ToolWindowFactory {
         toolWindow.getContentManager().addContent(contentFactory.createContent(mainPanel, "", false));
     }
 
-    public void updateUIWithAnalyzeResult(int result) {
-        listModel.addElement(String.valueOf(result));
+    public void updateUIWithAnalyzeResult(List<PsiElement> result) {
+//        listModel.addElement(String.valueOf(result));
+        for (PsiElement element : result) {
+            listModel.addElement(String.valueOf(element));
+        }
     }
 //    /**
 //     * Adds the tab into the ToolWindow.
