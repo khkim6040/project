@@ -20,7 +20,9 @@ import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.ContentFactory;
 import java.awt.BorderLayout;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -141,10 +143,12 @@ public class MyToolWindowFactory implements ToolWindowFactory {
         toolWindow.getContentManager().addContent(contentFactory.createContent(mainPanel, "", false));
     }
 
-    public void updateUIWithAnalyzeResult(List<PsiElement> result) {
+    public void updateUIWithAnalyzeResult(Map<String, List<PsiElement>> result) {
 //        listModel.addElement(String.valueOf(result));
-        for (PsiElement element : result) {
-            listModel.addElement(String.valueOf(element));
+        List<String> actionIDs = Arrays.asList("LPL", "DLC", "ILM", "SS", "FDC", "PN", "DC");
+        for (String actionID : actionIDs) {
+            listModel.addElement(actionID);
+            listModel.addElement(String.valueOf(result.get(actionID)));
         }
     }
 //    /**
