@@ -56,7 +56,7 @@ public class DetectLargeClassMethod extends BaseDetectAction {
         List<PsiElement> largeClassesMethod = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        int userDefinedMaxMethods = UserProperties.getParam("DLC_M");
+        int userDefinedMaxMethods = UserProperties.getParam(storyID());
 
         for (PsiElement element : psiFile.getChildren()) {
             if (element instanceof PsiClass) {

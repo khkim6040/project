@@ -56,7 +56,7 @@ public class DetectLargeClassField extends BaseDetectAction {
         List<PsiElement> largeClassesField = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        int userDefinedMaxFields = UserProperties.getParam("DLC_F");
+        int userDefinedMaxFields = UserProperties.getParam(storyID());
 
         for (PsiElement element : psiFile.getChildren()) {
             if (element instanceof PsiClass) {

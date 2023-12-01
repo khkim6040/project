@@ -95,7 +95,7 @@ public class MessageChain extends BaseDetectAction {
      */
     private boolean detectSmell(PsiMethod method) {
         PsiCodeBlock body = method.getBody();
-        int userDefinedMessageChainLength = UserProperties.getParam("MC");
+        int userDefinedMessageChainLength = UserProperties.getParam(storyID());
         
         if (body != null) {
             for (PsiStatement statement : body.getStatements()) {
