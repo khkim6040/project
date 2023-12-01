@@ -5,9 +5,9 @@ import java.util.Map;
 
 /**
  * An example class with a large class code smell due to many methods.
- * This class has 3 fields and 7 methods.
+ * This class has 11 methods.
  *
- * @author Jinyoung Kim
+ * @author Jinyoung Kim, Gwanho Kim
  */
 public class TestDetectLargeClassMethod {
 
@@ -55,5 +55,22 @@ public class TestDetectLargeClassMethod {
     public void addCourse(int courseId, String courseName, int credits) {
         courseNames.put(courseId, courseName);
         courseCredits.put(courseId, credits);
+    }
+
+    public void assignTeacherToCourse(int courseId, String teacherName) {
+        courseTeachers.put(courseId, teacherName);
+    }
+
+    public void assignStudentToCourse(int courseId, int studentId) {
+        courseStudents.computeIfAbsent(courseId, k -> new ArrayList<>()).add(studentId);
+    }
+
+    // Methods for getting information
+    public String getStudentName(int studentId) {
+        return studentNames.get(studentId);
+    }
+
+    public double getStudentGrade(int studentId) {
+        return studentGrades.get(studentId);
     }
 }
