@@ -45,20 +45,6 @@ public class MyToolWindowFactory implements ToolWindowFactory {
     private JBList<String> analyzeList;
     private DefaultListModel<String> listModel;
 
-//    public static void updateToolWindowContent(Project project, String toolWindowId,
-//        DefaultListModel<PsiElement> newContent) {
-//        ToolWindow toolWindow = ToolWindowManager.getInstance(project).getToolWindow(toolWindowId);
-//        if (toolWindow != null) {
-//            ContentFactory contentFactory = ContentFactory.getInstance();
-//
-//            Content content = contentFactory.createContent(newContent, "", false);
-//
-//            toolWindow.getContentManager().removeAllContents(true);
-//
-//            toolWindow.getContentManager().addContent(content);
-//        }
-//    }
-
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         mainPanel = new JPanel(new BorderLayout());
         buttonPanel = new JPanel();
@@ -102,22 +88,6 @@ public class MyToolWindowFactory implements ToolWindowFactory {
                     ActionPlaces.UNKNOWN, action.getTemplatePresentation().clone(), customDataContext);
                 action.actionPerformed(event);
                 analyzeAction.setResultListener(this::updateUIWithAnalyzeResult);
-
-//                Project currentProject = CommonDataKeys.PROJECT.getData(dataContext);
-//                FileEditorManager fileEditorManager = FileEditorManager.getInstance(currentProject);
-//                VirtualFile[] files = fileEditorManager.getSelectedFiles();
-//                VirtualFile currentFile = files.length > 0 ? files[0] : null;
-//
-//                listModel.addElement(String.valueOf(currentProject));
-//                listModel.addElement(String.valueOf(currentFile));
-//                int detectedCount = analyzeAction.getDetectedCount();
-//                for (int i = 0; i < detectedCount; i++) {
-//                    PsiElement element = analyzeAction.getDetected(i);
-//                    if (element != null) {
-//                        listModel.addElement(String.valueOf(element));
-//                    }
-//                }
-//                listModel.addElement(String.valueOf(detectedCount));
             }
         });
 
@@ -143,56 +113,16 @@ public class MyToolWindowFactory implements ToolWindowFactory {
         toolWindow.getContentManager().addContent(contentFactory.createContent(mainPanel, "", false));
     }
 
+    /**
+     * class that add each codeSmell id and codeSmell list in listModel to be shown in toolwindow
+     *
+     * @author Hyunbin Park, Seokhwan Choi
+     */
     public void updateUIWithAnalyzeResult(Map<String, List<PsiElement>> result) {
-//        listModel.addElement(String.valueOf(result));
         List<String> actionIDs = Arrays.asList("LPL", "DLC", "ILM", "SS", "FDC", "PN", "DC");
         for (String actionID : actionIDs) {
             listModel.addElement(actionID);
             listModel.addElement(String.valueOf(result.get(actionID)));
         }
     }
-//    /**
-//     * Adds the tab into the ToolWindow.
-//     *
-//     * @param toolWindow current tool window
-//     * @param type       type of tab
-//     */
-//    public static void addTab(ToolWindow toolWindow, TabType type) {
-//        WindowInterface myWindow = windowFactory(type);
-//        Content content = toolWindow.getContentManager().getFactory()
-//                .createContent(myWindow.getContent(), type.getName(), false);
-//        toolWindow.getContentManager().addContent(content);
-//    }
-//
-//    public static WindowInterface windowFactory(TabType type) {
-//        switch (type) {
-//            case RESULT:
-//                return new AnalyzeWindow();
-//        }
-//        return null;
-//    }
-//
-//    /**
-//     * Create the tool window content.
-//     *
-//     * @param project    current project
-//     * @param toolWindow current tool window
-//     */
-//    public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-//        Arrays.asList(TabType.values())
-//                .forEach(x -> addTab(toolWindow, x));
-//    }
-//
-//    enum TabType {
-//        RESULT("Analyze Result");
-//        private final String name;
-//
-//        TabType(String name) {
-//            this.name = name;
-//        }
-//
-//        public String getName() {
-//            return name;
-//        }
-//    }
 }

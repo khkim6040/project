@@ -33,10 +33,5 @@ public class AnalyzeAction extends AnAction {
         if (resultListener != null) {
             resultListener.onAnalyzeResult(combinedResults);
         }
-//        BaseDetectAction baseDetectAction = BaseDetectManager.getInstance().getDetectActionByID("LPL");
-//        List<PsiElement> result = baseDetectAction.findSmells(e);
-//        if (resultListener != null) {
-//            resultListener.onAnalyzeResult(result);
-//        }
     }
 }
