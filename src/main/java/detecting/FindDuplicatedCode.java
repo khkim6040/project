@@ -20,7 +20,7 @@ import utils.LoadPsi;
 public class FindDuplicatedCode extends BaseDetectAction {
 
     public Project project;
-
+    
     /* Returns the story ID. */
     @Override
     public String storyID() {
@@ -51,7 +51,7 @@ public class FindDuplicatedCode extends BaseDetectAction {
      * Method that checks duplicated code
      *
      * @param e AnActionEvent
-     * @return smelly PsiElmment list
+     * @return list of smelly PsiElement
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
