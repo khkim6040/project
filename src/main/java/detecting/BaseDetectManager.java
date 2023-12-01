@@ -48,6 +48,8 @@ public class BaseDetectManager {
                 return new DeadCode();
             case "MC":
                 return new MessageChain();
+            case "CM":
+                return new Comments();
 
             default:
                 return null;
