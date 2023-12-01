@@ -1,5 +1,7 @@
 package ui;
 
+import static ui.UserProperties.initializeParam;
+
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.components.JBScrollPane;
@@ -27,6 +29,13 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
     private Project project;
 
     public CustomizePopupGUI(@Nullable Project p, AnActionEvent e) throws IOException {
+        project = p;
+        try {
+            HandleConfig.getHandler(project);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        initializeParam();
         data = new Object[][]{
             {"Long Method (Lines of code)", UserProperties.getParam("ILM")},
             {"Large Class (Number of fields)", UserProperties.getParam("DLC_F")},
@@ -64,6 +73,7 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
         if (column == 1) {
             TableModel model = (TableModel) e.getSource();
             String str = (String) model.getValueAt(row, column);
+            System.out.println(str);
             try {
                 if (!(Integer.parseInt(str) > 0)) {
                     JOptionPane.showMessageDialog(this, "Not valid input. Please enter integer bigger than 0.",
@@ -91,7 +101,7 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
                             break;
                     }
                 }
-            } catch (NumberFormatException exception) {
+            } catch (NumberFormatException | IOException exception) {
                 JOptionPane.showMessageDialog(this, "Not valid input. Please enter integer bigger than 0.", "Warning",
                     JOptionPane.WARNING_MESSAGE);
             }
