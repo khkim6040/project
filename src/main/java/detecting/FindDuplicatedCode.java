@@ -20,7 +20,7 @@ import utils.LoadPsi;
 public class FindDuplicatedCode extends BaseDetectAction {
 
     public Project project;
-    
+
     /* Returns the story ID. */
     @Override
     public String storyID() {

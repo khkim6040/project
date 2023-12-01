@@ -59,7 +59,7 @@ public class IdentifyLongMethod extends BaseDetectAction {
     public List<PsiElement> findSmells(AnActionEvent e) {
         List<PsiElement> longMethods = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
-        
+
         int userDefinedMaxLineCount = UserProperties.getParam(storyID());
 
         for (PsiElement element : psiFile.getChildren()) {
