@@ -24,4 +24,5 @@ public class TestFindDuplicatedCode {
             int c = 0;
         }
     }
+
 }

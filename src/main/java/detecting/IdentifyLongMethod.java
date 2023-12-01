@@ -53,13 +53,13 @@ public class IdentifyLongMethod extends BaseDetectAction {
      * Method that checks whether candidate method is long method
      *
      * @param e AnActionEvent
-     * @return true if method has code smell, is long method
+     * @return list of smelly PsiElement
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
         List<PsiElement> longMethods = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
-        
+
         int userDefinedMaxLineCount = UserProperties.getParam(storyID());
 
         for (PsiElement element : psiFile.getChildren()) {
@@ -78,7 +78,8 @@ public class IdentifyLongMethod extends BaseDetectAction {
     /**
      * Helper method to check if a method is considered 'long'.
      *
-     * @param method PsiMethod
+     * @param method       PsiMethod
+     * @param maxLineCount maximum line count
      * @return true if the method is longer than a set threshold
      */
     private boolean detectSmell(PsiMethod method, int maxLineCount) {
