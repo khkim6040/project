@@ -3,10 +3,9 @@ package ui;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -15,6 +14,7 @@ import java.io.IOException;
  * @author Jinmin Goh, Seokhwan Choi
  */
 public class CustomizeAction extends AnAction {
+
     /**
      * Invoke when CustomizePopupGUI(Tools > CodeScent > Customize) action is performed.
      *
@@ -23,7 +23,9 @@ public class CustomizeAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         Project project = e.getProject();
-        if (project == null) return;
+        if (project == null) {
+            return;
+        }
 
         CustomizePopupGUI dialog = null;
         try {

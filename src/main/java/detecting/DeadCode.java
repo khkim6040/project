@@ -1,19 +1,20 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiVariable;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.psi.util.PsiTreeUtil;
-
 import java.util.ArrayList;
 import java.util.List;
+import utils.LoadPsi;
 
 
-public class DeadCode extends BaseDetectAction{
+public class DeadCode extends BaseDetectAction {
+
     public Project project;
     //private PsiMethod focusMethod;
 
@@ -33,7 +34,7 @@ public class DeadCode extends BaseDetectAction{
     @Override
     public String description() {
         return "<html>When variable or method is not used<br/>" +
-                " ,detect it as code smell deadcode.</html>";
+            " ,detect it as code smell deadcode.</html>";
     }
 
     /* Returns the precondition of each story. (in html-style) */
@@ -46,29 +47,23 @@ public class DeadCode extends BaseDetectAction{
      * Method that checks whether candidate method is long method
      *
      * @param e AnActionEvent
-     * @return true if method has code smell, is long method
+     * @return list of smelly PsiElement
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
-        Project project = e.getProject();
-        assert project != null;
-
-        Editor editor = e.getData(CommonDataKeys.EDITOR);
-        assert editor != null;
-        Document document = editor.getDocument();
-        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-        assert (psiFile instanceof PsiJavaFile);
+        PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
         List<PsiVariable> variables = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiVariable.class));
         List<PsiMethod> methods = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiMethod.class));
-        List<PsiElement> members= new ArrayList<>();
+        List<PsiElement> members = new ArrayList<>();
         List<PsiElement> deadElement = new ArrayList<>();
         members.addAll(variables);
         members.addAll(methods);
 
-        for (PsiElement member : members){
-            if(detectSmell(member))
+        for (PsiElement member : members) {
+            if (detectSmell(member)) {
                 deadElement.add(member);
+            }
         }
         return deadElement;
     }
@@ -76,7 +71,7 @@ public class DeadCode extends BaseDetectAction{
     /**
      * Helper method to check if a variable or method is not 'long'.
      *
-     * @param method PsiMethod
+     * @param element PsiElement
      * @return true if the method is longer than a set threshold
      */
     private boolean detectSmell(PsiElement element) {

@@ -1,14 +1,18 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
-
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiCodeBlock;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiMethod;
 import java.util.ArrayList;
 import java.util.List;
+import ui.UserProperties;
+import utils.LoadPsi;
 
 /**
  * Class to provide detecting: 'LongMethod'
@@ -36,7 +40,7 @@ public class IdentifyLongMethod extends BaseDetectAction {
     @Override
     public String description() {
         return "<html>When there are too many lines in the method<br/>" +
-                " ,detect it as code smell long method.</html>";
+            " ,detect it as code smell long method.</html>";
     }
 
     /* Returns the precondition of each story. (in html-style) */
@@ -49,30 +53,14 @@ public class IdentifyLongMethod extends BaseDetectAction {
      * Method that checks whether candidate method is long method
      *
      * @param e AnActionEvent
-     * @return true if method has code smell, is long method
+     * @return list of smelly PsiElement
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
         List<PsiElement> longMethods = new ArrayList<>();
-        Project project = e.getProject();
-        if (project == null) {
-            return longMethods;
-        }
+        PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        Editor editor = e.getData(CommonDataKeys.EDITOR);
-        if (editor == null) {
-            return longMethods;
-        }
-        Document document = editor.getDocument();
-
-        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document);
-        if (psiFile == null) {
-            return longMethods;
-        }
-
-//        int userDefinedMaxLineCount = getUserDefinedMaxLineCount(project, 25);
-        // 25 is the default value
-        int userDefinedMaxLineCount = 25;
+        int userDefinedMaxLineCount = UserProperties.getParam(storyID());
 
         for (PsiElement element : psiFile.getChildren()) {
             if (element instanceof PsiClass) {
@@ -90,7 +78,8 @@ public class IdentifyLongMethod extends BaseDetectAction {
     /**
      * Helper method to check if a method is considered 'long'.
      *
-     * @param method PsiMethod
+     * @param method       PsiMethod
+     * @param maxLineCount maximum line count
      * @return true if the method is longer than a set threshold
      */
     private boolean detectSmell(PsiMethod method, int maxLineCount) {
