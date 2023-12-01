@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class MyToolWindowAction extends AnAction {
 
     /**
-     * Invoke when MyToolWindow(Tools > Show Graph) action is performed
+     * Invoke when MyToolWindow(Tools > CodeScent) action is performed
      *
      * @param e action event.
      */
