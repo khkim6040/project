@@ -119,7 +119,8 @@ public class MyToolWindowFactory implements ToolWindowFactory {
      * @author Hyunbin Park, Seokhwan Choi
      */
     public void updateUIWithAnalyzeResult(Map<String, List<PsiElement>> result) {
-        List<String> actionIDs = Arrays.asList("LPL", "DLC", "ILM", "SS", "FDC", "PN", "DC");
+        List<String> actionIDs = Arrays.asList("LPL", "DLC_F", "DLC_M", "ILM", "SS", "FDC", "PN", "DC", "MC", "CM");
+        listModel.removeAllElements();
         for (String actionID : actionIDs) {
             listModel.addElement(actionID);
             listModel.addElement(String.valueOf(result.get(actionID)));
