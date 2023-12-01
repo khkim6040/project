@@ -13,8 +13,9 @@ import org.jetbrains.annotations.NotNull;
  * @author Jinmin Goh, Seokhwan Choi
  */
 public class MyToolWindowAction extends AnAction {
+
     /**
-     * Invoke when MyToolWindow(Tools > Show Graph) action is performed
+     * Invoke when MyToolWindow(Tools > CodeScent) action is performed
      *
      * @param e action event.
      */
@@ -24,7 +25,8 @@ public class MyToolWindowAction extends AnAction {
         assert proj != null;
 
         ToolWindow win = ToolWindowManager.getInstance(proj).getToolWindow("Code Scent");
-        if (win != null && win.isAvailable())
+        if (win != null && win.isAvailable()) {
             win.activate(null);
+        }
     }
 }
