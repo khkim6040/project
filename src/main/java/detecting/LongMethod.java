@@ -19,7 +19,7 @@ import utils.LoadPsi;
  *
  * @author Jinyoung Kim
  */
-public class IdentifyLongMethod extends BaseDetectAction {
+public class LongMethod extends BaseDetectAction {
 
     public Project project;
     //private PsiMethod focusMethod;
@@ -27,13 +27,13 @@ public class IdentifyLongMethod extends BaseDetectAction {
     /* Returns the story ID. */
     @Override
     public String storyID() {
-        return "ILM";
+        return "LM";
     }
 
     /* Returns the story name as a string format for message. */
     @Override
     public String storyName() {
-        return "Identify Long Method";
+        return "Long Method";
     }
 
     /* Returns the description of each story. (in html-style) */

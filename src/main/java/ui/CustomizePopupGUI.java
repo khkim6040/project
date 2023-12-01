@@ -37,9 +37,9 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
         }
         initializeParam();
         data = new Object[][]{
-            {"Long Method (Lines of code)", UserProperties.getParam("ILM")},
-            {"Large Class (Number of fields)", UserProperties.getParam("DLC_F")},
-            {"Large Class (Number of methods)", UserProperties.getParam("DLC_M")},
+            {"Long Method (Lines of code)", UserProperties.getParam("LM")},
+            {"Large Class (Number of fields)", UserProperties.getParam("LCF")},
+            {"Large Class (Number of methods)", UserProperties.getParam("LCM")},
             {"Long Parameter List (Parameter count)", UserProperties.getParam("LPL")},
             {"Message Chain (Length)", UserProperties.getParam("MC")},
             {"Comments;Low Level (Lines of comments)", UserProperties.getParam("COM")}
@@ -82,13 +82,13 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
                 } else {
                     switch (row) {
                         case 0:
-                            UserProperties.setILM(Integer.parseInt(str));
+                            UserProperties.setLM(Integer.parseInt(str));
                             break;
                         case 1:
-                            UserProperties.setDLC_F(Integer.parseInt(str));
+                            UserProperties.setLCF(Integer.parseInt(str));
                             break;
                         case 2:
-                            UserProperties.setDLC_M(Integer.parseInt(str));
+                            UserProperties.setLCM(Integer.parseInt(str));
                             break;
                         case 3:
                             UserProperties.setLPL(Integer.parseInt(str));

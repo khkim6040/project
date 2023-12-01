@@ -29,8 +29,8 @@ public abstract class SmellDetectorTest extends LightJavaCodeInsightFixtureTestC
     /**
      * Test detectSmell() and check the result
      *
-     * @param testNum       the number of test cases
-     * @param expectedCount the number of expected smells
+     * @param testNum            the number of test cases
+     * @param expectedSmellCount the number of expected smells
      */
     protected void doDetectSmellTest(int testNum, int expectedSmellCount) {
         myFixture.configureByFiles(getBasePath() + "/test" + testNum + ".java");

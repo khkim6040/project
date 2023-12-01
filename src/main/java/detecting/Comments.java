@@ -26,7 +26,7 @@ public class Comments extends BaseDetectAction {
     /* Returns the story ID. */
     @Override
     public String storyID() {
-        return "CM";
+        return "COM";
     }
 
     /* Returns the story name as a string format for message. */

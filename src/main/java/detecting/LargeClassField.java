@@ -16,20 +16,20 @@ import utils.LoadPsi;
  *
  * @author Jinyoung Kim
  */
-public class DetectLargeClassField extends BaseDetectAction {
+public class LargeClassField extends BaseDetectAction {
 
     public Project project;
 
     /* Returns the story ID. */
     @Override
     public String storyID() {
-        return "DLC_F";
+        return "LCF";
     }
 
     /* Returns the story name as a string format for message. */
     @Override
     public String storyName() {
-        return "Detect Large Class Field";
+        return "Large Class based on number of fields";
     }
 
     /* Returns the description of each story. (in html-style) */
@@ -39,7 +39,6 @@ public class DetectLargeClassField extends BaseDetectAction {
             " ,detect it as code smell large class.</html>";
     }
 
-    /* Returns the precondition of each story. (in html-style) */
     @Override
     public String precondition() {
         return "<html>There are more fields in the class than a set standard</html>";

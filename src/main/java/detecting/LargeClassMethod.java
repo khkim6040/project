@@ -16,20 +16,20 @@ import utils.LoadPsi;
  *
  * @author Jinyoung Kim
  */
-public class DetectLargeClassMethod extends BaseDetectAction {
+public class LargeClassMethod extends BaseDetectAction {
 
     public Project project;
 
     /* Returns the story ID. */
     @Override
     public String storyID() {
-        return "DLC_M";
+        return "LCM";
     }
 
     /* Returns the story name as a string format for message. */
     @Override
     public String storyName() {
-        return "Detect Large Class Method";
+        return "Large Class based on number of methods";
     }
 
     /* Returns the description of each story. (in html-style) */

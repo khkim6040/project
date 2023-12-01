@@ -1,5 +1,5 @@
 import detecting.BaseDetectAction;
-import detecting.DetectLargeClassMethod;
+import detecting.LargeClassMethod;
 
 /**
  * Test for detecting large class due to methods
@@ -7,19 +7,19 @@ import detecting.DetectLargeClassMethod;
  * @author Jinyoung Kim
  */
 
-public class DetectLargeClassMethodTest extends SmellDetectorTest {
+public class LargeClassMethodTest extends SmellDetectorTest {
 
     @Override
     protected String getBasePath() {
-        return super.getBasePath() + "/DetectLargeClassMethod";
+        return super.getBasePath() + "/LargeClassMethod";
     }
 
     @Override
     protected BaseDetectAction getDetectAction() {
-        return new DetectLargeClassMethod();
+        return new LargeClassMethod();
     }
 
-    public void testDetectLargeClassMethod1() {
+    public void testLargeClassMethod1() {
         doDetectSmellTest(1, 1);
     }
 }

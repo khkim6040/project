@@ -1,5 +1,5 @@
 import detecting.BaseDetectAction;
-import detecting.DetectLargeClassField;
+import detecting.LargeClassField;
 
 /**
  * Test for detecting large class due to fields
@@ -7,19 +7,19 @@ import detecting.DetectLargeClassField;
  * @author Jinyoung Kim
  */
 
-public class DetectLargeClassFieldTest extends SmellDetectorTest {
+public class LargeClassFieldTest extends SmellDetectorTest {
 
     @Override
     protected String getBasePath() {
-        return super.getBasePath() + "/DetectLargeClassField";
+        return super.getBasePath() + "/LargeClassField";
     }
 
     @Override
     protected BaseDetectAction getDetectAction() {
-        return new DetectLargeClassField();
+        return new LargeClassField();
     }
 
-    public void testDetectLargeClassField1() {
+    public void testLargeClassField1() {
         doDetectSmellTest(1, 1);
     }
 }

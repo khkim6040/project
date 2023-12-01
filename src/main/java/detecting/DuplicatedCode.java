@@ -17,23 +17,22 @@ import utils.LoadPsi;
  *
  * @author Chanho Song
  */
-public class FindDuplicatedCode extends BaseDetectAction {
+public class DuplicatedCode extends BaseDetectAction {
 
     public Project project;
 
     /* Returns the story ID. */
     @Override
     public String storyID() {
-        return "FDC";
+        return "DPC";
     }
 
     /* Returns the story name as a string format, for message. */
     @Override
     public String storyName() {
-        return "Find Duplicated Code";
+        return "Duplicated Code";
     }
 
-    /* Returns the description of each story. (in html-style) */
     @Override
     public String description() {
         return "<html>When there duplicated code. <br/>" +
@@ -71,7 +70,6 @@ public class FindDuplicatedCode extends BaseDetectAction {
             }
 
             if (!uniqueBlocks.add(blockText)) {
-                // find the duplicated code
                 duplicatedCodeBlocks.add(block);
             }
         }

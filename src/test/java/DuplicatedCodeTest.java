@@ -1,24 +1,24 @@
 import detecting.BaseDetectAction;
-import detecting.FindDuplicatedCode;
+import detecting.DuplicatedCode;
 
 /**
  * Test for detecting: 'Duplicated code'
  *
  * @author Chanho Song
  */
-public class FindDuplicatedCodeTest extends SmellDetectorTest {
+public class DuplicatedCodeTest extends SmellDetectorTest {
 
     @Override
     protected String getBasePath() {
-        return super.getBasePath() + "/FindDuplicatedCode";
+        return super.getBasePath() + "/DuplicatedCode";
     }
 
     @Override
     protected BaseDetectAction getDetectAction() {
-        return new FindDuplicatedCode();
+        return new DuplicatedCode();
     }
 
-    public void testFindDuplicatedCode1() {
+    public void testDuplicatedCode1() {
         doDetectSmellTest(1, 1);
     }
 }

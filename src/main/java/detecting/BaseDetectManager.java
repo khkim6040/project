@@ -32,23 +32,23 @@ public class BaseDetectManager {
             // Priority 1 functions
             case "LPL":
                 return new LongParameterList();
-            case "DLC_F":
-                return new DetectLargeClassField();
-            case "DLC_M":
-                return new DetectLargeClassMethod();
-            case "ILM":
-                return new IdentifyLongMethod();
+            case "LCF":
+                return new LargeClassField();
+            case "LCM":
+                return new LargeClassMethod();
+            case "LM":
+                return new LongMethod();
             case "SS":
                 return new SwitchStatement();
-            case "FDC":
-                return new FindDuplicatedCode();
+            case "DPC":
+                return new DuplicatedCode();
             case "PN":
                 return new PoorName();
             case "DC":
                 return new DeadCode();
             case "MC":
                 return new MessageChain();
-            case "CM":
+            case "COM":
                 return new Comments();
 
             default:

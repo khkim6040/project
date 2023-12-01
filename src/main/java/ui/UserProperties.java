@@ -9,18 +9,18 @@ import java.io.IOException;
  */
 public class UserProperties {
 
-    private static int ILM = 25;
-    private static int DLC_F = 6;
-    private static int DLC_M = 10;
+    private static int LM = 25;
+    private static int LCF = 6;
+    private static int LCM = 10;
     private static int LPL = 5;
     private static int MC = 5;
     private static int COM = 5;
 
     public static int getParam(String storyID) {
         return switch (storyID) {
-            case "ILM" -> ILM;
-            case "DLC_M" -> DLC_M;
-            case "DLC_F" -> DLC_F;
+            case "LM" -> LM;
+            case "LCM" -> LCM;
+            case "LCF" -> LCF;
             case "LPL" -> LPL;
             case "MC" -> MC;
             case "COM" -> COM;
@@ -32,19 +32,19 @@ public class UserProperties {
         HandleConfig.initializeConfig();
     }
 
-    public static void setILM(int ILM) throws IOException {
-        UserProperties.ILM = ILM;
-        HandleConfig.setConfigParam("ILM", UserProperties.ILM);
+    public static void setLM(int LM) throws IOException {
+        UserProperties.LM = LM;
+        HandleConfig.setConfigParam("LM", UserProperties.LM);
     }
 
-    public static void setDLC_M(int DLC_M) throws IOException {
-        UserProperties.DLC_M = DLC_M;
-        HandleConfig.setConfigParam("DLC_M", UserProperties.DLC_M);
+    public static void setLCM(int LCM) throws IOException {
+        UserProperties.LCM = LCM;
+        HandleConfig.setConfigParam("LCM", UserProperties.LCM);
     }
 
-    public static void setDLC_F(int DLC_F) throws IOException {
-        UserProperties.DLC_F = DLC_F;
-        HandleConfig.setConfigParam("DLC_F", UserProperties.DLC_F);
+    public static void setLCF(int LCF) throws IOException {
+        UserProperties.LCF = LCF;
+        HandleConfig.setConfigParam("LCF", UserProperties.LCF);
     }
 
     public static void setLPL(int LPL) throws IOException {

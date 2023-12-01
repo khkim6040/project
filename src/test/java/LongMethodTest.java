@@ -1,24 +1,24 @@
 import detecting.BaseDetectAction;
-import detecting.IdentifyLongMethod;
+import detecting.LongMethod;
 
 /**
  * Test for detecting: 'LongMethod'
  *
  * @author Jinyoung Kim
  */
-public class IdentifyLongMethodTest extends SmellDetectorTest {
+public class LongMethodTest extends SmellDetectorTest {
 
     @Override
     protected String getBasePath() {
-        return super.getBasePath() + "/IdentifyLongMethod";
+        return super.getBasePath() + "/LongMethod";
     }
 
     @Override
     protected BaseDetectAction getDetectAction() {
-        return new IdentifyLongMethod();
+        return new LongMethod();
     }
 
-    public void testIdentifyLongMethod1() {
+    public void testLongMethod1() {
         doDetectSmellTest(1, 1);
     }
 }

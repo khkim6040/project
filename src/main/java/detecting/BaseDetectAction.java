@@ -57,7 +57,6 @@ public abstract class BaseDetectAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        // TODO: insert action logic here
         // Check if the current context has a code smell
         List<PsiElement> smellList = findSmells(e);
 

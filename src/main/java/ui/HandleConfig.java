@@ -1,9 +1,9 @@
 package ui;
 
 import static ui.UserProperties.setCOM;
-import static ui.UserProperties.setDLC_F;
-import static ui.UserProperties.setDLC_M;
-import static ui.UserProperties.setILM;
+import static ui.UserProperties.setLCF;
+import static ui.UserProperties.setLCM;
+import static ui.UserProperties.setLM;
 import static ui.UserProperties.setLPL;
 import static ui.UserProperties.setMC;
 
@@ -45,9 +45,9 @@ public class HandleConfig {
         }
         fis = new FileInputStream(configFile);
         // if file exists, set userProperties
-        setILM(getConfigParam("ILM"));
-        setDLC_M(getConfigParam("DLC_M"));
-        setDLC_F(getConfigParam("DLC_F"));
+        setLM(getConfigParam("LM"));
+        setLCM(getConfigParam("LCM"));
+        setLCF(getConfigParam("LCF"));
         setLPL(getConfigParam("LPL"));
         setMC(getConfigParam("MC"));
         setCOM(getConfigParam("COM"));
@@ -75,9 +75,9 @@ public class HandleConfig {
         try {
             file.createNewFile();
             FileWriter myWriter = new FileWriter(configPath);
-            myWriter.write("ILM=25\n");
-            myWriter.write("DLC_M=6\n");
-            myWriter.write("DLC_F=10\n");
+            myWriter.write("LM=25\n");
+            myWriter.write("LCM=6\n");
+            myWriter.write("LCF=10\n");
             myWriter.write("LPL=5\n");
             myWriter.write("MC=5\n");
             myWriter.write("COM=5\n");
