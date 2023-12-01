@@ -50,7 +50,7 @@ public class PoorName extends BaseDetectAction {
      * Method that checks whether candidate method has long parameter list
      *
      * @param e AnActionEvent
-     * @return true if method has smell code
+     * @return list of smelly PsiElement
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {

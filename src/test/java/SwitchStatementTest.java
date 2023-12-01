@@ -12,7 +12,7 @@ public class SwitchStatementTest extends SmellDetectorTest {
     protected BaseDetectAction getDetectAction() {
         return new SwitchStatement();
     }
-    
+
     public void testSwitchStatement1() {
         doDetectSmellTest(1, 1);
     }

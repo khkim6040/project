@@ -50,10 +50,6 @@
             <add-to-group group-id="MainMenu" anchor="first"/>
         </action>
 
-        <action id="detecting.DLC" class="detecting.DetectLargeClass" text="DetectLargeClass"
-                description="Implementation for DetectLargeClass">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
 
         <action id="detecting.SS" class="detecting.SwitchStatement" text="SwitchStatement"
                 description="Implementation for SwitchStatement">
@@ -68,5 +64,18 @@
             </action>
             <action id="Customize" class="ui.CustomizeAction" text="Customize">
             </action>
-        </group>    </actions>
+        </group>
+      <action id="MessageChain" class="detecting.MessageChain" text="MessageChain"
+        description="MessageChain">
+        <add-to-group group-id="MainMenu" anchor="first"/>
+      </action>
+      <action id="DetectLargeClassMethod" class="detecting.DetectLargeClassMethod"
+        text="DetectLargeClassMethod" description="DetectLargeClassMethod">
+        <add-to-group group-id="MainMenu" anchor="first"/>
+      </action>
+        <action id="DetectLargeClassField" class="detecting.DetectLargeClassField"
+          text="DetectLargeClassField" description="DetectLargeClassField">
+            <add-to-group group-id="MainMenu" anchor="first"/>
+        </action>
+    </actions>
 </idea-plugin>

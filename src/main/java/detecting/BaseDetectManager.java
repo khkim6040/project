@@ -32,8 +32,10 @@ public class BaseDetectManager {
             // Priority 1 functions
             case "LPL":
                 return new LongParameterList();
-            case "DLC":
-                return new DetectLargeClass();
+            case "DLC_F":
+                return new DetectLargeClassField();
+            case "DLC_M":
+                return new DetectLargeClassMethod();
             case "ILM":
                 return new IdentifyLongMethod();
             case "SS":
@@ -44,6 +46,8 @@ public class BaseDetectManager {
                 return new PoorName();
             case "DC":
                 return new DeadCode();
+            case "MC":
+                return new MessageChain();
 
             default:
                 return null;
