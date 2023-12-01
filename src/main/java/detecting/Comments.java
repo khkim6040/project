@@ -72,8 +72,8 @@ public class Comments extends BaseDetectAction {
     /**
      * Helper method to check the comments smell.
      *
-     * @param
-     * @return
+     * @param PsiComment comment
+     * @return true if it is a smelly comments, otherwise false.
      */
     private boolean detectSmell(PsiComment comment) {
         String commentText = comment.getText();
