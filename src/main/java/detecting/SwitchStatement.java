@@ -3,7 +3,6 @@ package detecting;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.psi.PsiCodeBlock;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiExpression;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiIfStatement;
 import com.intellij.psi.PsiRecursiveElementVisitor;
@@ -111,20 +110,11 @@ public class SwitchStatement extends BaseDetectAction {
     private boolean detectSmell(PsiStatement statement) {
         List<Map<String, PsiType>> castingMapList = new ArrayList<>();
 
-        if (statement == null) {
-            return false;
-        }
-
         if (statement instanceof PsiIfStatement) {
             PsiIfStatement ifstatement = (PsiIfStatement) statement;
 
-            PsiExpression condition = ifstatement.getCondition();
             PsiStatement thenBranch = ifstatement.getThenBranch();
             PsiStatement elseBranch = ifstatement.getElseBranch();
-
-            if (!condition.getText().contains("instanceof")) {
-                return false;
-            }
 
             if (CreateCastingMap(thenBranch) != null) {
                 castingMapList.add(CreateCastingMap(thenBranch));
@@ -182,8 +172,12 @@ public class SwitchStatement extends BaseDetectAction {
     }
 
     private boolean FindMultiCastedObject(List<Map<String, PsiType>> castingMapList) {
+        if (castingMapList.isEmpty()) {
+            return false;
+        }
+
         Set<String> commonKeys = castingMapList.get(0).keySet();
-        System.out.println(castingMapList);
+
         for (Map<String, PsiType> map : castingMapList) {
             commonKeys.retainAll(map.keySet());
         }

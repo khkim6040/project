@@ -28,4 +28,9 @@ public class SwitchStatementTest extends SmellDetectorTest {
     public void testSwitchStatement4() {
         doDetectSmellTest(4, 1);
     }
+
+    public void testSwitchStatement5() {
+        doDetectSmellTest(5, 0);
+    }
+
 }
