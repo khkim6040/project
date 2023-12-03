@@ -3,10 +3,11 @@ package ui;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiCodeBlock;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiLiteralExpression;
+import com.intellij.psi.PsiLocalVariable;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiParameter;
 import com.intellij.psi.PsiStatement;
@@ -72,6 +73,12 @@ public class TreeStructureWindow extends Tree {
                     } else if (v instanceof PsiParameter) {
                         setIcon(Icon3);
                         append(((PsiParameter) v).getName());
+                    } else if (v instanceof PsiLocalVariable) {
+                        setIcon(Icon3);
+                        append(((PsiLocalVariable) v).getName());
+                    } else if (v instanceof PsiCodeBlock) {
+                        setIcon(Icon3);
+                        append(((PsiCodeBlock) v).getText());
                     } else if (v instanceof PsiStatement) {
                         setIcon(Icon3);
 
@@ -85,10 +92,6 @@ public class TreeStructureWindow extends Tree {
                             }
                         }
                         append("[" + fileName + "]" + " Line " + String.valueOf(line));
-                    } else if (v instanceof PsiLiteralExpression) {
-                        setIcon(Icon3);
-                        String fileName = ((PsiLiteralExpression) v).getContainingFile().getName();
-                        append("[" + fileName + "] " + ((PsiLiteralExpression) v).getValue().toString());
                     }
                 }
 
