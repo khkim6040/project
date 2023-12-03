@@ -108,7 +108,7 @@ public class MessageChain extends BaseDetectAction {
             foundSmells.add(statement);
         }
 
-        // Check inside if, while, for loops
+        // Check message chains inside if, while, for loops
         if (statement instanceof PsiIfStatement) {
             detectSmellInLoop(((PsiIfStatement) statement).getThenBranch(), foundSmells, chainLength);
             detectSmellInLoop(((PsiIfStatement) statement).getElseBranch(), foundSmells, chainLength);
@@ -122,33 +122,38 @@ public class MessageChain extends BaseDetectAction {
     }
 
     private boolean isChainInStatement(PsiStatement statement, int chainLength) {
-        if (statement instanceof PsiExpressionStatement) {
+        if (statement instanceof PsiExpressionStatement) { // a.method1().method2()
             PsiExpression expression = ((PsiExpressionStatement) statement).getExpression();
             return calculateChainLength(expression) > chainLength;
-        } else if (statement instanceof PsiDeclarationStatement) {
+        } else if (statement instanceof PsiDeclarationStatement) {  // int a = b.method1().method2()
             PsiDeclarationStatement declarationStatement = (PsiDeclarationStatement) statement;
             for (PsiElement element : declarationStatement.getDeclaredElements()) {
                 if (element instanceof PsiVariable) {
+                    // If declared element is variable, checks the initializer of the variable for message chain
                     PsiExpression initializer = ((PsiVariable) element).getInitializer();
                     if (initializer != null && calculateChainLength(initializer) > chainLength) {
                         return true;
                     }
                 }
             }
-        } else if (statement instanceof PsiReturnStatement) {
+        } else if (statement instanceof PsiReturnStatement) { // return object.method1().method2();
             PsiExpression returnExpression = ((PsiReturnStatement) statement).getReturnValue();
             return returnExpression != null && calculateChainLength(returnExpression) > chainLength;
         } else if (statement instanceof PsiIfStatement) {
+            // check the condition of if statement for message chain
             PsiExpression condition = ((PsiIfStatement) statement).getCondition();
             return condition != null && calculateChainLength(condition) > chainLength;
         } else if (statement instanceof PsiWhileStatement) {
+            // check the condition of while statement for message chain
             PsiExpression condition = ((PsiWhileStatement) statement).getCondition();
             return condition != null && calculateChainLength(condition) > chainLength;
         } else if (statement instanceof PsiForStatement) {
+            // check the condition of for statement for message chain
             PsiForStatement forStatement = (PsiForStatement) statement;
             PsiExpression condition = forStatement.getCondition();
             return condition != null && calculateChainLength(condition) > chainLength;
         } else if (statement instanceof PsiSwitchStatement) {
+            // check the condition of switch statement for message chain
             PsiSwitchStatement switchStatement = (PsiSwitchStatement) statement;
             PsiExpression switchExpression = switchStatement.getExpression();
             return switchExpression != null && calculateChainLength(switchExpression) > chainLength;
