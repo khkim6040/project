@@ -103,7 +103,7 @@ public class DeadCode extends BaseDetectAction {
     private boolean isMainMethod(PsiMethod method) {
         return method.getName().equals("main") &&
             method.getParameterList().getParametersCount() == 1 &&
-            method.getParameterList().getParameters()[0].getType().getCanonicalText().equals("java.lang.String[]");
+            method.getParameterList().getParameters()[0].getType().getCanonicalText().equals("String[]");
     }
 }
 
