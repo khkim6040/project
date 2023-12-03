@@ -1,4 +1,5 @@
-public class TestIdentifyLongMethod {
+public class TestLongMethod {
+
     /**
      * An example method with a long method code smell.
      * This method has 43 lines of code.
@@ -6,7 +7,7 @@ public class TestIdentifyLongMethod {
      * @author Jinyoung Kim
      */
     public static void main(String[] args) {
-        TestIdentifyLongMethod example = new TestIdentifyLongMethod();
+        TestLongMethod example = new TestLongMethod();
         example.tooLongMethod();
     }
 

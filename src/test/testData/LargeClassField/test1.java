@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * @author Jinyoung Kim
  */
-public class TestDetectLargeClassField {
+public class TestLargeClassField {
 
     // Fields related to students
     private final Map<Integer, String> studentNames;
@@ -25,7 +25,7 @@ public class TestDetectLargeClassField {
     private final Map<Integer, Integer> courseCredits;
 
     // Constructor
-    public TestDetectLargeClassField() {
+    public TestLargeClassField() {
         studentNames = new HashMap<>();
         studentGrades = new HashMap<>();
         studentCourses = new HashMap<>();
@@ -44,7 +44,7 @@ public class TestDetectLargeClassField {
     public void addTeacher(String name) {
         teacherNames.add(name);
     }
-    
+
     // Methods for managing courses
     public void addCourse(int courseId, String courseName, int credits) {
         courseNames.put(courseId, courseName);

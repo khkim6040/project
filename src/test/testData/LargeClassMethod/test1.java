@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * @author Jinyoung Kim, Gwanho Kim
  */
-public class TestDetectLargeClassMethod {
+public class TestLargeClassMethod {
 
     // Fields related to students
     private final Map<Integer, String> studentNames;
@@ -23,7 +23,7 @@ public class TestDetectLargeClassMethod {
 
 
     // Constructor
-    public TestDetectLargeClassMethod() {
+    public TestLargeClassMethod() {
         studentNames = new HashMap<>();
         teacherNames = new ArrayList<>();
         courseNames = new HashMap<>();
