@@ -27,5 +27,10 @@ public class DeadCodeTest extends SmellDetectorTest {
 
     public void testDeadCode3() {
         doDetectSmellTest(3, 1);
+
+    }
+
+    public void testDeadCode4() {
+        doDetectSmellTest(4, 0);
     }
 }
