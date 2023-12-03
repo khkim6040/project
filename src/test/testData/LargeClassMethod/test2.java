@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * An example class with a large class code smell due to many methods.
- * This class has 11 methods.
+ * An example class with not an example of large class code smell due to many methods.
+ * This class has 6 methods, which is less than 4 methods (default number)
  *
- * @author Jinyoung Kim, Gwanho Kim
+ * @author Jinyoung Kim
  */
 public class TestLargeClassMethod {
 
@@ -35,17 +35,9 @@ public class TestLargeClassMethod {
         studentGrades.put(studentId, grade);
     }
 
-    public void enrollStudentInCourse(int studentId, int courseId) {
-        studentCourses.computeIfAbsent(studentId, k -> new ArrayList<>()).add(courseId);
-    }
-
     // Methods for managing teachers
     public void addTeacher(String name) {
         teacherNames.add(name);
-    }
-
-    public void assignSubjectToTeacher(String teacherName, String subject) {
-        teacherSubjects.put(teacherName, subject);
     }
 
     // Methods for managing courses
@@ -54,20 +46,4 @@ public class TestLargeClassMethod {
         courseCredits.put(courseId, credits);
     }
 
-    public void assignTeacherToCourse(int courseId, String teacherName) {
-        courseTeachers.put(courseId, teacherName);
-    }
-
-    public void assignStudentToCourse(int courseId, int studentId) {
-        courseStudents.computeIfAbsent(courseId, k -> new ArrayList<>()).add(studentId);
-    }
-
-    // Methods for getting information
-    public String getStudentName(int studentId) {
-        return studentNames.get(studentId);
-    }
-
-    public double getStudentGrade(int studentId) {
-        return studentGrades.get(studentId);
-    }
 }
