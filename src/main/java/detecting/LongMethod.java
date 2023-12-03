@@ -86,7 +86,7 @@ public class LongMethod extends BaseDetectAction {
 
         PsiCodeBlock methodBody = method.getBody();
         if (methodBody == null) {
-            return false; // Method is abstract or similar
+            return false;
         }
 
         // Calculate the line count based on the start and end line numbers

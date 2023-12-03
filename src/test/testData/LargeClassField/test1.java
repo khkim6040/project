@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * An example class with a large class code smell due to many fields.
- * This class has 7 fields and 3 methods.
+ * This class has 7 fields and 3 methods. (over 6 fields which is default)
  *
  * @author Jinyoung Kim
  */
