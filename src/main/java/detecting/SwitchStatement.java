@@ -63,21 +63,43 @@ public class SwitchStatement extends BaseDetectAction {
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
         List<PsiElement> smellySwitchStatement = new ArrayList<>();
+        Set<PsiIfStatement> visitedIfStatements = new HashSet<>();
+        List<PsiStatement> allStatements = new ArrayList<>(
+            PsiTreeUtil.collectElementsOfType(psiFile, PsiStatement.class));
 
-        List<PsiStatement> IfStatements = new ArrayList<>(
-            PsiTreeUtil.collectElementsOfType(psiFile, PsiIfStatement.class));
-        List<PsiStatement> SwitchStatements = new ArrayList<>(
-            PsiTreeUtil.collectElementsOfType(psiFile, PsiSwitchStatement.class));
-
-        List<PsiStatement> ConditionStatements = new ArrayList<>(IfStatements);
-        ConditionStatements.addAll(SwitchStatements);
-
-        for (PsiStatement statement : ConditionStatements) {
-            if (detectSmell(statement)) {
-                smellySwitchStatement.add(statement);
+        for (PsiStatement statement : allStatements) {
+            if (statement instanceof PsiIfStatement && !visitedIfStatements.contains(statement)) {
+                if (detectSmell(statement)) {
+                    smellySwitchStatement.add(statement);
+                }
+                trackIfElseIfChain((PsiIfStatement) statement, visitedIfStatements);
+            } else if (statement instanceof PsiSwitchStatement) {
+                if (detectSmell(statement)) {
+                    smellySwitchStatement.add(statement);
+                }
             }
         }
+
         return smellySwitchStatement;
+    }
+
+    /**
+     * To resolve an error where the else if statement is processed multiple times
+     *
+     * @param ifStatement
+     * @param visitedIfStatements
+     */
+    private void trackIfElseIfChain(PsiIfStatement ifStatement, Set<PsiIfStatement> visitedIfStatements) {
+        PsiIfStatement current = ifStatement;
+        while (current != null) {
+            visitedIfStatements.add(current);
+            PsiElement elseBranch = current.getElseBranch();
+            if (elseBranch instanceof PsiIfStatement) {
+                current = (PsiIfStatement) elseBranch;
+            } else {
+                break;
+            }
+        }
     }
 
     /**
