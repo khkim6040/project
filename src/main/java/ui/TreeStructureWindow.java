@@ -1,5 +1,7 @@
 package ui;
 
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.psi.PsiClass;
@@ -7,6 +9,7 @@ import com.intellij.psi.PsiCodeBlock;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiLocalVariable;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiParameter;
@@ -46,6 +49,20 @@ public class TreeStructureWindow extends Tree {
                 boolean expanded, boolean leaf, int row, boolean hasFocus) {
                 if (value instanceof DefaultMutableTreeNode) {
                     Object v = ((DefaultMutableTreeNode) value).getUserObject();
+                    int lineNumber = 0;
+                    String fileName = "";
+                    if (v instanceof PsiElement) {
+                        PsiElement element = (PsiElement) v;
+                        PsiFile file = element.getContainingFile();
+                        if (file != null) {
+                            Document document = FileDocumentManager.getInstance().getDocument(file.getVirtualFile());
+                            if (document != null) {
+                                int textOffset = element.getTextOffset();
+                                fileName = file.getName();
+                                lineNumber = document.getLineNumber(textOffset) + 1;
+                            }
+                        }
+                    }
                     if (v instanceof Project) { // Project
                         setIcon(Icon1);
                         append(((Project) v).getName());
@@ -54,44 +71,33 @@ public class TreeStructureWindow extends Tree {
                         append(((BaseDetectAction) v).storyName());
                     } else if (v instanceof PsiField) {
                         setIcon(Icon3);
-                        String fileName = ((PsiField) v).getContainingFile().getName();
-                        append("[" + fileName + "] " + ((PsiField) v).getName());
+                        append("[" + fileName + "] " + ((PsiField) v).getName() + ", line " + lineNumber);
                     } else if (v instanceof PsiComment) {
                         setIcon(Icon3);
-                        append(((PsiComment) v).getText());
+                        append("[" + fileName + "] Comment, line " + lineNumber);
                     } else if (v instanceof PsiClass) {
                         setIcon(Icon3);
 
                         if (((PsiClass) v).getName() == null) { // Anonymous Class
                             append("Anonymous class");
                         } else {
-                            append(((PsiClass) v).getName());
+                            append("[" + fileName + "] " + ((PsiClass) v).getName() + ", line " + lineNumber);
                         }
                     } else if (v instanceof PsiMethod) {
                         setIcon(Icon3);
-                        append(((PsiMethod) v).getName());
+                        append("[" + fileName + "] " + ((PsiMethod) v).getName() + ", line " + lineNumber);
                     } else if (v instanceof PsiParameter) {
                         setIcon(Icon3);
-                        append(((PsiParameter) v).getName());
+                        append("[" + fileName + "] " + ((PsiParameter) v).getName() + ", line " + lineNumber);
                     } else if (v instanceof PsiLocalVariable) {
                         setIcon(Icon3);
-                        append(((PsiLocalVariable) v).getName());
+                        append("[" + fileName + "] " + ((PsiLocalVariable) v).getName() + ", line " + lineNumber);
                     } else if (v instanceof PsiCodeBlock) {
                         setIcon(Icon3);
-                        append(((PsiCodeBlock) v).getText());
+                        append("[" + fileName + "] CodeBlock, line " + lineNumber);
                     } else if (v instanceof PsiStatement) {
                         setIcon(Icon3);
-
-                        String fileName = ((PsiStatement) v).getContainingFile().getName();
-                        String fileText = ((PsiStatement) v).getContainingFile().getText();
-                        int offset = ((PsiStatement) v).getTextOffset();
-                        int line = 1;
-                        for (int i = 0; i < offset; i++) {
-                            if (fileText.charAt(i) == '\n') {
-                                line++;
-                            }
-                        }
-                        append("[" + fileName + "]" + " Line " + String.valueOf(line));
+                        append("[" + fileName + "] Statement, line " + lineNumber);
                     }
                 }
 
