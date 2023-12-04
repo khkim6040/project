@@ -11,19 +11,23 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 
 /**
- * Factory Class responsible for creation of Project Structure Tree: Refactoring Techinques
+ * Factory Class responsible for creation of Project Structure Tree
+ *
+ * @author Hyunbin Park
+ * @author CSED332 2020 Wanted
  */
+
 class ProjectTreeModelFactory {
 
     /**
-     * Create a tree model that describes the 'Refactoring' structure of a java project.
+     * Create a tree model that describes the 'CodeSmell' structure of a java project.
      * This method use JavaRecursiveElementVisitor to traverse the whole project with the Java hierarchy
-     * from each root package in the source directory to the one tiny single statement,
-     * and finds out whether every particular 'Refactoring Techinque' is applicable or not.
+     * from each root package in the source directory to the one tiny single statement.
      *
-     * Instance of {@link DefaultMutableTreeNode} that can have a user object. The user object of root is the project
-     * itself, and other nodes have corresponding instances of 'Refactoring Techinque's,
-     * which has corresponding 'PsiElement's as a child. (refactoring applicable)
+     * Instance of {@link DefaultMutableTreeNode} that can have a user object.
+     * The user object of root is the project itself,
+     * and other nodes have corresponding instances of 'BaseDetectAction's,
+     * which has corresponding 'PsiElement's as a child.
      *
      * @param project a project
      * @return a tree model to describe the structure of project
@@ -32,7 +36,7 @@ class ProjectTreeModelFactory {
         // the root node of the tree
         final DefaultMutableTreeNode root = new DefaultMutableTreeNode(project);
         final Map<String, DefaultMutableTreeNode> rootRef = new HashMap<>();
-        
+
         for (String actionId : result.keySet()) {
             List<PsiElement> codeSmellElements = result.get(actionId);
             if (!actionId.isEmpty()) {
@@ -48,7 +52,7 @@ class ProjectTreeModelFactory {
      * and Adds new DefaultMutableTreeNode (PsiElement).
      *
      * @param root        Root node of this JTree
-     * @param rootRef     Map with ID Keys and corresponding 'Refactoring Technique' Nodes
+     * @param rootRef     Map with ID Keys and corresponding 'BaseDetectAction' Nodes
      * @param id          Refactoring ID
      * @param psiElements Target List of PsiElement to add
      */
@@ -74,8 +78,8 @@ class ProjectTreeModelFactory {
      * Adds new DefaultMutableTreeNode (Category) and connect to the root.
      *
      * @param root    Root node of this JTree
-     * @param rootRef Map with ID Keys and corresponding 'Refactoring Technique' Nodes
-     * @param id      Refactoring ID
+     * @param rootRef Map with ID Keys and corresponding 'BaseDetectAction' Nodes
+     * @param id      BaseDetectAction ID
      */
     private static void addCodeSmells(
         DefaultMutableTreeNode root,

@@ -35,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
  * The factory class which creates MyToolWindow on the IDE.
  *
  * @author Jinmin Goh, Seokhwan Choi
+ * @author Hyunbin Park
  */
 public class MyToolWindowFactory implements ToolWindowFactory {
 
@@ -118,9 +119,9 @@ public class MyToolWindowFactory implements ToolWindowFactory {
     }
 
     /**
-     * class that add each codeSmell id and codeSmell list in listModel to be shown in toolwindow
+     * method that update tree structure to be shown in toolwindow
      *
-     * @author Hyunbin Park, Seokhwan Choi
+     * @param result Map<String, List<PsiElement>>
      */
     public void updateUIWithAnalyzeResult(Map<String, List<PsiElement>> result) {
         mainPanel.remove(treeWindow);
@@ -131,6 +132,7 @@ public class MyToolWindowFactory implements ToolWindowFactory {
         mainPanel.add(treeWindow, BorderLayout.CENTER);
     }
 
+    // method that return ActiveProject
     private Project getActiveProject() {
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
             Window window = WindowManager.getInstance().suggestParentWindow(project);

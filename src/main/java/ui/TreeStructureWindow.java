@@ -38,6 +38,16 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A tree GUI for our Project Structure.
+ * It displays the corresponding name and icon for the nodes in our tree model using a custom cell renderer.
+ * The tree GUI detect detects double-click mouse events for PsiElement nodes,
+ * and shows the corresponding PsiElements in the editor.
+ *
+ * @author Hyunbin Park
+ * @author Seokhwan Choi
+ * @author CSED332 2020 Wanted
+ */
 
 public class TreeStructureWindow extends Tree {
 
@@ -66,7 +76,7 @@ public class TreeStructureWindow extends Tree {
                     Object v = ((DefaultMutableTreeNode) value).getUserObject();
                     int lineNumber = 0;
                     String fileName = "";
-                    if (v instanceof PsiElement) {
+                    if (v instanceof PsiElement) { // Save fileName and lineNumber
                         PsiElement element = (PsiElement) v;
                         PsiFile file = element.getContainingFile();
                         if (file != null) {
@@ -78,19 +88,20 @@ public class TreeStructureWindow extends Tree {
                             }
                         }
                     }
+
                     if (v instanceof Project) { // Project
                         setIcon(Icon1);
                         append(((Project) v).getName());
-                    } else if (v instanceof BaseDetectAction) {
+                    } else if (v instanceof BaseDetectAction) { // BaseDetectAction
                         setIcon(Icon2);
                         append(((BaseDetectAction) v).storyName());
-                    } else if (v instanceof PsiField) {
+                    } else if (v instanceof PsiField) { // PsiField
                         setIcon(Icon3);
                         append("[" + fileName + "] " + ((PsiField) v).getName() + ", line " + lineNumber);
-                    } else if (v instanceof PsiComment) {
+                    } else if (v instanceof PsiComment) { // PsiComment
                         setIcon(Icon3);
                         append("[" + fileName + "] Comment, line " + lineNumber);
-                    } else if (v instanceof PsiClass) {
+                    } else if (v instanceof PsiClass) { // PsiClass
                         setIcon(Icon3);
 
                         if (((PsiClass) v).getName() == null) { // Anonymous Class
@@ -98,19 +109,19 @@ public class TreeStructureWindow extends Tree {
                         } else {
                             append("[" + fileName + "] " + ((PsiClass) v).getName() + ", line " + lineNumber);
                         }
-                    } else if (v instanceof PsiMethod) {
+                    } else if (v instanceof PsiMethod) { // PsiMethod
                         setIcon(Icon3);
                         append("[" + fileName + "] " + ((PsiMethod) v).getName() + ", line " + lineNumber);
-                    } else if (v instanceof PsiParameter) {
+                    } else if (v instanceof PsiParameter) { // PsiParameter
                         setIcon(Icon3);
                         append("[" + fileName + "] " + ((PsiParameter) v).getName() + ", line " + lineNumber);
-                    } else if (v instanceof PsiLocalVariable) {
+                    } else if (v instanceof PsiLocalVariable) { // PsiLocalVariable
                         setIcon(Icon3);
                         append("[" + fileName + "] " + ((PsiLocalVariable) v).getName() + ", line " + lineNumber);
-                    } else if (v instanceof PsiCodeBlock) {
+                    } else if (v instanceof PsiCodeBlock) { // PsiCodeBlock
                         setIcon(Icon3);
                         append("[" + fileName + "] CodeBlock, line " + lineNumber);
-                    } else if (v instanceof PsiStatement) {
+                    } else if (v instanceof PsiStatement) { // PsiStatement
                         setIcon(Icon3);
                         append("[" + fileName + "] Statement, line " + lineNumber);
                     }
@@ -119,9 +130,12 @@ public class TreeStructureWindow extends Tree {
             }
         });
 
+        // Set a mouse listener to handle click events
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
+                // When the user clicks the PsiElement, highlight the corresponding Markup
                 if (e.getClickCount() == 1) {
                     TreePath treePath = getClosestPathForLocation(e.getX(), e.getY());
                     DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
@@ -153,6 +167,7 @@ public class TreeStructureWindow extends Tree {
                     }
                 }
 
+                // When the user double-clicks the PsiElement, move to the corresponding line
                 if (e.getClickCount() == 2) {
                     TreePath treePath = getClosestPathForLocation(e.getX(), e.getY());
                     DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
@@ -168,6 +183,7 @@ public class TreeStructureWindow extends Tree {
                     }
                 }
 
+                // When the user right-clicks the PsiElement, move to the corresponding line
                 if (SwingUtilities.isRightMouseButton(e)) {
                     TreePath treePath = getClosestPathForLocation(e.getX(), e.getY());
                     DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
