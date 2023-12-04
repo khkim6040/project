@@ -1,6 +1,8 @@
 /**
  * @author Chanho Song
+ * Test code for 2 smelly if statement.
  */
+
 
 class Circle {
 

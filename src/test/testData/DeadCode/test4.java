@@ -2,6 +2,10 @@
  * @author: Chanho Song
  */
 
+/**
+ * @author: Chanho Song
+ * Test code for clean code. all 2 methods are used.
+ */
 public class DeadCode {
 
     public static void main(String[] args) {

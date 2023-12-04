@@ -1,7 +1,6 @@
 /**
- * find duplicatedcode test
- *
  * @author Chanho Song
+ * Test code for clean code. There is no duplicated code.
  */
 
 public class VendingMachine {
