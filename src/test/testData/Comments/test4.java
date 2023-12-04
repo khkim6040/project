@@ -3,11 +3,7 @@ public class TestDetectLargeClass {
 
     public static void main(String[] args) {
 
-        /* This
-         * is
-         * 5
-         * line
-         * comments          */
+        //This is not smelly comments.
 
         int i;
     }

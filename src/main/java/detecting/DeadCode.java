@@ -5,6 +5,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiParameter;
+import com.intellij.psi.PsiParameterList;
 import com.intellij.psi.PsiVariable;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -12,7 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import utils.LoadPsi;
 
-
+/**
+ * Class to provide detecting: 'DeadCode'
+ *
+ * @author Hyeonbeen Park
+ * @author Chanho Song
+ */
 public class DeadCode extends BaseDetectAction {
 
     public Project project;
@@ -69,13 +76,34 @@ public class DeadCode extends BaseDetectAction {
     }
 
     /**
-     * Helper method to check if a variable or method is not 'long'.
+     * Helper method to check whether it is used or not
      *
      * @param element PsiElement
-     * @return true if the method is longer than a set threshold
+     * @return true if it is not used
      */
     private boolean detectSmell(PsiElement element) {
-
+        if (element instanceof PsiMethod) {
+            PsiMethod method = (PsiMethod) element;
+            if (isMainMethod(method)) {
+                return false;
+            }
+        } else if (element instanceof PsiParameter) {
+            PsiParameter parameter = (PsiParameter) element;
+            PsiElement parent = parameter.getParent();
+            if (parent instanceof PsiParameterList) {
+                PsiElement grandParent = parent.getParent();
+                if (grandParent instanceof PsiMethod && isMainMethod((PsiMethod) grandParent)) {
+                    return false;
+                }
+            }
+        }
         return ReferencesSearch.search(element).findAll().isEmpty();
     }
+
+    private boolean isMainMethod(PsiMethod method) {
+        return method.getName().equals("main") &&
+            method.getParameterList().getParametersCount() == 1 &&
+            method.getParameterList().getParameters()[0].getType().getCanonicalText().equals("String[]");
+    }
 }
+

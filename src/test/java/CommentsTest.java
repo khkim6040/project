@@ -13,6 +13,18 @@ public class CommentsTest extends SmellDetectorTest {
     }
 
     public void testComments1() {
-        doDetectSmellTest(1, 3);
+        doDetectSmellTest(1, 1);
+    }
+
+    public void testComments2() {
+        doDetectSmellTest(2, 1);
+    }
+
+    public void testComments3() {
+        doDetectSmellTest(3, 1);
+    }
+
+    public void testComments4() {
+        doDetectSmellTest(4, 0);
     }
 }

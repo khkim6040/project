@@ -3,11 +3,9 @@ public class TestDetectLargeClass {
 
     public static void main(String[] args) {
 
-        /* This
-         * is
-         * 5
-         * line
-         * comments          */
+        /*
+         * TODO : This is Todo comment
+         */
 
         int i;
     }
