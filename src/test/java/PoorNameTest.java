@@ -1,12 +1,6 @@
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.psi.PsiElement;
 import detecting.BaseDetectAction;
 import detecting.PoorName;
 
-import java.util.List;
 /**
  * Test for detecting: 'Poor name'
  *
@@ -19,24 +13,43 @@ public class PoorNameTest extends SmellDetectorTest {
         return super.getBasePath() + "/PoorName";
     }
 
-    protected void doDetectSmellTest(int testNum, int expectedCount) {
-        myFixture.configureByFiles(getBasePath() + "/test" + testNum + ".java");
-        // Set up the action event with the necessary context
-        DataContext dataContext = DataManager.getInstance().getDataContext(myFixture.getEditor().getComponent());
-        AnActionEvent event = AnActionEvent.createFromDataContext(String.valueOf(ActionManager.getInstance().getAction("")), null, dataContext);
-        // Run the action
-        BaseDetectAction action = new PoorName();
-        List<PsiElement> result = action.findSmells(event);
-        // Check the result
-        int detectedCount = result.size();
-        assertEquals(expectedCount, detectedCount);
+    @Override
+    protected BaseDetectAction getDetectAction() {
+        return new PoorName();
+    }
+
+    public void testStoryName() {
+        PoorName poorName = new PoorName();
+        assertEquals("Poor Name", poorName.storyName());
+    }
+
+    public void testDescription() {
+        PoorName poorName = new PoorName();
+        String expectedDescription = "<html>When there are variables with poor names. <br/>" +
+            "detect names that is hardly reflect its function.</html>";
+        assertEquals(expectedDescription, poorName.description());
+    }
+    
+    public void testPrecondition() {
+        PoorName poorName = new PoorName();
+        String expectedPrecondition = "<html>The variable which is just one alphabet or form of repeated alphabet. " +
+            "The variable whose length is less than or equal to 3.</html>";
+        assertEquals(expectedPrecondition, poorName.precondition());
     }
 
     public void testPoorName1() {
-        doDetectSmellTest(1, 3); // Replace '1' with the expected number of instances with poor naming in test1.java
+        doDetectSmellTest(1, 1);
     }
 
-//    public void testPoorName2() {
-//        doDetectSmellTest(2, 0); // Assuming test2.java has no instances with poor naming
-//    }
+    public void testPoorName2() {
+        doDetectSmellTest(2, 1);
+    }
+
+    public void testPoorName3() {
+        doDetectSmellTest(3, 1);
+    }
+
+    public void testPoorName4() {
+        doDetectSmellTest(4, 0);
+    }
 }

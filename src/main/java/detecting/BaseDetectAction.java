@@ -2,10 +2,7 @@ package detecting;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiElement;
-
 import java.util.List;
 
 /**
@@ -55,22 +52,9 @@ public abstract class BaseDetectAction extends AnAction {
      */
     public abstract List<PsiElement> findSmells(AnActionEvent e);
 
-
     @Override
     public void actionPerformed(AnActionEvent e) {
-        // TODO: insert action logic here
-        // Check if the current context has a code smell
-        List<PsiElement> smellList = findSmells(e);
 
-        // Get the project from the action event
-        Project project = e.getProject();
-        if (project == null) return;
-
-        // Prepare the message to be displayed
-        String message = String.valueOf(smellList.size());
-
-        // Display the message in a dialog box
-        Messages.showMessageDialog(project, message, storyName(), Messages.getInformationIcon());
     }
 
 

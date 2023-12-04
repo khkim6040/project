@@ -1,3 +1,8 @@
-public class DeadCodeExample {
-        int x = 5;
+/**
+ * @author Hyeonbeen park
+ * Test code for single variable that is not used.
+ */
+public class TestDeadCode {
+
+    int x = 5;
 }
