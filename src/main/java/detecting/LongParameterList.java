@@ -30,7 +30,7 @@ public class LongParameterList extends BaseDetectAction {
     /* Returns the story name as string for message. */
     @Override
     public String storyName() {
-        return "Detect Long Parameter List";
+        return "Long Parameter List";
     }
 
     /* Returns the description of each story. (in html-style) */
