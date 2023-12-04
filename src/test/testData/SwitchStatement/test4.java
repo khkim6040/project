@@ -1,6 +1,8 @@
 /**
  * @author Chanho Song
+ * Test code for type casting in switch statement.
  */
+
 
 class Shape {
 
