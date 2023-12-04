@@ -18,6 +18,25 @@ public class PoorNameTest extends SmellDetectorTest {
         return new PoorName();
     }
 
+    public void testStoryName() {
+        PoorName poorName = new PoorName();
+        assertEquals("Poor Name", poorName.storyName());
+    }
+
+    public void testDescription() {
+        PoorName poorName = new PoorName();
+        String expectedDescription = "<html>When there are variables with poor names. <br/>" +
+            "detect names that is hardly reflect its function.</html>";
+        assertEquals(expectedDescription, poorName.description());
+    }
+    
+    public void testPrecondition() {
+        PoorName poorName = new PoorName();
+        String expectedPrecondition = "<html>The variable which is just one alphabet or form of repeated alphabet. " +
+            "The variable whose length is less than or equal to 3.</html>";
+        assertEquals(expectedPrecondition, poorName.precondition());
+    }
+
     public void testPoorName1() {
         doDetectSmellTest(1, 1);
     }

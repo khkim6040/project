@@ -13,6 +13,25 @@ public class SwitchStatementTest extends SmellDetectorTest {
         return new SwitchStatement();
     }
 
+    public void testStoryName() {
+        SwitchStatement switchStatement = new SwitchStatement();
+        assertEquals("Switch Statement", switchStatement.storyName());
+    }
+
+    public void testDescription() {
+        SwitchStatement switchStatement = new SwitchStatement();
+        String expectedDescription =
+            "<html>There are conditional statements that identify class of object that leads to " +
+                "casting of the object to use method of the class</html>";
+        assertEquals(expectedDescription, switchStatement.description());
+    }
+    
+    public void testPrecondition() {
+        SwitchStatement switchStatement = new SwitchStatement();
+        String expectedPrecondition = "<html>instanceof in if statement and multiple casting of object dependent to condition</html>";
+        assertEquals(expectedPrecondition, switchStatement.precondition());
+    }
+
     public void testSwitchStatement1() {
         doDetectSmellTest(1, 1);
     }

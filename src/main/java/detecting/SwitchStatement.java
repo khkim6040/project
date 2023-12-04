@@ -35,7 +35,7 @@ public class SwitchStatement extends BaseDetectAction {
     /* Returns the story name as a string format, for message. */
     @Override
     public String storyName() {
-        return "Detect Switch Statement";
+        return "Switch Statement";
     }
 
     /* Returns the description of each story. (in html-style) */

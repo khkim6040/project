@@ -29,7 +29,7 @@ public class PoorName extends BaseDetectAction {
     /* Returns the story name as a string format, for message. */
     @Override
     public String storyName() {
-        return "Detect Poor Name";
+        return "Poor Name";
     }
 
     /* Returns the description of each story. (in html-style) */

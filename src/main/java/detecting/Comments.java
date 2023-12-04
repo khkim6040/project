@@ -9,6 +9,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import ui.UserProperties;
 import utils.LoadPsi;
 
 
@@ -58,10 +59,11 @@ public class Comments extends BaseDetectAction {
     public List<PsiElement> findSmells(AnActionEvent e) {
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
         List<PsiElement> smellyComments = new ArrayList<>();
+        int userDefinedMaxLineCount = UserProperties.getParam(storyID());
 
         Collection<PsiComment> comments = PsiTreeUtil.findChildrenOfType(psiFile, PsiComment.class);
         for (PsiComment comment : comments) {
-            if (detectSmell(comment)) {
+            if (detectSmell(comment, userDefinedMaxLineCount)) {
                 smellyComments.add(comment);
             }
         }
@@ -73,9 +75,10 @@ public class Comments extends BaseDetectAction {
      * Helper method to check the comments smell.
      *
      * @param PsiComment comment
+     * @param maxLineCount user defined nubmer of lines
      * @return true if it is a smelly comments, otherwise false.
      */
-    private boolean detectSmell(PsiComment comment) {
+    private boolean detectSmell(PsiComment comment, int maxLineCount) {
         String commentText = comment.getText();
 
         // Check for "TODO" or "FIX" comments
@@ -86,7 +89,7 @@ public class Comments extends BaseDetectAction {
 
         // Check for comments longer than 5 lines
         int lineCount = commentText.split("\n").length;
-        if (lineCount >= 5) {
+        if (lineCount >= maxLineCount) {
             return true;
         }
 
