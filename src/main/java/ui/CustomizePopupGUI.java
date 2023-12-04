@@ -1,22 +1,19 @@
 package ui;
 
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.module.ModuleManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.ui.components.JBScrollPane;
-import org.jetbrains.annotations.Nullable;
+import static ui.UserProperties.initializeParam;
 
-import javax.swing.*;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.project.Project;
+import com.intellij.ui.components.JBScrollPane;
+import java.io.IOException;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Properties;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * The GUI class that shows pop-up window for customize button
@@ -24,8 +21,7 @@ import java.util.Properties;
  * @author Jinmin Goh, Seokhwan Choi
  */
 public class CustomizePopupGUI extends JFrame implements TableModelListener {
-    public Properties prop;
-    public File configFile;
+
     private JTable customizeTable;
     private JBScrollPane scrollPane;
     private String[] columnType = {"Parameter", "Input"};
@@ -34,19 +30,19 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
 
     public CustomizePopupGUI(@Nullable Project p, AnActionEvent e) throws IOException {
         project = p;
-        prop = new Properties();
-        String contentRoot = String.valueOf(ModuleRootManager.getInstance(ModuleManager.getInstance(project).getModules()[0]).getContentRoots()[0]);
-        contentRoot = contentRoot.replace("file://", "");
-        configFile = new File(contentRoot + "/codescent.properties");
-        FileInputStream fis = new FileInputStream(configFile);
-        prop.load(fis);
+        try {
+            HandleConfig.getHandler(project);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        initializeParam();
         data = new Object[][]{
-                {"Long Method (Lines of code)", prop.getProperty("PARAM_IDENTIFY_LONG_METHOD")},
-                {"Large Class (Number of fields)", prop.getProperty("PARAM_DETECT_LARGE_CLASS_FIELD")},
-                {"Large Class (Number of methods)", prop.getProperty("PARAM_DETECT_LARGE_CLASS_METHOD")},
-                {"Long Parameter List (Parameter count)", prop.getProperty("PARAM_LONG_PARAMETER_LIST")},
-                {"Message Chain (Length)", prop.getProperty("PARAM_MESSAGE_CHAIN")},
-                {"Comments;Low Level (Lines of comments)", prop.getProperty("PARAM_COMMENTS_LOW")}
+            {"Long Method (Lines of code)", UserProperties.getParam("LM")},
+            {"Large Class (Number of fields)", UserProperties.getParam("LCF")},
+            {"Large Class (Number of methods)", UserProperties.getParam("LCM")},
+            {"Long Parameter List (Parameter count)", UserProperties.getParam("LPL")},
+            {"Message Chain (Length)", UserProperties.getParam("MC")},
+            {"Comments (Lines of comments)", UserProperties.getParam("COM")}
         };
         setTitle("Parameter Customization");
         setSize(600, 200);
@@ -74,43 +70,40 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
     public void tableChanged(TableModelEvent e) {
         int row = e.getFirstRow();
         int column = e.getColumn();
-
         if (column == 1) {
             TableModel model = (TableModel) e.getSource();
             String str = (String) model.getValueAt(row, column);
+            System.out.println(str);
             try {
                 if (!(Integer.parseInt(str) > 0)) {
-                    JOptionPane.showMessageDialog(this, "Not valid input. Please enter integer bigger than 0.", "Warning",
-                            JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Not valid input. Please enter integer bigger than 0.",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
                 } else {
                     switch (row) {
                         case 0:
-                            prop.setProperty("PARAM_IDENTIFY_LONG_METHOD", str);
+                            UserProperties.setLM(Integer.parseInt(str));
                             break;
                         case 1:
-                            prop.setProperty("PARAM_DETECT_LARGE_CLASS_FIELD", str);
+                            UserProperties.setLCF(Integer.parseInt(str));
                             break;
                         case 2:
-                            prop.setProperty("PARAM_DETECT_LARGE_CLASS_METHOD", str);
+                            UserProperties.setLCM(Integer.parseInt(str));
                             break;
                         case 3:
-                            prop.setProperty("PARAM_LONG_PARAMETER_LIST", str);
+                            UserProperties.setLPL(Integer.parseInt(str));
                             break;
                         case 4:
-                            prop.setProperty("PARAM_MESSAGE_CHAIN", str);
+                            UserProperties.setMC(Integer.parseInt(str));
                             break;
                         case 5:
-                            prop.setProperty("PARAM_COMMENTS_LOW", str);
+                            UserProperties.setCOM(Integer.parseInt(str));
                             break;
                     }
                 }
-                FileWriter writer = new FileWriter(configFile);
-                prop.store(writer, "");
-            } catch (NumberFormatException exception) {
+            } catch (NumberFormatException | IOException exception) {
                 JOptionPane.showMessageDialog(this, "Not valid input. Please enter integer bigger than 0.", "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                    JOptionPane.WARNING_MESSAGE);
             }
         }
     }

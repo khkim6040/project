@@ -1,13 +1,10 @@
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.psi.PsiElement;
 import detecting.BaseDetectAction;
 import detecting.DeadCode;
 
-import java.util.List;
-
+/**
+ * @author: Hyeonbeen Park
+ * @author: Chanho Song
+ */
 public class DeadCodeTest extends SmellDetectorTest {
 
     @Override
@@ -15,20 +12,47 @@ public class DeadCodeTest extends SmellDetectorTest {
         return super.getBasePath() + "/DeadCode";
     }
 
-    protected void doDetectSmellTest(int testNum, int expectedCount) {
-        myFixture.configureByFiles(getBasePath() + "/test" + testNum + ".java");
-        // Set up the action event with the necessary context
-        DataContext dataContext = DataManager.getInstance().getDataContext(myFixture.getEditor().getComponent());
-        AnActionEvent event = AnActionEvent.createFromDataContext(String.valueOf(ActionManager.getInstance().getAction("")), null, dataContext);
-        // Run the action
-        BaseDetectAction action = new DeadCode();
-        List<PsiElement> result = action.findSmells(event);
-        // Check the result
-        int detectedCount = result.size();
-        assertEquals(expectedCount, detectedCount);
+    @Override
+    protected BaseDetectAction getDetectAction() {
+        return new DeadCode();
+    }
+
+    public void testStoryName() {
+        DeadCode deadCode = new DeadCode();
+        assertEquals("DeadCode", deadCode.storyName());
+    }
+
+    public void testDescription() {
+        DeadCode deadCode = new DeadCode();
+        String expectedDescription = "<html>When variable or method is not used<br/>" +
+            " ,detect it as code smell deadcode.</html>";
+        assertEquals(expectedDescription, deadCode.description());
+    }
+
+    public void testPrecondition() {
+        DeadCode deadCode = new DeadCode();
+        String expectedPrecondition = "<html>There are variables and method that is declared but not used</html>";
+        assertEquals(expectedPrecondition, deadCode.precondition());
     }
 
     public void testDeadCode1() {
         doDetectSmellTest(1, 1);
+    }
+
+    public void testDeadCode2() {
+        doDetectSmellTest(2, 1);
+    }
+
+    public void testDeadCode3() {
+        doDetectSmellTest(3, 1);
+
+    }
+
+    public void testDeadCode4() {
+        doDetectSmellTest(4, 0);
+    }
+
+    public void testDeadCode5() {
+        doDetectSmellTest(5, 3);
     }
 }

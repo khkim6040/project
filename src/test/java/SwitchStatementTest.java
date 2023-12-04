@@ -1,12 +1,5 @@
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.psi.PsiElement;
 import detecting.BaseDetectAction;
 import detecting.SwitchStatement;
-
-import java.util.List;
 
 public class SwitchStatementTest extends SmellDetectorTest {
 
@@ -15,20 +8,48 @@ public class SwitchStatementTest extends SmellDetectorTest {
         return super.getBasePath() + "/SwitchStatement";
     }
 
-    protected void doDetectSmellTest(int testNum, int expectedCount) {
-        myFixture.configureByFiles(getBasePath() + "/test" + testNum + ".java");
-        // Set up the action event with the necessary context
-        DataContext dataContext = DataManager.getInstance().getDataContext(myFixture.getEditor().getComponent());
-        AnActionEvent event = AnActionEvent.createFromDataContext(String.valueOf(ActionManager.getInstance().getAction("")), null, dataContext);
-        // Run the action
-        BaseDetectAction action = new SwitchStatement();
-        List<PsiElement> result = action.findSmells(event);
-        // Check the result
-        int detectedCount = result.size();
-        assertEquals(expectedCount, detectedCount);
+    @Override
+    protected BaseDetectAction getDetectAction() {
+        return new SwitchStatement();
+    }
+
+    public void testStoryName() {
+        SwitchStatement switchStatement = new SwitchStatement();
+        assertEquals("Switch Statement", switchStatement.storyName());
+    }
+
+    public void testDescription() {
+        SwitchStatement switchStatement = new SwitchStatement();
+        String expectedDescription =
+            "<html>There are conditional statements that identify class of object that leads to " +
+                "casting of the object to use method of the class</html>";
+        assertEquals(expectedDescription, switchStatement.description());
+    }
+    
+    public void testPrecondition() {
+        SwitchStatement switchStatement = new SwitchStatement();
+        String expectedPrecondition = "<html>instanceof in if statement and multiple casting of object dependent to condition</html>";
+        assertEquals(expectedPrecondition, switchStatement.precondition());
     }
 
     public void testSwitchStatement1() {
         doDetectSmellTest(1, 1);
     }
+
+    public void testSwitchStatement2() {
+        doDetectSmellTest(2, 1);
+    }
+
+    public void testSwitchStatement3() {
+        doDetectSmellTest(3, 2);
+    }
+
+    public void testSwitchStatement4() {
+        doDetectSmellTest(4, 1);
+    }
+
+    public void testSwitchStatement5() {
+        doDetectSmellTest(5, 0);
+    }
+
 }

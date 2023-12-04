@@ -28,45 +28,16 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Code Scent" anchor="bottom" factoryClass="MyToolWindowFactory"/>
+        <toolWindow id="Code Scent" anchor="bottom" factoryClass="ui.MyToolWindowFactory"/>
     </extensions>
     <actions>
 
-        <action id="detecting.LPL" class="detecting.LongParameterList" text="LongParameterList"
-                description="Implementation for LongParameterList">
-            <add-to-group group-id="MainMenu" anchor="first"/>
+        <action id="Analyze" class="ui.AnalyzeAction" text="Analyze">
+        </action>
+        <action id="AnalyzeAll" class="ui.MyToolWindowAction" text="Analyze All">
+        </action>
+        <action id="Customize" class="ui.CustomizeAction" text="Customize">
         </action>
 
-        <action id="detecting.PoorName" class="detecting.PoorName" text="PoorName">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
-
-        <action id="detecting.FindDuplicatedCode" class="detecting.FindDuplicatedCode" text="FindDuplicatedCode">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
-
-        <action id="detecting.ILM" class="detecting.IdentifyLongMethod" text="IdentifyLongMethod"
-                description="Implementation for IdentifyLongMethod">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
-
-        <action id="detecting.DLC" class="detecting.DetectLargeClass" text="DetectLargeClass"
-                description="Implementation for DetectLargeClass">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
-
-        <action id="detecting.SS" class="detecting.SwitchStatement" text="SwitchStatement"
-                description="Implementation for SwitchStatement">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
-        
-        <group id="GroupedActions" text="Code Scent" popup="true">
-            <add-to-group group-id="MainMenu" anchor="after" relative-to-action="org.intellij.sdk.action.PopupDialogAction"/>
-            <action id="Analyze" class="utils.MyToolWindowAction" text="Analyze">
-            </action>
-            <action id="AnalyzeAll" class="utils.MyToolWindowAction" text="Analyze All">
-            </action>
-            <action id="Customize" class="utils.CustomizeAction" text="Customize">
-            </action>
-        </group>    </actions>
+    </actions>
 </idea-plugin>

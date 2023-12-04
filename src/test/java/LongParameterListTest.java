@@ -1,11 +1,5 @@
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataContext;
 import detecting.BaseDetectAction;
 import detecting.LongParameterList;
-import com.intellij.psi.PsiElement;
-import java.util.List;
 
 /**
  * Test for detecting: 'Long parameter list'
@@ -19,24 +13,38 @@ public class LongParameterListTest extends SmellDetectorTest {
         return super.getBasePath() + "/LongParameterList";
     }
 
-    protected void doDetectSmellTest(int testNum, int expectedCount) {
-        myFixture.configureByFiles(getBasePath() + "/test" + testNum + ".java");
-        // Set up the action event with the necessary context
-        DataContext dataContext = DataManager.getInstance().getDataContext(myFixture.getEditor().getComponent());
-        AnActionEvent event = AnActionEvent.createFromDataContext(String.valueOf(ActionManager.getInstance().getAction("")), null, dataContext);
-        // Run the action
-        BaseDetectAction action = new LongParameterList();
-        List<PsiElement> result = action.findSmells(event);
-        // Check the result
-        int detectedCount = result.size();
-        assertEquals(expectedCount, detectedCount);
+    @Override
+    protected BaseDetectAction getDetectAction() {
+        return new LongParameterList();
+    }
+
+    public void testStoryName() {
+        LongParameterList longParameterList = new LongParameterList();
+        assertEquals("Long Parameter List", longParameterList.storyName());
+    }
+
+    public void testDescription() {
+        LongParameterList longParameterList = new LongParameterList();
+        String expectedDescription = "<html>When there are too many parameters in the method<br/>" +
+            " ,detect it as code smell long parameter list.</html>";
+        assertEquals(expectedDescription, longParameterList.description());
+    }
+
+    public void testPrecondition() {
+        LongParameterList longParameterList = new LongParameterList();
+        String expectedPrecondition = "<html>There are more parameters in the method than a set standard</html>";
+        assertEquals(expectedPrecondition, longParameterList.precondition());
     }
 
     public void testLongParameterList1() {
         doDetectSmellTest(1, 1);
     }
 
-//    public void testLongParameterList2() {
-//        doDetectSmellTest(2, 0);
-//    }
+    public void testLongParameterList2() {
+        doDetectSmellTest(2, 0);
+    }
+
+    public void testLongParameterList3() {
+        doDetectSmellTest(3, 3);
+    }
 }

@@ -7,6 +7,7 @@ package detecting;
  * @author CSED332 2020 Team Wanted
  */
 public class BaseDetectManager {
+
     private static BaseDetectManager manager = null;
 
     /* Design Pattern: Singleton */
@@ -14,8 +15,9 @@ public class BaseDetectManager {
     }
 
     public static BaseDetectManager getInstance() {
-        if (manager == null)
+        if (manager == null) {
             manager = new BaseDetectManager();
+        }
         return manager;
     }
 
@@ -30,19 +32,24 @@ public class BaseDetectManager {
             // Priority 1 functions
             case "LPL":
                 return new LongParameterList();
-            case "DLC":
-                return new DetectLargeClass();
-            case "ILM":
-                return new IdentifyLongMethod();
+            case "LCF":
+                return new LargeClassField();
+            case "LCM":
+                return new LargeClassMethod();
+            case "LM":
+                return new LongMethod();
             case "SS":
                 return new SwitchStatement();
-            case "FDC":
-                return new FindDuplicatedCode();
+            case "DPC":
+                return new DuplicatedCode();
             case "PN":
                 return new PoorName();
             case "DC":
                 return new DeadCode();
-
+            case "MC":
+                return new MessageChain();
+            case "COM":
+                return new Comments();
 
             default:
                 return null;
