@@ -19,6 +19,18 @@ public class PoorNameTest extends SmellDetectorTest {
     }
 
     public void testPoorName1() {
-        doDetectSmellTest(1, 3);
+        doDetectSmellTest(1, 1);
+    }
+
+    public void testPoorName2() {
+        doDetectSmellTest(2, 1);
+    }
+
+    public void testPoorName3() {
+        doDetectSmellTest(3, 1);
+    }
+
+    public void testPoorName4() {
+        doDetectSmellTest(4, 0);
     }
 }

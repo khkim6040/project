@@ -10,6 +10,6 @@ public class TestPoorName {
     }
 
     public void exampleMethodWithPoorName(){
-        int a = 0;
+        int abcd = 1;
     }
 }

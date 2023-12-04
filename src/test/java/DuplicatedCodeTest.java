@@ -19,6 +19,18 @@ public class DuplicatedCodeTest extends SmellDetectorTest {
     }
 
     public void testDuplicatedCode1() {
-        doDetectSmellTest(1, 1);
+        doDetectSmellTest(1, 2);
+    }
+
+    public void testDuplicatedCode2() {
+        doDetectSmellTest(2, 2);
+    }
+
+    public void testDuplicatedCode3() {
+        doDetectSmellTest(3, 3);
+    }
+
+    public void testDuplicatedCode4() {
+        doDetectSmellTest(4, 0);
     }
 }
