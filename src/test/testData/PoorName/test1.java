@@ -11,7 +11,5 @@ public class TestPoorName {
 
     public void exampleMethodWithPoorName(){
         int a = 0;
-        int aaaa = 1;
-        int abcd = 2;
     }
 }
