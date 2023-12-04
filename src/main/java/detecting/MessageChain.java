@@ -83,6 +83,7 @@ public class MessageChain extends BaseDetectAction {
                     PsiCodeBlock body = method.getBody();
                     if (body != null) {
                         for (PsiStatement statement : body.getStatements()) {
+
                             messageChains.addAll(detectSmell(statement, userDefinedMessageChainLength));
                         }
                     }
