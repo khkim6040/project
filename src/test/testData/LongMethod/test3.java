@@ -1,7 +1,7 @@
 public class TestLongMethod {
 
     /**
-     * An example method with a long method code smell.
+     * An example method with 3 long method code smell.
      * These methods has 33, 40, 30, 10 lines of code.
      *
      * @author Jinyoung Kim
