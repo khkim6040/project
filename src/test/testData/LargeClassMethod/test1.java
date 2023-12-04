@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * An example class with a large class code smell due to many methods.
- * This class has 11 methods.
+ * This class has 11 methods. (Over 10 methods, default value)
  *
  * @author Jinyoung Kim, Gwanho Kim
  */

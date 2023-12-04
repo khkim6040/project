@@ -2,10 +2,11 @@
 
 /**
  * An example of 3 large classes code smell due to many methods.
- * First class has 11 methods
- * Second class has 12 methods
- * Third class has 13 methods
- * Fourth class has 4 methods
+ * First class has 11 methods (large class)
+ * Second class has 12 methods (large class)
+ * Third class has 13 methods (large class)
+ *
+ * Fourth class has 4 methods, not large class
  *
  * @author Jinyoung Kim
  */

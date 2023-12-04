@@ -1,9 +1,9 @@
 public class TestClass {
 
     /**
-     * Example method to test different types of statements
+     * Example method to test other 6 types of statements
      * An example code with 9 instances of message chain code smells
-     * (with chain lengths of 7)
+     * (with all chain lengths of 7)
      *
      * Default condition for message chain code smell is 5
      *

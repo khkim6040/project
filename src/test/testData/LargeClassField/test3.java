@@ -1,9 +1,10 @@
 /**
  * An example class with 3 large classes code smell due to many fields.
- * First class has 5 fields (Not over 6 fields, default value)
- * Second class has 10 fields
- * Third class has 12 fields
- * Fourth class has 12 fields
+ * First class has 5 fields (Not over 6 fields, default value), not large class
+ *
+ * Second class has 10 fields, large class
+ * Third class has 12 fields, large class
+ * Fourth class has 12 fields, large class
  *
  * @author Jinyoung Kim
  */

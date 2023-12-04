@@ -5,7 +5,7 @@ public class TestLongParameterList {
      * First method has 7 parameters.
      * Second method has 8 parameters.
      * Third method has 9 parameters.
-     * Fourth method has 4 parameters.
+     * Fourth method has 4 parameters. (not long parameter list code smell)
      *
      * @author Jinyoung Kim
      */
