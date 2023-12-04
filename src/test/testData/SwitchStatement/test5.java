@@ -1,5 +1,6 @@
 /**
  * @author Chanho Song
+ * Test case for clean switch statement. There is no code smell.
  */
 
 public class Grade {

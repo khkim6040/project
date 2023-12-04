@@ -1,8 +1,7 @@
 public class TestFindDuplicatedCode {
     /**
-     * find duplicatedcode test
-     *
      * @author Chanho Song
+     * Test code for similar 2 method.
      */
     public static void main(String[] args) {
         TestIdentifyLongMethod example = new TestFindDuplicatedCode();

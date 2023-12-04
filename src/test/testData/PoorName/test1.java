@@ -1,8 +1,7 @@
 public class TestPoorName {
     /**
-     * find poor names
-     *
      * @author Chanho Song
+     * Test code for check too short name. (less than 4)
      */
     public static void main(String[] args) {
         TestIdentifyLongMethod example = new TestFindDuplicatedCode();
