@@ -2,8 +2,8 @@ public class TestMessageChain {
 
     /**
      * Test PsiDeclarationStatement, int a = b.method1().method2()
-     * An example code with a message chain code smell.
-     * This code has message length of 6. (Default length is 5)
+     * An example code with no message chain code smell.
+     * This code has message length of 3. (Default length is 5)
      *
      * @author Jinyoung Kim
      */
@@ -15,7 +15,7 @@ public class TestMessageChain {
 
     public void testMethod() {
         // Usage of a method with a message chain of length 6
-        String result = level1.getLevel2().getLevel3().getLevel4().getLevel5().getLevel6().getData();
+        String result = level1.getLevel2().getLevel3().getData();
 
     }
 
@@ -36,29 +36,9 @@ public class TestMessageChain {
 
     private class Level3 {
 
-        Level4 getLevel4() {
-            return new Level4();
-        }
-    }
-
-    private class Level4 {
-
-        Level5 getLevel5() {
-            return new Level5();
-        }
-    }
-
-    private class Level5 {
-
-        Level6 getLevel6() {
-            return new Level6();
-        }
-    }
-
-    private class Level6 {
-
         String getData() {
             return "Data";
         }
     }
+
 }
