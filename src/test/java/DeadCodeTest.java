@@ -28,7 +28,7 @@ public class DeadCodeTest extends SmellDetectorTest {
             " ,detect it as code smell deadcode.</html>";
         assertEquals(expectedDescription, deadCode.description());
     }
-    
+
     public void testPrecondition() {
         DeadCode deadCode = new DeadCode();
         String expectedPrecondition = "<html>There are variables and method that is declared but not used</html>";
@@ -50,5 +50,9 @@ public class DeadCodeTest extends SmellDetectorTest {
 
     public void testDeadCode4() {
         doDetectSmellTest(4, 0);
+    }
+
+    public void testDeadCode5() {
+        doDetectSmellTest(5, 3);
     }
 }
