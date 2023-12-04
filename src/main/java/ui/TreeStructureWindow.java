@@ -1,9 +1,18 @@
 package ui;
 
 import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.markup.HighlighterLayer;
+import com.intellij.openapi.editor.markup.HighlighterTargetArea;
+import com.intellij.openapi.editor.markup.MarkupModel;
+import com.intellij.openapi.editor.markup.RangeHighlighter;
+import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiCodeBlock;
 import com.intellij.psi.PsiComment;
@@ -15,13 +24,18 @@ import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiParameter;
 import com.intellij.psi.PsiStatement;
 import com.intellij.ui.ColoredTreeCellRenderer;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.treeStructure.Tree;
 import detecting.BaseDetectAction;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -33,6 +47,7 @@ public class TreeStructureWindow extends Tree {
         TreeStructureWindow.class.getClassLoader());
     private static final Icon Icon3 = IconLoader.getIcon("/nodes/editorconfig.svg",
         TreeStructureWindow.class.getClassLoader());
+    private RangeHighlighter currentHighlighter;
 
     /**
      * Creates a project structure tree for a given project.
@@ -66,7 +81,7 @@ public class TreeStructureWindow extends Tree {
                     if (v instanceof Project) { // Project
                         setIcon(Icon1);
                         append(((Project) v).getName());
-                    } else if (v instanceof BaseDetectAction) { // Category: Refactoring
+                    } else if (v instanceof BaseDetectAction) {
                         setIcon(Icon2);
                         append(((BaseDetectAction) v).storyName());
                     } else if (v instanceof PsiField) {
@@ -101,6 +116,66 @@ public class TreeStructureWindow extends Tree {
                     }
                 }
 
+            }
+        });
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) {
+                    TreePath treePath = getClosestPathForLocation(e.getX(), e.getY());
+                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+                    Object element = node.getUserObject();
+                    Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
+                    MarkupModel markupModel = editor.getMarkupModel();
+                    if (currentHighlighter != null) {
+                        markupModel.removeHighlighter(currentHighlighter);
+                        currentHighlighter = null;
+                    }
+
+                    if (element != null) {
+                        if (element instanceof PsiElement) {
+                            int offset = ((PsiElement) element).getTextOffset();
+
+                            TextAttributes attributes = new TextAttributes();
+                            attributes.setBackgroundColor(JBColor.YELLOW);
+
+                            currentHighlighter = markupModel.addRangeHighlighter(
+                                offset,
+                                offset,
+                                HighlighterLayer.ERROR,
+                                attributes,
+                                HighlighterTargetArea.EXACT_RANGE
+                            );
+                            currentHighlighter.setErrorStripeMarkColor(JBColor.RED);
+                            currentHighlighter.setErrorStripeTooltip("Codesmell Detected");
+                        }
+                    }
+                }
+
+                if (e.getClickCount() == 2) {
+                    TreePath treePath = getClosestPathForLocation(e.getX(), e.getY());
+                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+                    Object element = node.getUserObject();
+
+                    if (element != null) {
+                        if (element instanceof PsiElement) {
+                            VirtualFile f = ((PsiElement) element).getContainingFile().getVirtualFile();
+                            int offset = ((PsiElement) element).getTextOffset();
+                            OpenFileDescriptor fd = new OpenFileDescriptor(project, f, offset);
+                            fd.navigate(true);
+                        }
+                    }
+                }
+
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    TreePath treePath = getClosestPathForLocation(e.getX(), e.getY());
+                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+                    Object element = node.getUserObject();
+
+                    CodescentPopUp menu = new CodescentPopUp(element);
+                    menu.show(e.getComponent(), e.getX(), e.getY());
+                }
             }
         });
     }
