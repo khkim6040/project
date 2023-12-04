@@ -2,7 +2,7 @@ public class TestLongParameterList {
 
     /**
      * An example method with a long parameter list, demonstrating the code smell.
-     * This method has 12 parameters.
+     * This method has 12 parameters. (Over 5 parameters, dafault)
      *
      * @param name, age, address, phoneNumber, email, occupation, nationality, height,
      *              weight, gender, maritalStatus, hobby

@@ -2,7 +2,7 @@ public class TestLongMethod {
 
     /**
      * An example method with a long method code smell.
-     * This method has 43 lines of code.
+     * This method has 43 lines of code. (Over 25 lines, default value)
      *
      * @author Jinyoung Kim
      */
