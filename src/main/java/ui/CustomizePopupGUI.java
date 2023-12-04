@@ -42,7 +42,7 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
             {"Large Class (Number of methods)", UserProperties.getParam("LCM")},
             {"Long Parameter List (Parameter count)", UserProperties.getParam("LPL")},
             {"Message Chain (Length)", UserProperties.getParam("MC")},
-            {"Comments;Low Level (Lines of comments)", UserProperties.getParam("COM")}
+            {"Comments (Lines of comments)", UserProperties.getParam("COM")}
         };
         setTitle("Parameter Customization");
         setSize(600, 200);
