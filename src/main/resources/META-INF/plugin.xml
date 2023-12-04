@@ -32,34 +32,6 @@
     </extensions>
     <actions>
 
-        <action id="detecting.LPL" class="detecting.LongParameterList" text="LongParameterList"
-                description="Implementation for LongParameterList">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
-
-        <action id="detecting.PoorName" class="detecting.PoorName" text="PoorName">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
-
-        <action id="detecting.DuplicatedCode" class="detecting.DuplicatedCode" text="FindDuplicatedCode">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
-
-        <action id="detecting.ILM" class="detecting.LongMethod" text="IdentifyLongMethod"
-                description="Implementation for IdentifyLongMethod">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
-
-
-        <action id="detecting.SS" class="detecting.SwitchStatement" text="SwitchStatement"
-                description="Implementation for SwitchStatement">
-            <add-to-group group-id="MainMenu" anchor="first"/>
-        </action>
-
-        <action id="MyToolWindow" class="ui.MyToolWindowAction" text="CodeScent" description="ToolWindow">
-            <add-to-group group-id="MainMenu" anchor="last"/>
-        </action>
-
         <action id="Analyze" class="ui.AnalyzeAction" text="Analyze">
         </action>
         <action id="AnalyzeAll" class="ui.MyToolWindowAction" text="Analyze All">
