@@ -49,6 +49,10 @@ public class MessageChainTest extends SmellDetectorTest {
     }
 
     public void testMessageChain4() {
-        doDetectSmellTest(4, 9);
+        doDetectSmellTest(4, 11);
+    }
+
+    public void testMessageChain5() {
+        doDetectSmellTest(5, 6);
     }
 }

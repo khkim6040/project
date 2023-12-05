@@ -19,7 +19,7 @@ public class DeadCodeTest extends SmellDetectorTest {
 
     public void testStoryName() {
         DeadCode deadCode = new DeadCode();
-        assertEquals("DeadCode", deadCode.storyName());
+        assertEquals("Dead Code", deadCode.storyName());
     }
 
     public void testDescription() {

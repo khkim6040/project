@@ -61,14 +61,11 @@ public class MessageChain extends BaseDetectAction {
     }
 
     /**
-     * Method that checks whether code has message chain
-     * by iterating through classes and methods.
-     * For each method, get method's body and checks each statement in the body
-     * If any statement contains a message chain longer than threshold, add the statement
-     * to the messageChains list
+     * Scans through the given project's PSI tree to find and list 'message chain' code smells.
+     * Code smell occurs when a sequence of method calls is chained together over a defined threshold length.
      *
      * @param e AnActionEvent, represents some interaction by the user
-     * @return list of smelly PsiElement
+     * @return list of PsiElements where each element represents a detected message chain code smell.
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
@@ -83,8 +80,10 @@ public class MessageChain extends BaseDetectAction {
                     PsiCodeBlock body = method.getBody();
                     if (body != null) {
                         for (PsiStatement statement : body.getStatements()) {
-
-                            messageChains.addAll(detectSmell(statement, userDefinedMessageChainLength));
+                            if (detectSmell(statement, userDefinedMessageChainLength)) {
+                                messageChains.add(statement);
+                            }
+                            checkAndAddSmells(statement, messageChains, userDefinedMessageChainLength);
                         }
                     }
                 }
@@ -94,39 +93,19 @@ public class MessageChain extends BaseDetectAction {
     }
 
     /**
-     * Helper method to check if given PsiStatement
-     * contains a message chain that exceeds the specified length.
+     * Detects if a given PsiStatement contains a message chain that exceeds the threshold length.
+     * Checks various types of PsiStatements including expression statements, declaration statements,
+     * return statements, and control flow statements like if, while, for, and switch.
      *
-     * @param statement   PsiStatement
-     * @param chainLength length of message chain
-     * @return list of smelly PsiElements
+     * @param statement   PsiStatement to inspect for message chains.
+     * @param chainLength The threshold length for identifying a message chain.
+     * @return true if the statement contains a message chain exceeding the threshold length; otherwise, false.
      */
-    private List<PsiElement> detectSmell(PsiStatement statement, int chainLength) {
-        List<PsiElement> foundSmells = new ArrayList<>();
-
-        // Check the current statement, conditions for if, while, for ,switch loop
-        if (isChainInStatement(statement, chainLength)) {
-            foundSmells.add(statement);
-        }
-
-        // Check message chains inside if, while, for loops
-        if (statement instanceof PsiIfStatement) {
-            detectSmellInLoop(((PsiIfStatement) statement).getThenBranch(), foundSmells, chainLength);
-            detectSmellInLoop(((PsiIfStatement) statement).getElseBranch(), foundSmells, chainLength);
-        } else if (statement instanceof PsiWhileStatement) {
-            detectSmellInLoop(((PsiWhileStatement) statement).getBody(), foundSmells, chainLength);
-        } else if (statement instanceof PsiForStatement) {
-            detectSmellInLoop(((PsiForStatement) statement).getBody(), foundSmells, chainLength);
-        }
-
-        return foundSmells;
-    }
-
-    private boolean isChainInStatement(PsiStatement statement, int chainLength) {
+    private boolean detectSmell(PsiStatement statement, int chainLength) {
         if (statement instanceof PsiExpressionStatement) { // a.method1().method2()
             PsiExpression expression = ((PsiExpressionStatement) statement).getExpression();
             return calculateChainLength(expression) > chainLength;
-        } else if (statement instanceof PsiDeclarationStatement) {  // int a = b.method1().method2()
+        } else if (statement instanceof PsiDeclarationStatement) { // int a = b.method1().method2()
             PsiDeclarationStatement declarationStatement = (PsiDeclarationStatement) statement;
             for (PsiElement element : declarationStatement.getDeclaredElements()) {
                 if (element instanceof PsiVariable) {
@@ -137,24 +116,20 @@ public class MessageChain extends BaseDetectAction {
                     }
                 }
             }
-        } else if (statement instanceof PsiReturnStatement) { // return object.method1().method2();
+        } else if (statement instanceof PsiReturnStatement) { // check return object.method1().method2();
             PsiExpression returnExpression = ((PsiReturnStatement) statement).getReturnValue();
             return returnExpression != null && calculateChainLength(returnExpression) > chainLength;
-        } else if (statement instanceof PsiIfStatement) {
-            // check the condition of if statement for message chain
+        } else if (statement instanceof PsiIfStatement) { // check if(object.method1().method2())
             PsiExpression condition = ((PsiIfStatement) statement).getCondition();
             return condition != null && calculateChainLength(condition) > chainLength;
-        } else if (statement instanceof PsiWhileStatement) {
-            // check the condition of while statement for message chain
+        } else if (statement instanceof PsiWhileStatement) { // check while(object.method1().method2())
             PsiExpression condition = ((PsiWhileStatement) statement).getCondition();
             return condition != null && calculateChainLength(condition) > chainLength;
-        } else if (statement instanceof PsiForStatement) {
-            // check the condition of for statement for message chain
+        } else if (statement instanceof PsiForStatement) { // check for(int i = 0; object.method1().method2(i); i++)
             PsiForStatement forStatement = (PsiForStatement) statement;
             PsiExpression condition = forStatement.getCondition();
             return condition != null && calculateChainLength(condition) > chainLength;
-        } else if (statement instanceof PsiSwitchStatement) {
-            // check the condition of switch statement for message chain
+        } else if (statement instanceof PsiSwitchStatement) { // check switch(object.method1().method2())
             PsiSwitchStatement switchStatement = (PsiSwitchStatement) statement;
             PsiExpression switchExpression = switchStatement.getExpression();
             return switchExpression != null && calculateChainLength(switchExpression) > chainLength;
@@ -163,18 +138,72 @@ public class MessageChain extends BaseDetectAction {
         return false;
     }
 
-
-    private void detectSmellInLoop(PsiElement body, List<PsiElement> foundSmells, int chainLength) {
-        if (body instanceof PsiBlockStatement) {
-            PsiCodeBlock codeBlock = ((PsiBlockStatement) body).getCodeBlock();
+    /**
+     * Recursively checks for and adds message chain code smells in the given PsiStatement and its nested statements.
+     * This method handles block statements and inside the control flow statements like if, while, for, and switch,
+     *
+     * @param statement   The PsiStatement to check for message chains.
+     * @param foundSmells The list to which detected message chains are added.
+     * @param chainLength The threshold length for identifying a message chain.
+     */
+    private void checkAndAddSmells(PsiStatement statement, List<PsiElement> foundSmells, int chainLength) {
+        if (statement instanceof PsiBlockStatement) {
+            PsiCodeBlock codeBlock = ((PsiBlockStatement) statement).getCodeBlock();
             for (PsiStatement innerStatement : codeBlock.getStatements()) {
-                foundSmells.addAll(detectSmell(innerStatement, chainLength));
+                if (detectSmell(innerStatement, chainLength)) {
+                    foundSmells.add(innerStatement);
+                }
+                checkAndAddSmells(innerStatement, foundSmells, chainLength);
             }
-        } else if (body instanceof PsiStatement) {
-            foundSmells.addAll(detectSmell((PsiStatement) body, chainLength));
+        } else if (statement instanceof PsiIfStatement || statement instanceof PsiWhileStatement
+            || statement instanceof PsiForStatement) {
+            PsiStatement[] branches = getBranches(statement);
+            for (PsiStatement branch : branches) {
+                if (branch != null) {
+                    checkAndAddSmells(branch, foundSmells, chainLength);
+                }
+            }
+        } else if (statement instanceof PsiSwitchStatement) { // For message chains in switch case
+            PsiSwitchStatement switchStatement = (PsiSwitchStatement) statement;
+            for (PsiStatement switchBranch : switchStatement.getBody().getStatements()) {
+                // Check and add smells in each switch branch
+                if (switchBranch instanceof PsiBlockStatement) {
+                    checkAndAddSmells(switchBranch, foundSmells, chainLength);
+                } else {
+                    if (detectSmell(switchBranch, chainLength)) {
+                        foundSmells.add(switchBranch);
+                    }
+                }
+            }
         }
     }
 
+    /**
+     * Extracts the branch statements from a given control flow statement (if, while, for)
+     * Handles if, while, and for statements by returning their body or branches.
+     * For if statements, both the 'then' and 'else' branches are returned.
+     *
+     * @param statement The control flow statement from which to extract branches.
+     * @return An array of PsiStatements representing the branches of the given control flow statement.
+     */
+    private PsiStatement[] getBranches(PsiStatement statement) {
+        if (statement instanceof PsiIfStatement) {
+            return new PsiStatement[]{((PsiIfStatement) statement).getThenBranch(),
+                ((PsiIfStatement) statement).getElseBranch()};
+        } else if (statement instanceof PsiWhileStatement) {
+            return new PsiStatement[]{((PsiWhileStatement) statement).getBody()};
+        } else if (statement instanceof PsiForStatement) {
+            return new PsiStatement[]{((PsiForStatement) statement).getBody()};
+        }
+        return new PsiStatement[0];
+    }
+
+    /**
+     * Calculates the length of a message chain within a given PsiElement.
+     *
+     * @param element The PsiElement to inspect, a PsiMethodCallExpression.
+     * @return The number of chained method calls. Returns 0 if there are none or the element is not a method call.
+     */
     private int calculateChainLength(PsiElement element) {
         int length = 0;
         while (element instanceof PsiMethodCallExpression) {

@@ -23,7 +23,7 @@ public class CommentsTest extends SmellDetectorTest {
             " ,detect it as a code smell.</html>";
         assertEquals(expectedDescription, comments.description());
     }
-    
+
     public void testPrecondition() {
         Comments comments = new Comments();
         String expectedPrecondition = "<html>There are comments longer than three line or TODO, or Fix.</html>";

@@ -72,11 +72,13 @@ public class Comments extends BaseDetectAction {
 
 
     /**
-     * Helper method to check the comments smell.
+     * Evaluates if a PsiComment is considered a code smell based on criteria.
+     * A comment is smelly if it includes keywords like "TODO" or "FIX",
+     * or if it exceeds a threshold maximum line count.
      *
-     * @param PsiComment comment
-     * @param maxLineCount user defined nubmer of lines
-     * @return true if it is a smelly comments, otherwise false.
+     * @param comment      The PsiComment to be evaluated.
+     * @param maxLineCount The maximum number of lines allowed in a comment before it's considered a smell.
+     * @return true if the comment meets the criteria for being a smell, false otherwise.
      */
     private boolean detectSmell(PsiComment comment, int maxLineCount) {
         String commentText = comment.getText();
