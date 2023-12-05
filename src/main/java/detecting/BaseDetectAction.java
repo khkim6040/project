@@ -1,6 +1,5 @@
 package detecting;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.psi.PsiElement;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  * @author CSED332 2020 Team Wanted
  */
 
-public abstract class BaseDetectAction extends AnAction {
+public abstract class BaseDetectAction {
 
     /**
      * Returns the story ID.
@@ -51,11 +50,5 @@ public abstract class BaseDetectAction extends AnAction {
      * @return true if method has code smell
      */
     public abstract List<PsiElement> findSmells(AnActionEvent e);
-
-    @Override
-    public void actionPerformed(AnActionEvent e) {
-
-    }
-
 
 }
