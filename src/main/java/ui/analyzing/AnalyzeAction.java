@@ -1,10 +1,9 @@
-package ui;
+package ui.analyzing;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.psi.PsiElement;
 import detecting.BaseDetectAction;
-import detecting.BaseDetectManager;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

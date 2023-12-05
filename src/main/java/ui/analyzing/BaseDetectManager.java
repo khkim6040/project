@@ -1,4 +1,16 @@
-package detecting;
+package ui.analyzing;
+
+import detecting.BaseDetectAction;
+import detecting.Comments;
+import detecting.DeadCode;
+import detecting.DuplicatedCode;
+import detecting.LargeClassField;
+import detecting.LargeClassMethod;
+import detecting.LongMethod;
+import detecting.LongParameterList;
+import detecting.MessageChain;
+import detecting.PoorName;
+import detecting.SwitchStatement;
 
 /**
  * Singleton Class with managing features of Multiple BaseDetectActions.

@@ -21,7 +21,7 @@ import com.intellij.psi.PsiVariable;
 import com.intellij.psi.PsiWhileStatement;
 import java.util.ArrayList;
 import java.util.List;
-import ui.UserProperties;
+import ui.customizing.UserProperties;
 import utils.LoadPsi;
 
 /**
