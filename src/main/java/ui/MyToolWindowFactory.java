@@ -30,6 +30,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import org.jetbrains.annotations.NotNull;
+import ui.analyzing.AnalyzeAction;
+import ui.analyzing.TreeStructureWindow;
 
 /**
  * The factory class which creates MyToolWindow on the IDE.

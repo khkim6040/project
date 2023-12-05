@@ -9,7 +9,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import ui.UserProperties;
+import ui.customizing.UserProperties;
 import utils.LoadPsi;
 
 
