@@ -1,4 +1,4 @@
-package ui;
+package ui.customizing;
 
 import java.io.IOException;
 

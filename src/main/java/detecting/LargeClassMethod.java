@@ -8,7 +8,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
 import java.util.ArrayList;
 import java.util.List;
-import ui.UserProperties;
+import ui.customizing.UserProperties;
 import utils.LoadPsi;
 
 /**

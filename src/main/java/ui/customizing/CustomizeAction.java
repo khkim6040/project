@@ -1,4 +1,4 @@
-package ui;
+package ui.customizing;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
