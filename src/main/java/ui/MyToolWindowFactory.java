@@ -9,8 +9,11 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
+import com.intellij.openapi.roots.ModuleRootManager;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
@@ -22,6 +25,7 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.ContentFactory;
 import java.awt.BorderLayout;
 import java.awt.Window;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +72,7 @@ public class MyToolWindowFactory implements ToolWindowFactory {
             if (action != null) {
                 DataContext dataContext = DataManager.getInstance().getDataContext(analyzeButton);
                 VirtualFile currentFile = FileEditorManager.getInstance(project).getSelectedFiles()[0];
+                System.out.println(currentFile);
                 Editor editor = null;
                 PsiFile psiFile = null;
 
@@ -90,11 +95,22 @@ public class MyToolWindowFactory implements ToolWindowFactory {
                         return dataContext.getData(dataId);
                     }
                 };
+                analyzeAction.setResultListener(this::updateUIWithAnalyzeResult);
                 AnActionEvent event = AnActionEvent.createFromDataContext(
                     ActionPlaces.UNKNOWN, action.getTemplatePresentation().clone(), customDataContext);
                 action.actionPerformed(event);
-                analyzeAction.setResultListener(this::updateUIWithAnalyzeResult);
             }
+        });
+
+        analyzeallButton.addActionListener(e -> {
+            AnAction action = ActionManager.getInstance().getAction("Analyze");
+            AnalyzeAction analyzeAction = (AnalyzeAction) action;
+
+            final File folder = new File(String.valueOf(
+                    ModuleRootManager.getInstance(ModuleManager.getInstance(project).getModules()[0]).getContentRoots()[0])
+                .replace("file://", "") + "/src");
+            listFilesForFolder(folder);
+
         });
 
         customizeButton.addActionListener(e -> {
@@ -144,6 +160,18 @@ public class MyToolWindowFactory implements ToolWindowFactory {
         }
         // if there is no active project, return an arbitrary project (the first)
         return ProjectManager.getInstance().getOpenProjects()[0];
+    }
+
+    public void listFilesForFolder(final File folder) {
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilesForFolder(fileEntry);
+            } else {
+                LocalFileSystem localFileSystem = LocalFileSystem.getInstance();
+                VirtualFile virtualFile = localFileSystem.refreshAndFindFileByIoFile(fileEntry);
+                System.out.println(virtualFile);
+            }
+        }
     }
 
 }
