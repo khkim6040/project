@@ -1,7 +1,7 @@
-//An example class with a smelly comments. @author Chanho Song
-
 /**
- * Test code for comments that contians 'fix'.
+ * Test code for comments that contians 'FIX'.
+ *
+ * @Author Chanho Song, Gwanho Kim
  */
 public class TestDetectLargeClass {
 

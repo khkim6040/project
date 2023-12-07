@@ -1,7 +1,7 @@
-//An example class with a smelly comments. @author Chanho Song
-
 /**
- * Test code for comments include 'todo'.
+ * Test code for comments include 'TODO'.
+ *
+ * @Author Chanho Song, Gwanho Kim
  */
 public class TestDetectLargeClass {
 

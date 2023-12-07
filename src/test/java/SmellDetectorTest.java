@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Abstract class to implement light test through files.
  *
- * @author Gwanho Kim
+ * @author Gwanho Kim, Jinmin Goh
  * @author CSED332 2020 Team Wanted
  */
 public abstract class SmellDetectorTest extends LightJavaCodeInsightFixtureTestCase {
