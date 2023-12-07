@@ -32,25 +32,29 @@ public class SwitchStatementTest extends SmellDetectorTest {
         assertEquals(expectedPrecondition, switchStatement.precondition());
     }
 
-    public void testSwitchStatement1() {
+    public void testTypeCastingInIfStatementIsSmelly() {
         expectedLocations.add(9);
         doFindSmellTest(1, expectedLocations);
     }
 
-//    public void testSwitchStatement2() {
-//        doDetectSmellTest(2, 1);
-//    }
-//
-//    public void testSwitchStatement3() {
-//        doDetectSmellTest(3, 2);
-//    }
-//
-//    public void testSwitchStatement4() {
-//        doDetectSmellTest(4, 1);
-//    }
-//
-//    public void testSwitchStatement5() {
-//        doDetectSmellTest(5, 0);
-//    }
+    public void testTypeCastingInContinuedIfStatementIsSmelly() {
+        expectedLocations.add(30);
+        doFindSmellTest(2, expectedLocations);
+    }
+
+    public void testTypeCastingInTwoIfStatementIsSmelly() {
+        expectedLocations.add(30);
+        expectedLocations.add(45);
+        doFindSmellTest(3, expectedLocations);
+    }
+
+    public void testTypeCastingInSwitchStatementIsSmelly() {
+        expectedLocations.add(52);
+        doFindSmellTest(4, expectedLocations);
+    }
+
+    public void testCleanSwitchStatement() {
+        doFindSmellTest(5, expectedLocations);
+    }
 
 }

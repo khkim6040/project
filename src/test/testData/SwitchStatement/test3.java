@@ -1,9 +1,8 @@
 /**
- * @author Chanho Song
  * Test code for 2 smelly if statement.
+ *
+ * @author Chanho Song
  */
-
-
 class Circle {
 
     void draw() {
