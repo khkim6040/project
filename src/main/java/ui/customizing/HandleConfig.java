@@ -23,10 +23,10 @@ import java.util.Properties;
  */
 public class HandleConfig {
 
-    static String configPath;
-    static File configFile;
-    static Properties prop;
-    static FileInputStream fis;
+    private static String configPath;
+    private static File configFile;
+    private static Properties prop;
+    private static FileInputStream fis;
     private static HandleConfig handler = null;
 
     public HandleConfig(Project project) throws IOException {
