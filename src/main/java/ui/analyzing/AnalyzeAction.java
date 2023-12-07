@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class AnalyzeAction extends AnAction {
 
+    private static Map<String, List<PsiElement>> combinedResultsAll = new HashMap<>();
     private AnalyzeResultListener resultListener;
 
     /**
