@@ -8,8 +8,9 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import ui.customizing.UserProperties;
 import utils.LoadPsi;
 
@@ -76,21 +77,15 @@ public class LongMethod extends BaseDetectAction {
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
-        List<PsiElement> longMethods = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
-
         int userDefinedMaxLineCount = UserProperties.getParam(storyID());
 
-        for (PsiElement element : psiFile.getChildren()) {
-            if (element instanceof PsiClass psiClass) {
-                for (PsiMethod method : psiClass.getMethods()) {
-                    if (detectSmell(method, userDefinedMaxLineCount)) {
-                        longMethods.add(method);
-                    }
-                }
-            }
-        }
-        return longMethods;
+        return Stream.of(psiFile.getChildren())
+            .filter(PsiClass.class::isInstance)
+            .map(PsiClass.class::cast)
+            .flatMap(psiClass -> Stream.of(psiClass.getMethods()))
+            .filter(method -> detectSmell(method, userDefinedMaxLineCount))
+            .collect(Collectors.toList());
     }
 
     /**
@@ -102,22 +97,18 @@ public class LongMethod extends BaseDetectAction {
      * @return true if the method's line count exceeds the specified maximum threshold.
      */
     private boolean detectSmell(PsiMethod method, int maxLineCount) {
-
         PsiCodeBlock methodBody = method.getBody();
-        if (methodBody == null) {
-            return false;
-        }
+
+        Document document = PsiDocumentManager.getInstance(method.getProject()).getDocument(method.getContainingFile());
+
+        assert document != null;
+        assert methodBody != null;
 
         // Calculate the line count based on the start and end line numbers
-        Document document = PsiDocumentManager.getInstance(method.getProject()).getDocument(method.getContainingFile());
-        if (document == null) {
-            return false;
-        }
-
         int startLine = document.getLineNumber(methodBody.getTextRange().getStartOffset());
         int endLine = document.getLineNumber(methodBody.getTextRange().getEndOffset());
-
         int lineCount = endLine - startLine;
+        
         return lineCount > maxLineCount;
     }
 

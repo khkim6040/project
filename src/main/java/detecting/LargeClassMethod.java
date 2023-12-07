@@ -5,8 +5,9 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import ui.customizing.UserProperties;
 import utils.LoadPsi;
 
@@ -18,7 +19,6 @@ import utils.LoadPsi;
  * @author Jinyoung Kim
  */
 public class LargeClassMethod extends BaseDetectAction {
-
 
     /**
      * Returns a unique identifier for the 'Large Class Method' detection story.
@@ -77,19 +77,14 @@ public class LargeClassMethod extends BaseDetectAction {
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
-        List<PsiElement> largeClassesMethod = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
-
         int userDefinedMaxMethods = UserProperties.getParam(storyID());
 
-        for (PsiElement element : psiFile.getChildren()) {
-            if (element instanceof PsiClass psiClass) {
-                if (detectSmell(psiClass, userDefinedMaxMethods)) {
-                    largeClassesMethod.add(psiClass);
-                }
-            }
-        }
-        return largeClassesMethod;
+        return Stream.of(psiFile.getChildren())
+            .filter(PsiClass.class::isInstance)
+            .map(PsiClass.class::cast)
+            .filter(psiClass -> detectSmell(psiClass, userDefinedMaxMethods))
+            .collect(Collectors.toList());
     }
 
     /**

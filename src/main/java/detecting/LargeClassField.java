@@ -5,8 +5,9 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiFile;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import ui.customizing.UserProperties;
 import utils.LoadPsi;
 
@@ -68,19 +69,14 @@ public class LargeClassField extends BaseDetectAction {
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
-        List<PsiElement> largeClassesField = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
-
         int userDefinedMaxFields = UserProperties.getParam(storyID());
 
-        for (PsiElement element : psiFile.getChildren()) {
-            if (element instanceof PsiClass psiClass) {
-                if (detectSmell(psiClass, userDefinedMaxFields)) {
-                    largeClassesField.add(psiClass);
-                }
-            }
-        }
-        return largeClassesField; // No large class code smell detected
+        return Stream.of(psiFile.getChildren())
+            .filter(PsiClass.class::isInstance)
+            .map(PsiClass.class::cast)
+            .filter(psiClass -> detectSmell(psiClass, userDefinedMaxFields))
+            .collect(Collectors.toList());
     }
 
     /**

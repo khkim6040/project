@@ -6,8 +6,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiParameter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import ui.customizing.UserProperties;
 import utils.LoadPsi;
 
@@ -75,21 +76,15 @@ public class LongParameterList extends BaseDetectAction {
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
-        List<PsiElement> longParameters = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
-
         int userDefinedMaxParameters = UserProperties.getParam(storyID());
 
-        for (PsiElement element : psiFile.getChildren()) {
-            if (element instanceof PsiClass psiClass) {
-                for (PsiMethod method : psiClass.getMethods()) {
-                    if (detectSmell(method, userDefinedMaxParameters)) {
-                        longParameters.add(method); // Long parameter list code smell detected
-                    }
-                }
-            }
-        }
-        return longParameters; // No long parameter list code smell detected
+        return Stream.of(psiFile.getChildren())
+            .filter(PsiClass.class::isInstance)
+            .map(PsiClass.class::cast)
+            .flatMap(psiClass -> Stream.of(psiClass.getMethods()))
+            .filter(method -> detectSmell(method, userDefinedMaxParameters))
+            .collect(Collectors.toList());
     }
 
     /**
