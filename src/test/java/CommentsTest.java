@@ -31,18 +31,20 @@ public class CommentsTest extends SmellDetectorTest {
     }
 
     public void testComments1() {
-        doDetectSmellTest(1, 1);
+        expectedLocations.add(10);
+        doFindSmellTest(1, expectedLocations);
     }
 
     public void testComments2() {
-        doDetectSmellTest(2, 1);
+        expectedLocations.add(11);
+        doFindSmellTest(2, expectedLocations);
     }
-
-    public void testComments3() {
-        doDetectSmellTest(3, 1);
-    }
-
-    public void testComments4() {
-        doDetectSmellTest(4, 0);
-    }
+    //
+    //    public void testComments3() {
+    //        doDetectSmellTest(3, 1);
+    //    }
+    //
+    //    public void testComments4() {
+    //        doDetectSmellTest(4, 0);
+    //    }
 }

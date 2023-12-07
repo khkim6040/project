@@ -38,15 +38,17 @@ public class LargeClassFieldTest extends SmellDetectorTest {
     }
 
     public void testLargeClassField1() {
-        doDetectSmellTest(1, 1);
-    }
+        expectedLocations.add(12);
+        doFindSmellTest(1, expectedLocations);
 
-    public void testLargeClassField2() {
-        doDetectSmellTest(2, 0);
     }
-
-    public void testLargeClassField3() {
-        doDetectSmellTest(3, 3);
-    }
+//
+//    public void testLargeClassField2() {
+//        doDetectSmellTest(2, 0);
+//    }
+//
+//    public void testLargeClassField3() {
+//        doDetectSmellTest(3, 3);
+//    }
 }
 

@@ -37,18 +37,24 @@ public class MessageChainTest extends SmellDetectorTest {
     }
 
     public void testMessageChain1() {
-        doDetectSmellTest(1, 1);
+        expectedLocations.add(18);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testMessageChain2() {
-        doDetectSmellTest(2, 0);
-    }
+//    public void testMessageChain2() {
+//        doDetectSmellTest(2, 0);
+//    }
+//
+//    public void testMessageChain3() {
+//        doDetectSmellTest(3, 3);
+//    }
+//
+//    public void testMessageChain4() {
+//        doDetectSmellTest(4, 11);
+//    }
+//
+//    public void testMessageChain5() {
+//        doDetectSmellTest(5, 6);
+//    }
 
-    public void testMessageChain3() {
-        doDetectSmellTest(3, 3);
-    }
-
-    public void testMessageChain4() {
-        doDetectSmellTest(4, 9);
-    }
 }

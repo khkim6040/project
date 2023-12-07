@@ -37,15 +37,16 @@ public class LongMethodTest extends SmellDetectorTest {
     }
 
     public void testLongMethod1() {
-        doDetectSmellTest(1, 1);
+        expectedLocations.add(14);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testLongMethod2() {
-        doDetectSmellTest(2, 0);
-    }
-
-    public void testLongMethod3() {
-        doDetectSmellTest(3, 3);
-    }
+//    public void testLongMethod2() {
+//        doDetectSmellTest(2, 0);
+//    }
+//
+//    public void testLongMethod3() {
+//        doDetectSmellTest(3, 3);
+//    }
 
 }

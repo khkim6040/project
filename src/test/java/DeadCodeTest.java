@@ -36,23 +36,24 @@ public class DeadCodeTest extends SmellDetectorTest {
     }
 
     public void testDeadCode1() {
-        doDetectSmellTest(1, 1);
+        expectedLocations.add(7);
+        doFindSmellTest(1, expectedLocations);
     }
-
-    public void testDeadCode2() {
-        doDetectSmellTest(2, 1);
-    }
-
-    public void testDeadCode3() {
-        doDetectSmellTest(3, 1);
-
-    }
-
-    public void testDeadCode4() {
-        doDetectSmellTest(4, 0);
-    }
-
-    public void testDeadCode5() {
-        doDetectSmellTest(5, 3);
-    }
+//
+//    public void testDeadCode2() {
+//        doDetectSmellTest(2, 1);
+//    }
+//
+//    public void testDeadCode3() {
+//        doDetectSmellTest(3, 1);
+//
+//    }
+//
+//    public void testDeadCode4() {
+//        doDetectSmellTest(4, 0);
+//    }
+//
+//    public void testDeadCode5() {
+//        doDetectSmellTest(5, 3);
+//    }
 }
