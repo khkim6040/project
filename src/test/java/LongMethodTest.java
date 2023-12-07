@@ -4,7 +4,7 @@ import detecting.LongMethod;
 /**
  * Test for detecting: 'LongMethod'
  *
- * @author Jinyoung Kim
+ * @author Jinyoung Kim, Gwanho Kim, Jinmin Goh
  */
 public class LongMethodTest extends SmellDetectorTest {
 
@@ -36,17 +36,20 @@ public class LongMethodTest extends SmellDetectorTest {
         assertEquals(expectedPrecondition, longMethod.precondition());
     }
 
-    public void testLongMethod1() {
+    public void testMethodHasMoreThanConfigurationLineIsSmelly() {
         expectedLocations.add(14);
         doFindSmellTest(1, expectedLocations);
     }
 
-//    public void testLongMethod2() {
-//        doDetectSmellTest(2, 0);
-//    }
-//
-//    public void testLongMethod3() {
-//        doDetectSmellTest(3, 3);
-//    }
+    public void testMethodHasLessOrEqualThanConfigurationLineIsClean() {
+        doFindSmellTest(2, expectedLocations);
+    }
+
+    public void testMixedCase() {
+        expectedLocations.add(14);
+        expectedLocations.add(51);
+        expectedLocations.add(95);
+        doFindSmellTest(3, expectedLocations);
+    }
 
 }
