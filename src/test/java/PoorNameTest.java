@@ -37,20 +37,22 @@ public class PoorNameTest extends SmellDetectorTest {
         assertEquals(expectedPrecondition, poorName.precondition());
     }
 
-    public void testPoorName1() {
-        expectedLocations.add(12);
+    public void testVariableNameLengthLessThanFourIsSmelly() {
+        expectedLocations.add(13);
         doFindSmellTest(1, expectedLocations);
     }
 
-//    public void testPoorName2() {
-//        doDetectSmellTest(2, 1);
-//    }
-//
-//    public void testPoorName3() {
-//        doDetectSmellTest(3, 1);
-//    }
-//
-//    public void testPoorName4() {
-//        doDetectSmellTest(4, 0);
-//    }
+    public void testVariableNameWithRepeatedAlphabetIsSmelly() {
+        expectedLocations.add(13);
+        doFindSmellTest(2, expectedLocations);
+    }
+
+    public void testVariableNameWithSequentialAlphabetIsSmelly() {
+        expectedLocations.add(13);
+        doFindSmellTest(3, expectedLocations);
+    }
+
+    public void testCleanVariableName() {
+        doFindSmellTest(4, expectedLocations);
+    }
 }
