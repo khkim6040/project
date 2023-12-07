@@ -25,7 +25,7 @@ public class SwitchStatementTest extends SmellDetectorTest {
                 "casting of the object to use method of the class</html>";
         assertEquals(expectedDescription, switchStatement.description());
     }
-    
+
     public void testPrecondition() {
         SwitchStatement switchStatement = new SwitchStatement();
         String expectedPrecondition = "<html>instanceof in if statement and multiple casting of object dependent to condition</html>";

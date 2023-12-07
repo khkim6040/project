@@ -98,7 +98,8 @@ public class LargeClassMethod extends BaseDetectAction {
      *
      * @param psiClass   The PsiClass to be evaluated.
      * @param maxMethods The maximum number of methods a class can have before it is considered 'large'.
-     * @return true if the PsiClass has more methods than the specified maximum threshold, indicating a 'large class' code smell.
+     * @return true if the PsiClass has more methods than the specified maximum threshold, indicating a 'large class'
+     * code smell.
      */
     private boolean detectSmell(PsiClass psiClass, int maxMethods) {
         PsiMethod[] methods = psiClass.getMethods();

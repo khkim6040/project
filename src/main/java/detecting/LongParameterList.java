@@ -97,7 +97,8 @@ public class LongParameterList extends BaseDetectAction {
      * This method checks the number of parameters in a method against a maximum threshold.
      *
      * @param method        The PsiMethod to be evaluated.
-     * @param maxParameters The maximum number of parameters allowed before a method is considered to have a long parameter list.
+     * @param maxParameters The maximum number of parameters allowed before a method is considered to have a long
+     *                      parameter list.
      * @return true if the method's parameter list exceeds the specified maximum threshold.
      */
     public boolean detectSmell(PsiMethod method, int maxParameters) {
