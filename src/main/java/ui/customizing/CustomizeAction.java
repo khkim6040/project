@@ -3,7 +3,6 @@ package ui.customizing;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class CustomizeAction extends AnAction {
 
     /**
-     * Invoke when CustomizePopupGUI(Tools > CodeScent > Customize) action is performed.
+     * Invoke when CustomizePopupGUI action is performed.
      *
      * @param e action event.
      */
@@ -30,8 +29,6 @@ public class CustomizeAction extends AnAction {
         CustomizePopupGUI dialog = null;
         try {
             dialog = new CustomizePopupGUI(project, e);
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

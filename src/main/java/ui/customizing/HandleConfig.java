@@ -38,10 +38,14 @@ public class HandleConfig {
         configFile = new File(configPath);
     }
 
+    /**
+     * Method that initializes parameters with config file's parameters.
+     * If there is no config file, creates new config file.
+     */
     public static void initializeConfig() throws IOException {
         // create file if no config file
         if (!configFile.exists()) {
-            createConfig(configPath, configFile);
+            createConfig();
         }
         fis = new FileInputStream(configFile);
         // if file exists, set userProperties
@@ -53,6 +57,12 @@ public class HandleConfig {
         setCOM(getConfigParam("COM"));
     }
 
+    /**
+     * Method that returns config file handler(singleton).
+     *
+     * @param project current project
+     * @return current config file handler
+     */
     public static HandleConfig getHandler(Project project) throws IOException {
         if (handler == null) {
             handler = new HandleConfig(project);
@@ -60,20 +70,35 @@ public class HandleConfig {
         return handler;
     }
 
+    /**
+     * Method that fetches parameter of story ID from config file.
+     *
+     * @param storyID story ID
+     * @return parameter of storyID from config file
+     */
     public static Integer getConfigParam(String storyID) throws IOException {
         prop.load(fis);
         return Integer.parseInt(prop.getProperty(storyID));
     }
 
+    /**
+     * Method that saves parameter of story ID into config file.
+     *
+     * @param storyID story ID
+     * @param param   parameter to be saved
+     */
     public static void setConfigParam(String storyID, int param) throws IOException {
         FileWriter writer = new FileWriter(configPath);
         prop.setProperty(storyID, String.valueOf(param));
         prop.store(writer, "");
     }
 
-    private static void createConfig(String configPath, File file) {
+    /**
+     * Method that creates new config file with default parameters.
+     */
+    private static void createConfig() {
         try {
-            file.createNewFile();
+            configFile.createNewFile();
             FileWriter myWriter = new FileWriter(configPath);
             myWriter.write("LM=25\n");
             myWriter.write("LCM=6\n");
