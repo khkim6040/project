@@ -72,35 +72,13 @@ public class MyToolWindowFactory implements ToolWindowFactory {
         analyzeButton.addActionListener(e -> {
             AnAction action = ActionManager.getInstance().getAction("Analyze");
             AnalyzeAction analyzeAction = (AnalyzeAction) action;
+            DataContext myDataContext;
             if (action != null) {
-                DataContext dataContext = DataManager.getInstance().getDataContext(analyzeButton);
                 VirtualFile currentFile = FileEditorManager.getInstance(project).getSelectedFiles()[0];
-                System.out.println(currentFile);
-                Editor editor = null;
-                PsiFile psiFile = null;
-
-                if (currentFile != null) {
-                    editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
-                    psiFile = PsiManager.getInstance(project).findFile(currentFile);
-                }
-                Editor finalEditor = editor;
-                PsiFile finalPsiFile = psiFile;
-                DataContext customDataContext = new DataContext() {
-                    @Override
-                    public Object getData(String dataId) {
-                        if (CommonDataKeys.VIRTUAL_FILE.is(dataId)) {
-                            return currentFile;
-                        } else if (CommonDataKeys.EDITOR.is(dataId)) {
-                            return finalEditor;
-                        } else if (CommonDataKeys.PSI_FILE.is(dataId)) {
-                            return finalPsiFile;
-                        }
-                        return dataContext.getData(dataId);
-                    }
-                };
+                myDataContext = customDataContext(currentFile);
                 analyzeAction.setResultListener(this::updateUIWithAnalyzeResult);
                 AnActionEvent event = AnActionEvent.createFromDataContext(
-                    ActionPlaces.UNKNOWN, action.getTemplatePresentation().clone(), customDataContext);
+                    ActionPlaces.UNKNOWN, action.getTemplatePresentation().clone(), myDataContext);
                 action.actionPerformed(event);
             }
         });
@@ -109,7 +87,6 @@ public class MyToolWindowFactory implements ToolWindowFactory {
             AnAction action = ActionManager.getInstance().getAction("Analyze");
             AnalyzeAction analyzeAction = (AnalyzeAction) action;
             List<VirtualFile> virtualFiles;
-            List<PsiFile> psiFiles = new ArrayList<>();
             DataContext myDataContext;
 
             final File folder = new File(String.valueOf(
@@ -168,7 +145,6 @@ public class MyToolWindowFactory implements ToolWindowFactory {
     }
 
     public void updateUIWithAnalyzeAllResult(Map<String, List<PsiElement>> result) {
-        System.out.println(String.valueOf(result));
         mergeMaps(result, resultAll);
         mainPanel.remove(treeWindow);
         treeWindow.remove(tree);
@@ -211,13 +187,23 @@ public class MyToolWindowFactory implements ToolWindowFactory {
         DataContext dataContext = DataManager.getInstance().getDataContext(analyzeButton);
         Editor editor = null;
         PsiFile psiFile = null;
+        FileEditor[] fileEditors;
 
         if (currentFile != null) {
-            FileEditor[] fileEditors = FileEditorManager.getInstance(project).getEditors(currentFile);
+            if (!FileEditorManager.getInstance(project).isFileOpen(currentFile)) {
+                FileEditorManager.getInstance(project).openFile(currentFile, true);
+                fileEditors = FileEditorManager.getInstance(project).getEditors(currentFile);
+                FileEditorManager.getInstance(project).closeFile(currentFile);
+                if (fileEditors.length > 0 && fileEditors[0] instanceof TextEditor) {
+                    editor = ((TextEditor) fileEditors[0]).getEditor();
+                }
+            } else {
+                fileEditors = FileEditorManager.getInstance(project).getEditors(currentFile);
+            }
             if (fileEditors.length > 0 && fileEditors[0] instanceof TextEditor) {
                 editor = ((TextEditor) fileEditors[0]).getEditor();
             }
-
+            
             psiFile = PsiManager.getInstance(project).findFile(currentFile);
         }
         Editor finalEditor = editor;
