@@ -37,18 +37,21 @@ public class LargeClassFieldTest extends SmellDetectorTest {
         assertEquals(expectedPrecondition, largeClassField.precondition());
     }
 
-    public void testLargeClassField1() {
+    public void testClassHasMoreThanConfigurationFieldIsSmelly() {
         expectedLocations.add(12);
         doFindSmellTest(1, expectedLocations);
 
     }
-//
-//    public void testLargeClassField2() {
-//        doDetectSmellTest(2, 0);
-//    }
-//
-//    public void testLargeClassField3() {
-//        doDetectSmellTest(3, 3);
-//    }
+
+    public void testClassHasLessOrEqualThanConfigurationFieldIsClean() {
+        doFindSmellTest(2, expectedLocations);
+    }
+
+    public void testMixedCase() {
+        expectedLocations.add(21);
+        expectedLocations.add(30);
+        expectedLocations.add(38);
+        doFindSmellTest(3, expectedLocations);
+    }
 }
 
