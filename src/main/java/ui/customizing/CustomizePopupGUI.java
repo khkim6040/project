@@ -66,6 +66,12 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
         setVisible(true);
     }
 
+    /**
+     * Method that gets parameters when user changes input of popup table.
+     * This method gets parameters and saves them into UserProperties class.
+     *
+     * @param e TableModelEvent
+     */
     @Override
     public void tableChanged(TableModelEvent e) {
         int row = e.getFirstRow();
