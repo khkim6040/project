@@ -1,12 +1,12 @@
+/**
+ * Test PsiDeclarationStatement, int a = b.method1().method2()
+ * An example code with 1 message chain code smell.
+ * This code has message length of 6. (Default length is 5)
+ *
+ * @author Jinyoung Kim
+ */
 public class TestMessageChain {
 
-    /**
-     * Test PsiDeclarationStatement, int a = b.method1().method2()
-     * An example code with 1 message chain code smell.
-     * This code has message length of 6. (Default length is 5)
-     *
-     * @author Jinyoung Kim
-     */
     private Level1 level1;
 
     public TestMessageChain() {

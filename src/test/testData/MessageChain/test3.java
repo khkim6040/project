@@ -1,15 +1,15 @@
+/**
+ * Test PsiDeclarationStatement, int a = b.method1().method2()
+ * An example code with 3 instances of message chain code smells
+ * (with chain lengths of 7, 8, and 9)
+ * and one example of a message chain that is not a code smell (with
+ * a length of 3, which is not over length 5)
+ * Default condition for message chain code smell is 5
+ *
+ * @author Jinyoung Kim
+ */
 public class MessageChainExample {
 
-    /**
-     * Test PsiDeclarationStatement, int a = b.method1().method2()
-     * An example code with 3 instances of message chain code smells
-     * (with chain lengths of 7, 8, and 9)
-     * and one example of a message chain that is not a code smell (with
-     * a length of 3, which is not over length 5)
-     * Default condition for message chain code smell is 5
-     *
-     * @author Jinyoung Kim
-     */
 
     public static void main(String[] args) {
         // Message chain with length 7 (code smell)

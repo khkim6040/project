@@ -1,15 +1,15 @@
+/**
+ * Example code to test other 6 types of statements
+ * This code doesn't have message chain inside for, if, while ,switch
+ * An example code with 6 instances of message chain code smells
+ * (with all chain lengths of 7)
+ *
+ * Default condition for message chain code smell is 5
+ *
+ * @author Jinyoung Kim
+ */
 public class TestClass {
 
-    /**
-     * Example code to test other 6 types of statements
-     * This code doesn't have message chain inside for, if, while ,switch
-     * An example code with 6 instances of message chain code smells
-     * (with all chain lengths of 7)
-     *
-     * Default condition for message chain code smell is 5
-     *
-     * @author Jinyoung Kim
-     */
 
     public void testMethod() {
         // Case 1: PsiExpressionStatement (length = 7)
@@ -39,7 +39,7 @@ public class TestClass {
                 int a = 5;
                 break;
             case STATE2:
-                int b= 3;
+                int b = 3;
                 break;
         }
 
