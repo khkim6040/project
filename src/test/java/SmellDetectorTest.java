@@ -22,10 +22,6 @@ public abstract class SmellDetectorTest extends LightJavaCodeInsightFixtureTestC
     // List of expected locations of smelly codes
     public List<Integer> expectedLocations = new ArrayList<>();
 
-    //    @AfterEach
-//    public void tearDown() {
-//        expectedLocations.clear();
-//    }
     @Override
     protected String getTestDataPath() {
         return "src/test/";
