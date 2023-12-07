@@ -1,7 +1,6 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiBlockStatement;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiCodeBlock;
@@ -21,40 +20,61 @@ import com.intellij.psi.PsiVariable;
 import com.intellij.psi.PsiWhileStatement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import ui.customizing.UserProperties;
 import utils.LoadPsi;
 
 /**
- * Class to provide detecting: 'Message Chain'
- * When sequence of method calls is chained together ove a threshold length
+ * Class for detecting 'Message Chain' code smells.
+ * This class extends BaseDetectAction, enabling it to analyze code and identify instances where a sequence of method
+ * calls is chained together over a defined threshold length, indicating a code smell.
  *
  * @author Jinyoung Kim
  * @author Chanho Song
  */
 public class MessageChain extends BaseDetectAction {
 
-    public Project project;
-
-    /* Returns the story ID. */
+    /**
+     * Returns the unique story ID for the Message Chain detection.
+     * This identifier is used for differentiating between various detection stories.
+     *
+     * @return A String representing the unique story ID for 'Message Chain'.
+     */
     @Override
     public String storyID() {
         return "MC";
     }
 
-    /* Returns the story name as string for message. */
+    /**
+     * Provides the name of the detection story in a format suitable for display.
+     * This method returns the name of the story focused on identifying message chains in methods.
+     *
+     * @return A String representing the name of the detection story.
+     */
     @Override
     public String storyName() {
         return "Message Chain";
     }
 
-    /* Returns the description of each story. (in html-style) */
+    /**
+     * Returns a description of the 'Message Chain' code smell.
+     * The description is provided in HTML format and outlines the criteria for determining a message chain.
+     *
+     * @return A String in HTML format describing the 'Message Chain' code smell.
+     */
     @Override
     public String description() {
         return "<html>When a sequence of method calls is chained together<br/>" +
             " ,detect it as code smell message chain.</html>";
     }
 
-    /* Returns the precondition of each story. (in html-style) */
+    /**
+     * Specifies the precondition for detecting a message chain.
+     * This method returns the precondition in HTML format, detailing the conditions that qualify a sequence of method
+     * calls as a 'message chain'.
+     *
+     * @return A String in HTML format stating the precondition for detecting a message chain.
+     */
     @Override
     public String precondition() {
         return "<html>Message chain whose length is longer than a set standard</html>";
@@ -64,7 +84,7 @@ public class MessageChain extends BaseDetectAction {
      * Scans through the given project's PSI tree to find and list 'message chain' code smells.
      * Code smell occurs when a sequence of method calls is chained together over a defined threshold length.
      *
-     * @param e AnActionEvent, represents some interaction by the user
+     * @param e AnActionEvent representing the context in which the action is performed.
      * @return list of PsiElements where each element represents a detected message chain code smell.
      */
     @Override
@@ -74,8 +94,7 @@ public class MessageChain extends BaseDetectAction {
         int userDefinedMessageChainLength = UserProperties.getParam(storyID());
 
         for (PsiElement element : psiFile.getChildren()) {
-            if (element instanceof PsiClass) {
-                PsiClass psiClass = (PsiClass) element;
+            if (element instanceof PsiClass psiClass) {
                 for (PsiMethod method : psiClass.getMethods()) {
                     PsiCodeBlock body = method.getBody();
                     if (body != null) {
@@ -105,8 +124,7 @@ public class MessageChain extends BaseDetectAction {
         if (statement instanceof PsiExpressionStatement) { // a.method1().method2()
             PsiExpression expression = ((PsiExpressionStatement) statement).getExpression();
             return calculateChainLength(expression) > chainLength;
-        } else if (statement instanceof PsiDeclarationStatement) { // int a = b.method1().method2()
-            PsiDeclarationStatement declarationStatement = (PsiDeclarationStatement) statement;
+        } else if (statement instanceof PsiDeclarationStatement declarationStatement) { // int a = b.method1().method2()
             for (PsiElement element : declarationStatement.getDeclaredElements()) {
                 if (element instanceof PsiVariable) {
                     // If declared element is variable, checks the initializer of the variable for message chain
@@ -125,12 +143,10 @@ public class MessageChain extends BaseDetectAction {
         } else if (statement instanceof PsiWhileStatement) { // check while(object.method1().method2())
             PsiExpression condition = ((PsiWhileStatement) statement).getCondition();
             return condition != null && calculateChainLength(condition) > chainLength;
-        } else if (statement instanceof PsiForStatement) { // check for(int i = 0; object.method1().method2(i); i++)
-            PsiForStatement forStatement = (PsiForStatement) statement;
+        } else if (statement instanceof PsiForStatement forStatement) { // check for(int i = 0; object.method1().method2(i); i++)
             PsiExpression condition = forStatement.getCondition();
             return condition != null && calculateChainLength(condition) > chainLength;
-        } else if (statement instanceof PsiSwitchStatement) { // check switch(object.method1().method2())
-            PsiSwitchStatement switchStatement = (PsiSwitchStatement) statement;
+        } else if (statement instanceof PsiSwitchStatement switchStatement) { // check switch(object.method1().method2())
             PsiExpression switchExpression = switchStatement.getExpression();
             return switchExpression != null && calculateChainLength(switchExpression) > chainLength;
         }
@@ -163,9 +179,8 @@ public class MessageChain extends BaseDetectAction {
                     checkAndAddSmells(branch, foundSmells, chainLength);
                 }
             }
-        } else if (statement instanceof PsiSwitchStatement) { // For message chains in switch case
-            PsiSwitchStatement switchStatement = (PsiSwitchStatement) statement;
-            for (PsiStatement switchBranch : switchStatement.getBody().getStatements()) {
+        } else if (statement instanceof PsiSwitchStatement switchStatement) { // For message chains in switch case
+            for (PsiStatement switchBranch : Objects.requireNonNull(switchStatement.getBody()).getStatements()) {
                 // Check and add smells in each switch branch
                 if (switchBranch instanceof PsiBlockStatement) {
                     checkAndAddSmells(switchBranch, foundSmells, chainLength);
