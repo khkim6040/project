@@ -1,7 +1,7 @@
-//An example class with a smelly comments. @author Chanho Song
-
 /**
- * Test code for check more than 5 line comments.
+ * This is a comment with 6 lines. (Default length is 5)
+ *
+ * @Author Chanho Song, Gwanho Kim
  */
 public class TestDetectLargeClass {
 
@@ -9,7 +9,8 @@ public class TestDetectLargeClass {
 
         /* This
          * is
-         * 5
+         * a
+         * 6
          * line
          * comments          */
 

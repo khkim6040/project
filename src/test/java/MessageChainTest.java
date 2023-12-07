@@ -2,9 +2,9 @@ import detecting.BaseDetectAction;
 import detecting.MessageChain;
 
 /**
- * Test for detecting: 'Message chain'
+ * Test for detecting: 'MessageChain'
  *
- * @author Jinyoung Kim
+ * @author Jinyoung Kim, Gwanho Kim, Jinmin Goh
  */
 public class MessageChainTest extends SmellDetectorTest {
 
@@ -36,23 +36,45 @@ public class MessageChainTest extends SmellDetectorTest {
         assertEquals(expectedPrecondition, messageChain.precondition());
     }
 
-    public void testMessageChain1() {
-        doDetectSmellTest(1, 1);
+    public void testStatementHasLongerThanConfigurationChainLengthIsSmelly() {
+        expectedLocations.add(18);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testMessageChain2() {
-        doDetectSmellTest(2, 0);
+    public void testStatementHasShorterOrEqualThanConfigurationChainLengthIsSmelly() {
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testMessageChain3() {
-        doDetectSmellTest(3, 3);
+    public void testMixedCaseForSingleStatement() {
+        expectedLocations.add(16);
+        expectedLocations.add(19);
+        expectedLocations.add(23);
+        doFindSmellTest(3, expectedLocations);
     }
 
-    public void testMessageChain4() {
-        doDetectSmellTest(4, 11);
+    public void testMixedCaseForVariousStatements() {
+        expectedLocations.add(15);
+        expectedLocations.add(18);
+        expectedLocations.add(21);
+        expectedLocations.add(23);
+        expectedLocations.add(27);
+        expectedLocations.add(29);
+        expectedLocations.add(33);
+        expectedLocations.add(35);
+        expectedLocations.add(39);
+        expectedLocations.add(41);
+        expectedLocations.add(44);
+        doFindSmellTest(4, expectedLocations);
     }
 
     public void testMessageChain5() {
-        doDetectSmellTest(5, 6);
+        expectedLocations.add(16);
+        expectedLocations.add(19);
+        expectedLocations.add(22);
+        expectedLocations.add(27);
+        expectedLocations.add(32);
+        expectedLocations.add(37);
+        doFindSmellTest(5, expectedLocations);
     }
+
 }

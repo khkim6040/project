@@ -1,11 +1,11 @@
+/**
+ * An example method with a long method code smell.
+ * This method has 43 lines of code. (Over 25 lines, default value)
+ *
+ * @author Jinyoung Kim
+ */
 public class TestLongMethod {
 
-    /**
-     * An example method with a long method code smell.
-     * This method has 43 lines of code. (Over 25 lines, default value)
-     *
-     * @author Jinyoung Kim
-     */
     public static void main(String[] args) {
         TestLongMethod example = new TestLongMethod();
         example.tooLongMethod();

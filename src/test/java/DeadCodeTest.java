@@ -2,8 +2,9 @@ import detecting.BaseDetectAction;
 import detecting.DeadCode;
 
 /**
- * @author: Hyeonbeen Park
- * @author: Chanho Song
+ * Test for detecting: 'DeadCode'
+ *
+ * @author: Hyeonbeen Park, Chanho Song, Gwanho Kim, Jinmin Goh
  */
 public class DeadCodeTest extends SmellDetectorTest {
 
@@ -35,24 +36,29 @@ public class DeadCodeTest extends SmellDetectorTest {
         assertEquals(expectedPrecondition, deadCode.precondition());
     }
 
-    public void testDeadCode1() {
-        doDetectSmellTest(1, 1);
+    public void testUnusedSingleVariableIsSmelly() {
+        expectedLocations.add(8);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testDeadCode2() {
-        doDetectSmellTest(2, 1);
+    public void testUnusedVariableInMethodIsSmelly() {
+        expectedLocations.add(15);
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testDeadCode3() {
-        doDetectSmellTest(3, 1);
-
+    public void testUnusedMethodIsSmelly() {
+        expectedLocations.add(18);
+        doFindSmellTest(3, expectedLocations);
     }
 
-    public void testDeadCode4() {
-        doDetectSmellTest(4, 0);
+    public void testUsedMethodIsClean() {
+        doFindSmellTest(4, expectedLocations);
     }
 
-    public void testDeadCode5() {
-        doDetectSmellTest(5, 3);
+    public void testMixedCase() {
+        expectedLocations.add(18);
+        expectedLocations.add(22);
+        expectedLocations.add(23);
+        doFindSmellTest(5, expectedLocations);
     }
 }
