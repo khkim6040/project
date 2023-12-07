@@ -29,7 +29,7 @@ public class PoorNameTest extends SmellDetectorTest {
             "detect names that is hardly reflect its function.</html>";
         assertEquals(expectedDescription, poorName.description());
     }
-    
+
     public void testPrecondition() {
         PoorName poorName = new PoorName();
         String expectedPrecondition = "<html>The variable which is just one alphabet or form of repeated alphabet. " +

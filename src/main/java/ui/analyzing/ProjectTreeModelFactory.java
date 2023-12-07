@@ -1,8 +1,7 @@
-package ui;
+package ui.analyzing;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import detecting.BaseDetectManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

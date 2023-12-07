@@ -1,4 +1,4 @@
-package ui;
+package ui.analyzing;
 
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
@@ -64,7 +64,7 @@ public class TreeStructureWindow extends Tree {
      *
      * @param project a project
      */
-    TreeStructureWindow(@NotNull Project project, Map<String, List<PsiElement>> result) {
+    public TreeStructureWindow(@NotNull Project project, Map<String, List<PsiElement>> result) {
         setModel(ProjectTreeModelFactory.createProjectTreeModel(project, result));
 
         // Set a cell renderer to display the name and icon of each node

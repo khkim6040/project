@@ -1,4 +1,4 @@
-package ui;
+package ui.analyzing;
 
 import detecting.BaseDetectAction;
 import javax.swing.JMenuItem;
