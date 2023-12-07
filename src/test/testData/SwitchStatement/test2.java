@@ -1,8 +1,8 @@
 /**
- * @author Chanho Song
  * Test code for type casting in continued if statement
+ *
+ * @author Chanho Song
  */
-
 class Circle {
 
     void draw() {

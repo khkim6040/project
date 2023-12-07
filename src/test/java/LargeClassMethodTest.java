@@ -2,11 +2,10 @@ import detecting.BaseDetectAction;
 import detecting.LargeClassMethod;
 
 /**
- * Test for detecting large class due to methods
+ * Test for detecting: 'LargeClassMethod'
  *
- * @author Jinyoung Kim
+ * @author Jinyoung Kim, Gwanho Kim, Jinmin Goh
  */
-
 public class LargeClassMethodTest extends SmellDetectorTest {
 
     @Override
@@ -37,16 +36,20 @@ public class LargeClassMethodTest extends SmellDetectorTest {
         assertEquals(expectedPrecondition, largeClassMethod.precondition());
     }
 
-    public void testLargeClassMethod1() {
-        doDetectSmellTest(1, 1);
+    public void testClassHasMoreThanConfigurationMethodIsSmelly() {
+        expectedLocations.add(12);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testLargeClassMethod2() {
-        doDetectSmellTest(2, 0);
+    public void testClassHasLessOrEqualThanConfigurationMethodIsClean() {
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testLargeClassMethod3() {
-        doDetectSmellTest(3, 3);
+    public void testMixedCase() {
+        expectedLocations.add(13);
+        expectedLocations.add(40);
+        expectedLocations.add(69);
+        doFindSmellTest(3, expectedLocations);
     }
 }
 

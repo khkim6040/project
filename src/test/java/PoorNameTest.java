@@ -2,9 +2,9 @@ import detecting.BaseDetectAction;
 import detecting.PoorName;
 
 /**
- * Test for detecting: 'Poor name'
+ * Test for detecting: 'PoorName'
  *
- * @author Chanho Song
+ * @author Chanho Song, Gwanho Kim, Jinmin Goh
  */
 public class PoorNameTest extends SmellDetectorTest {
 
@@ -37,19 +37,22 @@ public class PoorNameTest extends SmellDetectorTest {
         assertEquals(expectedPrecondition, poorName.precondition());
     }
 
-    public void testPoorName1() {
-        doDetectSmellTest(1, 1);
+    public void testVariableNameLengthLessThanFourIsSmelly() {
+        expectedLocations.add(13);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testPoorName2() {
-        doDetectSmellTest(2, 1);
+    public void testVariableNameWithRepeatedAlphabetIsSmelly() {
+        expectedLocations.add(13);
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testPoorName3() {
-        doDetectSmellTest(3, 1);
+    public void testVariableNameWithSequentialAlphabetIsSmelly() {
+        expectedLocations.add(13);
+        doFindSmellTest(3, expectedLocations);
     }
 
-    public void testPoorName4() {
-        doDetectSmellTest(4, 0);
+    public void testCleanVariableName() {
+        doFindSmellTest(4, expectedLocations);
     }
 }

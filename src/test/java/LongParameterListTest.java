@@ -2,9 +2,9 @@ import detecting.BaseDetectAction;
 import detecting.LongParameterList;
 
 /**
- * Test for detecting: 'Long parameter list'
+ * Test for detecting: 'LongParameterList'
  *
- * @author Jinyoung Kim
+ * @author Jinyoung Kim, Gwanho Kim, Jinmin Goh
  */
 public class LongParameterListTest extends SmellDetectorTest {
 
@@ -36,15 +36,19 @@ public class LongParameterListTest extends SmellDetectorTest {
         assertEquals(expectedPrecondition, longParameterList.precondition());
     }
 
-    public void testLongParameterList1() {
-        doDetectSmellTest(1, 1);
+    public void testMethodHasMoreThanConfigurationParameterIsSmelly() {
+        expectedLocations.add(21);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testLongParameterList2() {
-        doDetectSmellTest(2, 0);
+    public void testMethodHasLessOrEqualThanConfigurationParameterIsSmelly() {
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testLongParameterList3() {
-        doDetectSmellTest(3, 3);
+    public void testMixedCase() {
+        expectedLocations.add(27);
+        expectedLocations.add(32);
+        expectedLocations.add(37);
+        doFindSmellTest(3, expectedLocations);
     }
 }

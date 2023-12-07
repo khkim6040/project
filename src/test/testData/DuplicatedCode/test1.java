@@ -1,8 +1,9 @@
+/**
+ * Test code for similar 2 method.
+ *
+ * @author Chanho Song
+ */
 public class TestFindDuplicatedCode {
-    /**
-     * @author Chanho Song
-     * Test code for similar 2 method.
-     */
     public static void main(String[] args) {
         TestIdentifyLongMethod example = new TestFindDuplicatedCode();
         example.duplicatedMethod1()

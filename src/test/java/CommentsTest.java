@@ -1,6 +1,11 @@
 import detecting.BaseDetectAction;
 import detecting.Comments;
 
+/**
+ * Test for detecting: 'Comments'
+ *
+ * @author Chanho Song, Gwanho Kim, Jinmin Goh
+ */
 public class CommentsTest extends SmellDetectorTest {
 
     @Override
@@ -30,19 +35,23 @@ public class CommentsTest extends SmellDetectorTest {
         assertEquals(expectedPrecondition, comments.precondition());
     }
 
-    public void testComments1() {
-        doDetectSmellTest(1, 1);
+    public void testCommentLongerThanConfigurationLineIsSmelly() {
+        expectedLocations.add(10);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testComments2() {
-        doDetectSmellTest(2, 1);
+    public void testTODOCommentIsSmelly() {
+        expectedLocations.add(11);
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testComments3() {
-        doDetectSmellTest(3, 1);
+    public void testFixCommentIsSmelly() {
+        expectedLocations.add(10);
+        doFindSmellTest(3, expectedLocations);
     }
 
-    public void testComments4() {
-        doDetectSmellTest(4, 0);
+    public void testCleanComment() {
+        doFindSmellTest(4, expectedLocations);
     }
+
 }

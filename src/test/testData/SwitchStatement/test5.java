@@ -1,8 +1,8 @@
 /**
- * @author Chanho Song
  * Test case for clean switch statement. There is no code smell.
+ *
+ * @author Chanho Song
  */
-
 public class Grade {
 
     int score = 80;

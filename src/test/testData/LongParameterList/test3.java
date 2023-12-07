@@ -1,14 +1,14 @@
+/**
+ * An example method with 3 long parameter lists, demonstrating the code smell.
+ * First method has 7 parameters.
+ * Second method has 8 parameters.
+ * Third method has 9 parameters.
+ * Fourth method has 4 parameters. (not long parameter list code smell)
+ *
+ * @author Jinyoung Kim
+ */
 public class TestLongParameterList {
 
-    /**
-     * An example method with 3 long parameter lists, demonstrating the code smell.
-     * First method has 7 parameters.
-     * Second method has 8 parameters.
-     * Third method has 9 parameters.
-     * Fourth method has 4 parameters. (not long parameter list code smell)
-     *
-     * @author Jinyoung Kim
-     */
     public static void main(String[] args) {
         TestLongParameterList example = new TestLongParameterList();
 

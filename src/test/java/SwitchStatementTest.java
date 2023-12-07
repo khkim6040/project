@@ -1,6 +1,11 @@
 import detecting.BaseDetectAction;
 import detecting.SwitchStatement;
 
+/**
+ * Test for detecting: 'SwitchStatement
+ *
+ * @author Hyeonbeen Park, Gwanho Kim, Jinmin Goh
+ */
 public class SwitchStatementTest extends SmellDetectorTest {
 
     @Override
@@ -25,31 +30,36 @@ public class SwitchStatementTest extends SmellDetectorTest {
                 "casting of the object to use method of the class</html>";
         assertEquals(expectedDescription, switchStatement.description());
     }
-    
+
     public void testPrecondition() {
         SwitchStatement switchStatement = new SwitchStatement();
         String expectedPrecondition = "<html>instanceof in if statement and multiple casting of object dependent to condition</html>";
         assertEquals(expectedPrecondition, switchStatement.precondition());
     }
 
-    public void testSwitchStatement1() {
-        doDetectSmellTest(1, 1);
+    public void testTypeCastingInIfStatementIsSmelly() {
+        expectedLocations.add(9);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testSwitchStatement2() {
-        doDetectSmellTest(2, 1);
+    public void testTypeCastingInContinuedIfStatementIsSmelly() {
+        expectedLocations.add(30);
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testSwitchStatement3() {
-        doDetectSmellTest(3, 2);
+    public void testTypeCastingInTwoIfStatementIsSmelly() {
+        expectedLocations.add(30);
+        expectedLocations.add(45);
+        doFindSmellTest(3, expectedLocations);
     }
 
-    public void testSwitchStatement4() {
-        doDetectSmellTest(4, 1);
+    public void testTypeCastingInSwitchStatementIsSmelly() {
+        expectedLocations.add(52);
+        doFindSmellTest(4, expectedLocations);
     }
 
-    public void testSwitchStatement5() {
-        doDetectSmellTest(5, 0);
+    public void testCleanSwitchStatement() {
+        doFindSmellTest(5, expectedLocations);
     }
 
 }
