@@ -4,7 +4,7 @@ import detecting.Comments;
 /**
  * Test for detecting: 'Comments'
  *
- * @Author Chanho Song, Gwanho Kim, Jinmin Goh
+ * @author Chanho Song, Gwanho Kim, Jinmin Goh
  */
 public class CommentsTest extends SmellDetectorTest {
 

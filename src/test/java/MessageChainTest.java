@@ -2,9 +2,9 @@ import detecting.BaseDetectAction;
 import detecting.MessageChain;
 
 /**
- * Test for detecting: 'Message chain'
+ * Test for detecting: 'MessageChain'
  *
- * @author Jinyoung Kim
+ * @author Jinyoung Kim, Gwanho Kim, Jinmin Goh
  */
 public class MessageChainTest extends SmellDetectorTest {
 

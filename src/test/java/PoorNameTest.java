@@ -2,9 +2,9 @@ import detecting.BaseDetectAction;
 import detecting.PoorName;
 
 /**
- * Test for detecting: 'Poor name'
+ * Test for detecting: 'PoorName'
  *
- * @author Chanho Song
+ * @author Chanho Song, Gwanho Kim, Jinmin Goh
  */
 public class PoorNameTest extends SmellDetectorTest {
 

@@ -2,7 +2,7 @@ import detecting.BaseDetectAction;
 import detecting.DuplicatedCode;
 
 /**
- * Test for detecting: 'Duplicated code'
+ * Test for detecting: 'DuplicatedCode'
  *
  * @author Chanho Song, Gwanho Kim, Jinmin Goh
  */

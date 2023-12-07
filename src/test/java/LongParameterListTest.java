@@ -2,9 +2,9 @@ import detecting.BaseDetectAction;
 import detecting.LongParameterList;
 
 /**
- * Test for detecting: 'Long parameter list'
+ * Test for detecting: 'LongParameterList'
  *
- * @author Jinyoung Kim
+ * @author Jinyoung Kim, Gwanho Kim, Jinmin Goh
  */
 public class LongParameterListTest extends SmellDetectorTest {
 

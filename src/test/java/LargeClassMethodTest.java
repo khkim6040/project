@@ -2,7 +2,7 @@ import detecting.BaseDetectAction;
 import detecting.LargeClassMethod;
 
 /**
- * Test for detecting large class due to methods
+ * Test for detecting: 'LargeClassMethod'
  *
  * @author Jinyoung Kim, Gwanho Kim, Jinmin Goh
  */

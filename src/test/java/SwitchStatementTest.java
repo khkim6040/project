@@ -1,6 +1,11 @@
 import detecting.BaseDetectAction;
 import detecting.SwitchStatement;
 
+/**
+ * Test for detecting: 'SwitchStatement
+ *
+ * @author Hyeonbeen Park, Gwanho Kim, Jinmin Goh
+ */
 public class SwitchStatementTest extends SmellDetectorTest {
 
     @Override

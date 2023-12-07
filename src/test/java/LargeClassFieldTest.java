@@ -2,9 +2,9 @@ import detecting.BaseDetectAction;
 import detecting.LargeClassField;
 
 /**
- * Test for detecting large class due to fields
+ * Test for detecting: 'LargeClassField'
  *
- * @author Jinyoung Kim
+ * @author Jinyoung Kim, Gwanho Kim, Jinmin Goh
  */
 
 public class LargeClassFieldTest extends SmellDetectorTest {
