@@ -4,7 +4,7 @@ import detecting.DuplicatedCode;
 /**
  * Test for detecting: 'Duplicated code'
  *
- * @author Chanho Song
+ * @author Chanho Song, Gwanho Kim, Jinmin Goh
  */
 public class DuplicatedCodeTest extends SmellDetectorTest {
 
@@ -38,22 +38,27 @@ public class DuplicatedCodeTest extends SmellDetectorTest {
         assertEquals(expectedPrecondition, duplicatedCode.precondition());
     }
 
-    public void testDuplicatedCode1() {
-        expectedLocations.add(12);
-        expectedLocations.add(19);
+    public void testSimilarMethodsAreSmelly() {
+        expectedLocations.add(13);
+        expectedLocations.add(20);
         doFindSmellTest(1, expectedLocations);
     }
 
-//
-//    public void testDuplicatedCode2() {
-//        doDetectSmellTest(2, 2);
-//    }
-//
-//    public void testDuplicatedCode3() {
-//        doDetectSmellTest(3, 3);
-//    }
-//
-//    public void testDuplicatedCode4() {
-//        doDetectSmellTest(4, 0);
-//    }
+
+    public void testSameMethodsAreSmelly() {
+        expectedLocations.add(13);
+        expectedLocations.add(18);
+        doFindSmellTest(2, expectedLocations);
+    }
+
+    public void testSimilarThreeMethodsAreSmelly() {
+        expectedLocations.add(13);
+        expectedLocations.add(18);
+        expectedLocations.add(24);
+        doFindSmellTest(3, expectedLocations);
+    }
+
+    public void testCleanCase() {
+        doFindSmellTest(4, expectedLocations);
+    }
 }
