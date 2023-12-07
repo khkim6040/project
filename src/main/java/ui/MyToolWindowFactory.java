@@ -96,7 +96,6 @@ public class MyToolWindowFactory implements ToolWindowFactory {
             analyzeAction.setResultListener(this::updateUIWithAnalyzeAllResult);
 
             for (VirtualFile virtualFile : virtualFiles) {
-                System.out.println(virtualFile.getName());
                 myDataContext = customDataContext(virtualFile);
                 AnActionEvent event = AnActionEvent.createFromDataContext(
                     ActionPlaces.UNKNOWN, action.getTemplatePresentation().clone(), myDataContext);
@@ -176,7 +175,6 @@ public class MyToolWindowFactory implements ToolWindowFactory {
                     LocalFileSystem localFileSystem = LocalFileSystem.getInstance();
                     VirtualFile virtualFile = localFileSystem.refreshAndFindFileByIoFile(fileEntry);
                     virtualFiles.add(virtualFile);
-                    //System.out.println(virtualFile);
                 }
             }
         }
@@ -203,7 +201,7 @@ public class MyToolWindowFactory implements ToolWindowFactory {
             if (fileEditors.length > 0 && fileEditors[0] instanceof TextEditor) {
                 editor = ((TextEditor) fileEditors[0]).getEditor();
             }
-            
+
             psiFile = PsiManager.getInstance(project).findFile(currentFile);
         }
         Editor finalEditor = editor;

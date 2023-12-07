@@ -36,7 +36,7 @@ public class AnalyzeAction extends AnAction {
      */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        List<String> actionIDs = Arrays.asList("LPL", "LCF", "LCM", "LM", "SS", "DPC", "PN", "DC", "MC", "COM");
+        List<String> actionIDs = Arrays.asList("COM", "DC", "DPC", "LCF", "LCM", "LM", "LPL", "MC", "PN", "SS");
         Map<String, List<PsiElement>> combinedResults = new HashMap<>();
         for (String actionID : actionIDs) {
             BaseDetectAction baseDetectAction = BaseDetectManager.getInstance().getDetectActionByID(actionID);
