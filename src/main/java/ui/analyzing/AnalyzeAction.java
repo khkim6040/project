@@ -1,7 +1,7 @@
 package ui.analyzing;
 
 import static ui.customizing.HandleConfig.getHandler;
-import static ui.customizing.UserProperties.initializeParam;
+import static ui.customizing.HandleConfig.initializeConfig;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -43,7 +43,7 @@ public class AnalyzeAction extends AnAction {
         Map<String, List<PsiElement>> combinedResults = new HashMap<>();
         try {
             getHandler(e.getProject());
-            initializeParam();
+            initializeConfig();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
