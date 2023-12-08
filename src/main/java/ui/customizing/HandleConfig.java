@@ -29,7 +29,7 @@ public class HandleConfig {
     private static FileInputStream fis;
     private static HandleConfig handler = null;
 
-    public HandleConfig(Project project) throws IOException {
+    public HandleConfig(Project project) {
         prop = new Properties();
         configPath = String.valueOf(
             ModuleRootManager.getInstance(ModuleManager.getInstance(project).getModules()[0]).getContentRoots()[0]);
