@@ -1,9 +1,13 @@
 package ui.analyzing;
 
+import static ui.customizing.HandleConfig.getHandler;
+import static ui.customizing.HandleConfig.initializeConfig;
+
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.psi.PsiElement;
 import detecting.BaseDetectAction;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +41,12 @@ public class AnalyzeAction extends AnAction {
     public void actionPerformed(@NotNull AnActionEvent e) {
         List<String> actionIDs = Arrays.asList("LPL", "LCF", "LCM", "LM", "SS", "DPC", "PN", "DC", "MC", "COM");
         Map<String, List<PsiElement>> combinedResults = new HashMap<>();
+        try {
+            getHandler(e.getProject());
+            initializeConfig();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
         for (String actionID : actionIDs) {
             BaseDetectAction baseDetectAction = BaseDetectManager.getInstance().getDetectActionByID(actionID);
             List<PsiElement> result = baseDetectAction.findSmells(e);
