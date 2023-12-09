@@ -10,7 +10,10 @@ import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.psi.util.PsiTreeUtil;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import utils.LoadPsi;
+
 
 /**
  * Class to provide detecting: 'DeadCode'
@@ -75,17 +78,10 @@ public class DeadCode extends BaseDetectAction {
 
         List<PsiVariable> variables = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiVariable.class));
         List<PsiMethod> methods = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiMethod.class));
-        List<PsiElement> members = new ArrayList<>();
-        List<PsiElement> deadElement = new ArrayList<>();
-        members.addAll(variables);
-        members.addAll(methods);
 
-        for (PsiElement member : members) {
-            if (detectSmell(member)) {
-                deadElement.add(member);
-            }
-        }
-        return deadElement;
+        return Stream.concat(variables.stream(), methods.stream())
+            .filter(this::detectSmell)
+            .collect(Collectors.toList());
     }
 
     /**

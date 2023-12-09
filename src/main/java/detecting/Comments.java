@@ -5,9 +5,9 @@ import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import ui.customizing.UserProperties;
 import utils.LoadPsi;
 
@@ -72,16 +72,12 @@ public class Comments extends BaseDetectAction {
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
-        List<PsiElement> smellyComments = new ArrayList<>();
         int userDefinedMaxLineCount = UserProperties.getParam(storyID());
 
-        Collection<PsiComment> comments = PsiTreeUtil.findChildrenOfType(psiFile, PsiComment.class);
-        for (PsiComment comment : comments) {
-            if (detectSmell(comment, userDefinedMaxLineCount)) {
-                smellyComments.add(comment);
-            }
-        }
-        return smellyComments;
+        return Stream.of(psiFile.getChildren())
+            .flatMap(child -> PsiTreeUtil.findChildrenOfType(child, PsiComment.class).stream())
+            .filter(comment -> detectSmell(comment, userDefinedMaxLineCount))
+            .collect(Collectors.toList());
     }
 
 
