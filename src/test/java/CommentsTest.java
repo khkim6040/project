@@ -31,7 +31,7 @@ public class CommentsTest extends SmellDetectorTest {
 
     public void testPrecondition() {
         Comments comments = new Comments();
-        String expectedPrecondition = "<html>There are comments longer than three line or TODO, or Fix.</html>";
+        String expectedPrecondition = "<html>There are comments longer than user defined length or include TODO, or Fix.</html>";
         assertEquals(expectedPrecondition, comments.precondition());
     }
 

@@ -33,7 +33,7 @@ public class SwitchStatementTest extends SmellDetectorTest {
 
     public void testPrecondition() {
         SwitchStatement switchStatement = new SwitchStatement();
-        String expectedPrecondition = "<html>instanceof in if statement and multiple casting of object dependent to condition</html>";
+        String expectedPrecondition = "<html>If type casting is used in a conditional statement, it is a code smell.</html>";
         assertEquals(expectedPrecondition, switchStatement.precondition());
     }
 
