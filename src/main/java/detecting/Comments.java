@@ -113,7 +113,7 @@ public class Comments extends BaseDetectAction {
 
         // Check for comments longer than maxLineCount
         int lineCount = commentText.split("\n").length;
-        if (lineCount >= maxLineCount) {
+        if (lineCount > maxLineCount) {
             return true;
         }
 

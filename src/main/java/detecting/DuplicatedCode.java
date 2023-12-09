@@ -126,7 +126,7 @@ public class DuplicatedCode extends BaseDetectAction {
     }
 
     /**
-     * calculate the distance between two string
+     * calculate the LevenshteinDistance between two string
      *
      * @param str1
      * @param str2
