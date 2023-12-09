@@ -1,7 +1,6 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiVariable;
@@ -17,8 +16,6 @@ import utils.LoadPsi;
  * @author Chanho Song
  */
 public class PoorName extends BaseDetectAction {
-
-    public Project project;
 
     /**
      * Returns the unique story ID for this detection.
