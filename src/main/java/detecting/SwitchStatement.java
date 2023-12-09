@@ -22,7 +22,8 @@ import utils.LoadPsi;
 /**
  * Class to provide detecting code smell: 'Switch statement'
  *
- * @author : Hyeonbenn Park, Chanho Song
+ * @author Hyeonbenn Park
+ * @author Chanho Song
  */
 public class SwitchStatement extends BaseDetectAction {
 
