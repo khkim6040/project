@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import utils.LoadPsi;
 
 /**
@@ -79,26 +81,19 @@ public class SwitchStatement extends BaseDetectAction {
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
-
-        List<PsiElement> smellySwitchStatement = new ArrayList<>();
         Set<PsiIfStatement> visitedIfStatements = new HashSet<>();
-        List<PsiStatement> allStatements = new ArrayList<>(
-            PsiTreeUtil.collectElementsOfType(psiFile, PsiStatement.class));
 
-        for (PsiStatement statement : allStatements) {
-            if (statement instanceof PsiIfStatement && !visitedIfStatements.contains(statement)) {
-                if (detectSmell(statement)) {
-                    smellySwitchStatement.add(statement);
+        return Stream.of(psiFile.getChildren())
+            .flatMap(child -> PsiTreeUtil.findChildrenOfType(child, PsiStatement.class).stream())
+            .filter(statement -> (statement instanceof PsiIfStatement && !visitedIfStatements.contains(statement))
+                || statement instanceof PsiSwitchStatement)
+            .peek(statement -> {
+                if (statement instanceof PsiIfStatement) {
+                    trackIfElseIfChain((PsiIfStatement) statement, visitedIfStatements);
                 }
-                trackIfElseIfChain((PsiIfStatement) statement, visitedIfStatements);
-            } else if (statement instanceof PsiSwitchStatement) {
-                if (detectSmell(statement)) {
-                    smellySwitchStatement.add(statement);
-                }
-            }
-        }
-
-        return smellySwitchStatement;
+            })
+            .filter(this::detectSmell)
+            .collect(Collectors.toList());
     }
 
     /**

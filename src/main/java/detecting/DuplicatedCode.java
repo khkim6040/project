@@ -6,13 +6,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.util.PsiTreeUtil;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 import utils.LoadPsi;
 
 /**
@@ -75,55 +71,40 @@ public class DuplicatedCode extends BaseDetectAction {
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
-
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
-
         Collection<PsiMethod> methods = PsiTreeUtil.collectElementsOfType(psiFile, PsiMethod.class);
 
-        // Initialize a list to store similar methods
-        List<PsiElement> similarMethods = new ArrayList<>();
-
-        // Set to track which methods have already been added
-        Set<PsiElement> addedMethods = new HashSet<>();
-
-        // Map to store methods' body text and corresponding method
-        Map<String, PsiMethod> methodMap = new HashMap<>();
-
-        for (PsiMethod currentMethod : methods) {
-            PsiCodeBlock currentBody = currentMethod.getBody();
-            if (currentBody == null) {
-                continue;
-            }
-            String currentText = currentBody.getText();
-
-            // Compare the current method with all previously encountered methods
-            for (Map.Entry<String, PsiMethod> entry : methodMap.entrySet()) {
-                String existingText = entry.getKey();
-                PsiMethod existingMethod = entry.getValue();
-
-                // Compute the similarity between the current method and each existing method
-                double distance = computeLevenshteinDistance(currentText, existingText);
-
-                // If the similarity is high enough (distance <= 0.1), consider the methods similar
-                if (distance <= 0.1) {
-                    // Add the current method to the list of similar methods if not already added
-                    if (addedMethods.add(currentMethod)) {
-                        similarMethods.add(currentMethod);
-                    }
-                    // Add the existing method to the list of similar methods if not already added
-                    if (addedMethods.add(existingMethod)) {
-                        similarMethods.add(existingMethod);
-                    }
-                }
-            }
-
-            // Add the current method and its body text to the map for future comparisons
-            methodMap.put(currentText, currentMethod);
-        }
-
-        // Return the list of similar methods
-        return similarMethods;
+        return methods.stream()
+            .flatMap(currentMethod -> methods.stream()
+                .filter(
+                    existingMethod -> currentMethod != existingMethod && detectSmell(currentMethod, existingMethod)))
+            .distinct()
+            .collect(Collectors.toList());
     }
+
+    /**
+     * method to calculate the Levenshtein distance between the text of the two method bodies.
+     * If the methods' bodies are very similar (as defined by a Levenshtein distance threshold),
+     * it returns true, indicating a code smell due to high similarity.
+     *
+     * @param method1 The first PsiMethod object to compare.
+     * @param method2 The second PsiMethod object to compare.
+     * @return true if the Levenshtein distance between the method bodies is less than or equal to 0.1, indicating high
+     * similarity; false otherwise.
+     */
+    private boolean detectSmell(PsiMethod method1, PsiMethod method2) {
+        PsiCodeBlock body1 = method1.getBody();
+        PsiCodeBlock body2 = method2.getBody();
+        if (body1 == null || body2 == null) {
+            return false;
+        }
+        String text1 = body1.getText();
+        String text2 = body2.getText();
+
+        double distance = computeLevenshteinDistance(text1, text2);
+        return distance <= 0.1;
+    }
+
 
     /**
      * calculate the LevenshteinDistance between two string
