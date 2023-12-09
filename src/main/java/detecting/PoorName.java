@@ -6,8 +6,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiVariable;
 import com.intellij.psi.util.PsiTreeUtil;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import utils.LoadPsi;
 
 /**
@@ -71,14 +72,10 @@ public class PoorName extends BaseDetectAction {
     public List<PsiElement> findSmells(AnActionEvent e) {
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        List<PsiVariable> variables = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiVariable.class));
-        List<PsiElement> poorNameVariables = new ArrayList<>();
-        for (PsiVariable var : variables) {
-            if (detectSmell(var)) {
-                poorNameVariables.add(var);
-            }
-        }
-        return poorNameVariables;
+        return Stream.of(psiFile.getChildren())
+            .flatMap(element -> PsiTreeUtil.collectElementsOfType(element, PsiVariable.class).stream())
+            .filter(this::detectSmell)
+            .collect(Collectors.toList());
     }
 
     /**
