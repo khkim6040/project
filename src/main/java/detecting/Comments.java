@@ -1,7 +1,6 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -14,46 +13,61 @@ import utils.LoadPsi;
 
 
 /**
- * Abstract class to implement light test through files.
+ * Class to detect smelly 'Comments'.
+ * It extends BaseDetectAction, inheriting its basic functionality and
+ * specializing it to identify Comments of code smells.
  *
  * @author Jinyoung Kim
  * @author Chanho Song
  */
 public class Comments extends BaseDetectAction {
 
-    public Project project;
-    //private PsiMethod focusMethod;
-
-    /* Returns the story ID. */
+    /**
+     * Returns the unique story ID for this detection.
+     *
+     * @return A String identifier for the 'Comments' detection story.
+     */
     @Override
     public String storyID() {
         return "COM";
     }
 
-    /* Returns the story name as a string format for message. */
+    /**
+     * Provides the name of this detection story.
+     *
+     * @return A String representing the name of this detection story.
+     */
     @Override
     public String storyName() {
         return "Comments";
     }
 
-    /* Returns the description of each story. (in html-style) */
+    /**
+     * Describes the criteria for detecting a Comments code smell.
+     *
+     * @return A String in HTML format describing when a comments are smelly.
+     */
     @Override
     public String description() {
         return "<html>When comments are smelly<br/>" +
             " ,detect it as a code smell.</html>";
     }
 
-    /* Returns the precondition of each story. (in html-style) */
+    /**
+     * Defines the precondition for this code smell detection.
+     *
+     * @return A String in HTML format stating the precondition for Comments code smell.
+     */
     @Override
     public String precondition() {
-        return "<html>There are comments longer than three line or TODO, or Fix.</html>";
+        return "<html>There are comments longer than user defined length or include TODO, or Fix.</html>";
     }
 
     /**
-     * Method that returns all smelly comments
+     * Checks whether a Comments have code smell.
      *
-     * @param e AnActionEvent
-     * @return list of all smelly comments
+     * @param e AnActionEvent representing the context in which the action is performed.
+     * @return A List of PsiElement objects, each representing smelly comments.
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
@@ -75,6 +89,7 @@ public class Comments extends BaseDetectAction {
      * Evaluates if a PsiComment is considered a code smell based on criteria.
      * A comment is smelly if it includes keywords like "TODO" or "FIX",
      * or if it exceeds a threshold maximum line count.
+     * exception: javadoc is not a code smell.
      *
      * @param comment      The PsiComment to be evaluated.
      * @param maxLineCount The maximum number of lines allowed in a comment before it's considered a smell.
@@ -83,13 +98,20 @@ public class Comments extends BaseDetectAction {
     private boolean detectSmell(PsiComment comment, int maxLineCount) {
         String commentText = comment.getText();
 
-        // Check for "TODO" or "FIX" comments
-        if (commentText.contains("TODO") || commentText.contains("Todo") || commentText.contains("FIX")
-            || commentText.contains("Fix")) {
-            return true;
+        //exclude javadoc comments
+        if (commentText.startsWith("/**")) {
+            return false;
         }
 
-        // Check for comments longer than 5 lines
+        // Check for "TODO" or "FIX" comments
+        {
+            if (commentText.contains("TODO") || commentText.contains("Todo") || commentText.contains("FIX")
+                || commentText.contains("Fix")) {
+                return true;
+            }
+        }
+
+        // Check for comments longer than maxLineCount
         int lineCount = commentText.split("\n").length;
         if (lineCount >= maxLineCount) {
             return true;

@@ -57,7 +57,7 @@ public class PoorName extends BaseDetectAction {
      */
     @Override
     public String precondition() {
-        return "<html>The variable which is just one alphabet or form of repeated alphabet. " +
+        return "<html>The variable which has a sequential alphabet name or form of repeated alphabet. " +
             "The variable whose length is less than or equal to 3.</html>";
     }
 
