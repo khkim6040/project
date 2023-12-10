@@ -9,6 +9,7 @@ public class TestFindDuplicatedCode {
         TestIdentifyLongMethod example = new TestFindDuplicatedCode();
         example.duplicatedMethod1();
         example.duplicatedMethod2();
+        example.duplicatedMethod3();
     }
 
     public void duplicatedMethod1() {
@@ -23,7 +24,7 @@ public class TestFindDuplicatedCode {
         thisisSimilarmethod6();
     }
 
-    public void duplicatedMethod2() {
+    public void duplicatedMethod3() {
         thisisSimilarmethod7();
         thisisSimilarmethod8();
         thisisSimilarmethod9();
