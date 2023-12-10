@@ -34,7 +34,6 @@ public class HandleConfig {
         configPath = String.valueOf(
             ModuleRootManager.getInstance(ModuleManager.getInstance(project).getModules()[0]).getContentRoots()[0]);
         configPath = configPath.replace("file://", "") + "/codescent.properties";
-        System.out.println(configPath);
         configFile = new File(configPath);
     }
 
@@ -107,7 +106,6 @@ public class HandleConfig {
             myWriter.write("MC=5\n");
             myWriter.write("COM=5\n");
             myWriter.close();
-            System.out.println("Successfully created new config file.");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

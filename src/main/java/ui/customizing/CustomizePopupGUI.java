@@ -76,7 +76,6 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
         if (column == 1) {
             TableModel model = (TableModel) e.getSource();
             String str = (String) model.getValueAt(row, column);
-            System.out.println(str);
             try {
                 if (!(Integer.parseInt(str) > 0)) {
                     JOptionPane.showMessageDialog(this, "Not valid input. Please enter integer bigger than 0.",

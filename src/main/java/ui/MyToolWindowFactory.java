@@ -112,7 +112,6 @@ public class MyToolWindowFactory implements ToolWindowFactory {
                     ModuleRootManager.getInstance(ModuleManager.getInstance(project).getModules()[0]).getContentRoots()[0])
                 .replace("file://", "") + "/src");
             virtualFiles = listFilesForFolder(folder);
-            System.out.println(virtualFiles);
             if (!virtualFiles.isEmpty()) {
                 analyzeAction.setResultListener(this::updateUIWithAnalyzeAllResult);
 
@@ -217,7 +216,7 @@ public class MyToolWindowFactory implements ToolWindowFactory {
             if (fileEntry.isDirectory()) {
                 virtualFiles.addAll(listFilesForFolder(fileEntry));
             } else {
-                if (fileEntry.getAbsolutePath().contains("\\java")) {
+                if (fileEntry.getAbsolutePath().contains("main\\java")) {
                     if (fileEntry.getAbsolutePath().endsWith(".java")) {
                         LocalFileSystem localFileSystem = LocalFileSystem.getInstance();
                         VirtualFile virtualFile = localFileSystem.refreshAndFindFileByIoFile(fileEntry);
