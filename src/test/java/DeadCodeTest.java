@@ -25,15 +25,8 @@ public class DeadCodeTest extends SmellDetectorTest {
 
     public void testDescription() {
         DeadCode deadCode = new DeadCode();
-        String expectedDescription = "<html>When variable or method is not used<br/>" +
-            " ,detect it as code smell deadcode.</html>";
+        String expectedDescription = "There are variables and method that is declared but not used. They are code smell 'deadcode'.";
         assertEquals(expectedDescription, deadCode.description());
-    }
-
-    public void testPrecondition() {
-        DeadCode deadCode = new DeadCode();
-        String expectedPrecondition = "<html>There are variables and method that is declared but not used</html>";
-        assertEquals(expectedPrecondition, deadCode.precondition());
     }
 
     public void testUnusedSingleVariableIsSmelly() {

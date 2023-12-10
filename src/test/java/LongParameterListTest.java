@@ -25,15 +25,8 @@ public class LongParameterListTest extends SmellDetectorTest {
 
     public void testDescription() {
         LongParameterList longParameterList = new LongParameterList();
-        String expectedDescription = "<html>When there are too many parameters in the method<br/>" +
-            " ,detect it as code smell long parameter list.</html>";
+        String expectedDescription = "There are more parameters in a method than a set standard. When there are too many parameters in the method, detect it as code smell 'long parameter list'.";
         assertEquals(expectedDescription, longParameterList.description());
-    }
-
-    public void testPrecondition() {
-        LongParameterList longParameterList = new LongParameterList();
-        String expectedPrecondition = "<html>There are more parameters in the method than a set standard</html>";
-        assertEquals(expectedPrecondition, longParameterList.precondition());
     }
 
     public void testMethodHasMoreThanConfigurationParameterIsSmelly() {

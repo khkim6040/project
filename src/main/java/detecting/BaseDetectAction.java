@@ -36,14 +36,6 @@ public abstract class BaseDetectAction {
     public abstract String description();
 
     /**
-     * Returns the precondition of each story.
-     * Use html-style (<html>content</html>) for multi-line explanation.
-     *
-     * @return description of each story as string
-     */
-    public abstract String precondition();
-
-    /**
      * Identifies and returns a list of code smells within the code.
      *
      * @param e AnActionEvent representing the context in which the action is performed.

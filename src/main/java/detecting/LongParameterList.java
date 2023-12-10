@@ -51,20 +51,7 @@ public class LongParameterList extends BaseDetectAction {
      */
     @Override
     public String description() {
-        return "<html>When there are too many parameters in the method<br/>" +
-            " ,detect it as code smell long parameter list.</html>";
-    }
-
-    /**
-     * Specifies the precondition for detecting a long parameter list.
-     * This method returns the precondition in HTML format, detailing the conditions that qualify a method's parameter
-     * list as 'long'.
-     *
-     * @return A String in HTML format stating the precondition for detecting a long parameter list.
-     */
-    @Override
-    public String precondition() {
-        return "<html>There are more parameters in the method than a set standard</html>";
+        return "There are more parameters in a method than a set standard. When there are too many parameters in the method, detect it as code smell 'long parameter list'.";
     }
 
     /**

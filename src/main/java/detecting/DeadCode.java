@@ -52,18 +52,7 @@ public class DeadCode extends BaseDetectAction {
      */
     @Override
     public String description() {
-        return "<html>When variable or method is not used<br/>" +
-            " ,detect it as code smell deadcode.</html>";
-    }
-
-    /**
-     * Defines the precondition for this code smell detection.
-     *
-     * @return A String in HTML format stating the precondition for detecting dead code.
-     */
-    @Override
-    public String precondition() {
-        return "<html>There are variables and method that is declared but not used</html>";
+        return "There are variables and method that is declared but not used. They are code smell 'deadcode'.";
     }
 
     /**

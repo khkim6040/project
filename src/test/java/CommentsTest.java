@@ -24,15 +24,8 @@ public class CommentsTest extends SmellDetectorTest {
 
     public void testDescription() {
         Comments comments = new Comments();
-        String expectedDescription = "<html>When comments are smelly<br/>" +
-            " ,detect it as a code smell.</html>";
+        String expectedDescription = "There are comments longer than user defined length or include TODO, or Fix. These are smelly comments.";
         assertEquals(expectedDescription, comments.description());
-    }
-
-    public void testPrecondition() {
-        Comments comments = new Comments();
-        String expectedPrecondition = "<html>There are comments longer than user defined length or include TODO, or Fix.</html>";
-        assertEquals(expectedPrecondition, comments.precondition());
     }
 
     public void testCommentLongerThanConfigurationLineIsSmelly() {

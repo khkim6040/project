@@ -53,19 +53,7 @@ public class LongMethod extends BaseDetectAction {
      */
     @Override
     public String description() {
-        return "<html>When there are too many lines in the method<br/>" +
-            " ,detect it as code smell long method.</html>";
-    }
-
-    /**
-     * Specifies the precondition for detecting a long method.
-     * This method returns a description in HTML format detailing the conditions that classify a method as 'long'.
-     *
-     * @return A String in HTML format stating the precondition for detecting a long method.
-     */
-    @Override
-    public String precondition() {
-        return "<html>There are more lines in the method than a set standard</html>";
+        return "There are more lines in the method than a set standard. When there are too many lines in the method,detect it as code smell 'long method'.";
     }
 
     /**
@@ -108,7 +96,7 @@ public class LongMethod extends BaseDetectAction {
         int startLine = document.getLineNumber(methodBody.getTextRange().getStartOffset());
         int endLine = document.getLineNumber(methodBody.getTextRange().getEndOffset());
         int lineCount = endLine - startLine;
-        
+
         return lineCount > maxLineCount;
     }
 

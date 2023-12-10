@@ -25,15 +25,8 @@ public class LargeClassMethodTest extends SmellDetectorTest {
 
     public void testDescription() {
         LargeClassMethod largeClassMethod = new LargeClassMethod();
-        String expectedDescription = "<html>When there are too many methods in the class<br/>" +
-            " ,detect it as code smell large class.</html>";
+        String expectedDescription = "There are more methods in the class than a set standard. When there are too many methods in the class, detect it as code smell large class.";
         assertEquals(expectedDescription, largeClassMethod.description());
-    }
-
-    public void testPrecondition() {
-        LargeClassMethod largeClassMethod = new LargeClassMethod();
-        String expectedPrecondition = "<html>There are more methods in the class than a set standard</html>";
-        assertEquals(expectedPrecondition, largeClassMethod.precondition());
     }
 
     public void testClassHasMoreThanConfigurationMethodIsSmelly() {

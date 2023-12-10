@@ -25,15 +25,8 @@ public class LongMethodTest extends SmellDetectorTest {
 
     public void testDescription() {
         LongMethod longMethod = new LongMethod();
-        String expectedDescription = "<html>When there are too many lines in the method<br/>" +
-            " ,detect it as code smell long method.</html>";
+        String expectedDescription = "There are more lines in the method than a set standard. When there are too many lines in the method,detect it as code smell 'long method'.";
         assertEquals(expectedDescription, longMethod.description());
-    }
-
-    public void testPrecondition() {
-        LongMethod longMethod = new LongMethod();
-        String expectedPrecondition = "<html>There are more lines in the method than a set standard</html>";
-        assertEquals(expectedPrecondition, longMethod.precondition());
     }
 
     public void testMethodHasMoreThanConfigurationLineIsSmelly() {

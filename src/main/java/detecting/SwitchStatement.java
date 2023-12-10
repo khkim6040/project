@@ -58,18 +58,8 @@ public class SwitchStatement extends BaseDetectAction {
      */
     @Override
     public String description() {
-        return "<html>There are conditional statements that identify class of object that leads to " +
-            "casting of the object to use method of the class</html>";
-    }
-
-    /**
-     * Defines the precondition for this code smell detection.
-     *
-     * @return A String in HTML format stating the precondition for detecting large class code smell.
-     */
-    @Override
-    public String precondition() {
-        return "<html>If type casting is used in a conditional statement, it is a code smell.</html>";
+        return
+            "There are multiple type casting in a conditional statement. If type casting occurs multiple times for one object in conditional statement, detect it as a 'switch statement' code smell.";
     }
 
     /**

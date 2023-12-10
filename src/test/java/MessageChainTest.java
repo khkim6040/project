@@ -25,15 +25,8 @@ public class MessageChainTest extends SmellDetectorTest {
 
     public void testDescription() {
         MessageChain messageChain = new MessageChain();
-        String expectedDescription = "<html>When a sequence of method calls is chained together<br/>" +
-            " ,detect it as code smell message chain.</html>";
+        String expectedDescription = "There are message chain whose length is longer than a set standard. When a sequence of method calls is chained together,detect it as code smell 'message chain'.";
         assertEquals(expectedDescription, messageChain.description());
-    }
-
-    public void testPrecondition() {
-        MessageChain messageChain = new MessageChain();
-        String expectedPrecondition = "<html>Message chain whose length is longer than a set standard</html>";
-        assertEquals(expectedPrecondition, messageChain.precondition());
     }
 
     public void testStatementHasLongerThanConfigurationChainLengthIsSmelly() {

@@ -52,18 +52,7 @@ public class LargeClassMethod extends BaseDetectAction {
      */
     @Override
     public String description() {
-        return "<html>When there are too many methods in the class<br/>" +
-            " ,detect it as code smell large class.</html>";
-    }
-
-    /**
-     * Specifies the precondition for this code smell detection story.
-     *
-     * @return A String in HTML format stating the precondition for detecting a large class based on the number of methods.
-     */
-    @Override
-    public String precondition() {
-        return "<html>There are more methods in the class than a set standard</html>";
+        return "There are more methods in the class than a set standard. When there are too many methods in the class, detect it as code smell large class.";
     }
 
     /**

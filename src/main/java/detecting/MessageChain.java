@@ -64,20 +64,7 @@ public class MessageChain extends BaseDetectAction {
      */
     @Override
     public String description() {
-        return "<html>When a sequence of method calls is chained together<br/>" +
-            " ,detect it as code smell message chain.</html>";
-    }
-
-    /**
-     * Specifies the precondition for detecting a message chain.
-     * This method returns the precondition in HTML format, detailing the conditions that qualify a sequence of method
-     * calls as a 'message chain'.
-     *
-     * @return A String in HTML format stating the precondition for detecting a message chain.
-     */
-    @Override
-    public String precondition() {
-        return "<html>Message chain whose length is longer than a set standard</html>";
+        return "There are message chain whose length is longer than a set standard. When a sequence of method calls is chained together,detect it as code smell 'message chain'.";
     }
 
     /**

@@ -49,18 +49,7 @@ public class Comments extends BaseDetectAction {
      */
     @Override
     public String description() {
-        return "<html>When comments are smelly<br/>" +
-            " ,detect it as a code smell.</html>";
-    }
-
-    /**
-     * Defines the precondition for this code smell detection.
-     *
-     * @return A String in HTML format stating the precondition for Comments code smell.
-     */
-    @Override
-    public String precondition() {
-        return "<html>There are comments longer than user defined length or include TODO, or Fix.</html>";
+        return "There are comments longer than user defined length or include TODO, or Fix. These are smelly comments.";
     }
 
     /**

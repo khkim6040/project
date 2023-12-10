@@ -26,15 +26,8 @@ public class LargeClassFieldTest extends SmellDetectorTest {
 
     public void testDescription() {
         LargeClassField largeClassField = new LargeClassField();
-        String expectedDescription = "<html>When there are too many fields in the class<br/>" +
-            " ,detect it as code smell large class.</html>";
+        String expectedDescription = "There are more fields in the class than a set standard. When there are too many fields in the class, detect it as code smell 'large class'.";
         assertEquals(expectedDescription, largeClassField.description());
-    }
-
-    public void testPrecondition() {
-        LargeClassField largeClassField = new LargeClassField();
-        String expectedPrecondition = "<html>There are more fields in the class than a set standard</html>";
-        assertEquals(expectedPrecondition, largeClassField.precondition());
     }
 
     public void testClassHasMoreThanConfigurationFieldIsSmelly() {

@@ -47,18 +47,7 @@ public class LargeClassField extends BaseDetectAction {
      */
     @Override
     public String description() {
-        return "<html>When there are too many fields in the class<br/>" +
-            " ,detect it as code smell large class.</html>";
-    }
-
-    /**
-     * Defines the precondition for this code smell detection.
-     *
-     * @return A String in HTML format stating the precondition for detecting large class code smell.
-     */
-    @Override
-    public String precondition() {
-        return "<html>There are more fields in the class than a set standard</html>";
+        return "There are more fields in the class than a set standard. When there are too many fields in the class, detect it as code smell 'large class'.";
     }
 
     /**

@@ -44,19 +44,7 @@ public class PoorName extends BaseDetectAction {
      */
     @Override
     public String description() {
-        return "<html>When there are variables with poor names. <br/>" +
-            "detect names that is a meaningless name.</html>";
-    }
-
-    /**
-     * Defines the precondition for this code smell detection.
-     *
-     * @return A String in HTML format stating the precondition for detecting poor Name code smell.
-     */
-    @Override
-    public String precondition() {
-        return "<html>The variable which has a sequential alphabet name or form of repeated alphabet. " +
-            "The variable whose length is less than or equal to 3.</html>";
+        return "There are variables which have too short name, sequential alphabet name or form of repeated alphabet. Detect the variables as a 'poor name' code smell.";
     }
 
     /**

@@ -48,19 +48,7 @@ public class DuplicatedCode extends BaseDetectAction {
      */
     @Override
     public String description() {
-        return "<html>When there duplicated code. <br/>" +
-            "Detect methods where the similar code is repeated..</html>";
-    }
-
-    /**
-     * Defines the precondition for this code smell detection.
-     *
-     * @return A String in HTML format stating the precondition for duplicated code.
-     */
-    @Override
-    public String precondition() {
-        return "<html>Find the methods where identical or very similar code exists. " +
-            "Find methods that are similar to a certain level or higher. </html>";
+        return "There are identical or very similar methods. Repeated methods are 'duplicated code' code smell.";
     }
 
     /**

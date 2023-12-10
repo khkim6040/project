@@ -25,17 +25,8 @@ public class DuplicatedCodeTest extends SmellDetectorTest {
 
     public void testDescription() {
         DuplicatedCode duplicatedCode = new DuplicatedCode();
-        String expectedDescription = "<html>When there duplicated code. <br/>" +
-            "Detect methods where the similar code is repeated..</html>";
+        String expectedDescription = "There are identical or very similar methods. Repeated methods are 'duplicated code' code smell.";
         assertEquals(expectedDescription, duplicatedCode.description());
-    }
-
-    public void testPrecondition() {
-        DuplicatedCode duplicatedCode = new DuplicatedCode();
-        String expectedPrecondition =
-            "<html>Find the methods where identical or very similar code exists. " +
-                "Find methods that are similar to a certain level or higher. </html>";
-        assertEquals(expectedPrecondition, duplicatedCode.precondition());
     }
 
     public void testSimilarMethodsAreSmelly() {
