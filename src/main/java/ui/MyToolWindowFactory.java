@@ -90,6 +90,8 @@ public class MyToolWindowFactory implements ToolWindowFactory {
                         ActionPlaces.UNKNOWN, action.getTemplatePresentation().clone(), myDataContext);
                     action.actionPerformed(event);
                 } else {
+                    result.clear();
+                    updateUIWithAnalyzeResult(result);
                     Messages.showMessageDialog(
                         project,
                         "There are no files currently open.",
@@ -110,17 +112,28 @@ public class MyToolWindowFactory implements ToolWindowFactory {
                     ModuleRootManager.getInstance(ModuleManager.getInstance(project).getModules()[0]).getContentRoots()[0])
                 .replace("file://", "") + "/src");
             virtualFiles = listFilesForFolder(folder);
-            analyzeAction.setResultListener(this::updateUIWithAnalyzeAllResult);
+            System.out.println(virtualFiles);
+            if (!virtualFiles.isEmpty()) {
+                analyzeAction.setResultListener(this::updateUIWithAnalyzeAllResult);
 
-            for (VirtualFile virtualFile : virtualFiles) {
-                myDataContext = customDataContext(virtualFile);
-                AnActionEvent event = AnActionEvent.createFromDataContext(
-                    ActionPlaces.UNKNOWN, action.getTemplatePresentation().clone(), myDataContext);
-                action.actionPerformed(event);
+                for (VirtualFile virtualFile : virtualFiles) {
+                    myDataContext = customDataContext(virtualFile);
+                    AnActionEvent event = AnActionEvent.createFromDataContext(
+                        ActionPlaces.UNKNOWN, action.getTemplatePresentation().clone(), myDataContext);
+                    action.actionPerformed(event);
+                }
+
+                resultAll = new HashMap<>();
+            } else {
+                result.clear();
+                updateUIWithAnalyzeAllResult(result);
+                Messages.showMessageDialog(
+                    project,
+                    "There are no files.",
+                    "WARNING",
+                    Messages.getWarningIcon()
+                );
             }
-
-            resultAll = new HashMap<>();
-
         });
 
         customizeButton.addActionListener(e -> {

@@ -22,9 +22,6 @@ public class CodescentPopUp extends JPopupMenu {
             if (object instanceof BaseDetectAction action) {
                 JMenuItem descriptionItem = new JMenuItem(action.description());
                 add(descriptionItem);
-
-                JMenuItem preconditionItem = new JMenuItem(action.precondition());
-                add(preconditionItem);
             }
         }
     }
