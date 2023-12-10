@@ -28,10 +28,6 @@ public class UserProperties {
         };
     }
 
-    public static void initializeParam() throws IOException {
-        HandleConfig.initializeConfig();
-    }
-
     public static void setLM(int LM) throws IOException {
         UserProperties.LM = LM;
         HandleConfig.setConfigParam("LM", UserProperties.LM);
