@@ -3,7 +3,7 @@
  *
  * @Author Chanho Song, Gwanho Kim
  */
-public class TestDetectLargeClass {
+public class Comments {
 
     public static void main(String[] args) {
 

@@ -4,10 +4,11 @@
  * @author Chanho Song
  */
 public class TestFindDuplicatedCode {
+
     public static void main(String[] args) {
         TestIdentifyLongMethod example = new TestFindDuplicatedCode();
-        example.duplicatedMethod1()
-        example.duplicatedMethod2()
+        example.duplicatedMethod1();
+        example.duplicatedMethod2();
     }
 
     public void duplicatedMethod1() {
@@ -15,6 +16,7 @@ public class TestFindDuplicatedCode {
         thisisSimilarmethod2();
         thisisSimilarmethod3();
     }
+
     public void duplicatedMethod2() {
         thisisSimilarmethod4();
         thisisSimilarmethod5();
