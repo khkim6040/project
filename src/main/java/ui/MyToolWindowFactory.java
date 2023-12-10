@@ -217,10 +217,12 @@ public class MyToolWindowFactory implements ToolWindowFactory {
             if (fileEntry.isDirectory()) {
                 virtualFiles.addAll(listFilesForFolder(fileEntry));
             } else {
-                if (fileEntry.getAbsolutePath().contains("java")) {
-                    LocalFileSystem localFileSystem = LocalFileSystem.getInstance();
-                    VirtualFile virtualFile = localFileSystem.refreshAndFindFileByIoFile(fileEntry);
-                    virtualFiles.add(virtualFile);
+                if (fileEntry.getAbsolutePath().contains("\\java")) {
+                    if (fileEntry.getAbsolutePath().endsWith(".java")) {
+                        LocalFileSystem localFileSystem = LocalFileSystem.getInstance();
+                        VirtualFile virtualFile = localFileSystem.refreshAndFindFileByIoFile(fileEntry);
+                        virtualFiles.add(virtualFile);
+                    }
                 }
             }
         }
