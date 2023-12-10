@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class AnalyzeAction extends AnAction {
 
+    private static Map<String, List<PsiElement>> combinedResultsAll = new HashMap<>();
     private AnalyzeResultListener resultListener;
 
     /**
@@ -39,7 +40,7 @@ public class AnalyzeAction extends AnAction {
      */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        List<String> actionIDs = Arrays.asList("LPL", "LCF", "LCM", "LM", "SS", "DPC", "PN", "DC", "MC", "COM");
+        List<String> actionIDs = Arrays.asList("COM", "DC", "DPC", "LCF", "LCM", "LM", "LPL", "MC", "PN", "SS");
         Map<String, List<PsiElement>> combinedResults = new HashMap<>();
         try {
             getHandler(e.getProject());
