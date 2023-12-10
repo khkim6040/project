@@ -125,18 +125,23 @@ public class SwitchStatement extends BaseDetectAction {
             PsiStatement thenBranch = ifstatement.getThenBranch();
             PsiStatement elseBranch = ifstatement.getElseBranch();
 
-            if (createCastingMap(thenBranch) != null) {
+            if (thenBranch != null && createCastingMap(thenBranch) != null) {
                 castingMapList.add(createCastingMap(thenBranch));
             }
 
-            if (createCastingMap(elseBranch) != null) {
+            if (elseBranch != null && createCastingMap(elseBranch) != null) {
                 castingMapList.add(createCastingMap(elseBranch));
             }
 
-            while (elseBranch != null && elseBranch instanceof PsiIfStatement) {
-                elseBranch = ((PsiIfStatement) elseBranch).getElseBranch();
-                if (createCastingMap(elseBranch) != null) {
-                    castingMapList.add(createCastingMap(elseBranch));
+            // Additional null check for elseBranch in the loop
+            while (elseBranch != null) {
+                if (elseBranch instanceof PsiIfStatement) {
+                    elseBranch = ((PsiIfStatement) elseBranch).getElseBranch();
+                    if (elseBranch != null && createCastingMap(elseBranch) != null) {
+                        castingMapList.add(createCastingMap(elseBranch));
+                    }
+                } else {
+                    break;
                 }
             }
 
@@ -171,23 +176,27 @@ public class SwitchStatement extends BaseDetectAction {
      * @return A Map of variable names to PsiType representing the type casts, or null if no casts are found.
      */
     private Map<String, PsiType> createCastingMap(PsiStatement statement) {
+        if (statement == null) {
+            return null;
+        }
+
         Map<String, PsiType> casting = new HashMap<>();
         statement.accept(new PsiRecursiveElementVisitor() {
             @Override
             public void visitElement(PsiElement element) {
                 super.visitElement(element);
                 if (element instanceof PsiTypeCastExpression) {
-                    casting.put(((PsiTypeCastExpression) element).getOperand().getText(),
-                        ((PsiTypeCastExpression) element).getType());
+                    PsiTypeCastExpression castExpression = (PsiTypeCastExpression) element;
+                    if (castExpression.getOperand() != null) {
+                        casting.put(castExpression.getOperand().getText(), castExpression.getType());
+                    }
                 }
             }
         });
-        if (casting.isEmpty()) {
-            return null;
-        } else {
-            return casting;
-        }
+
+        return casting.isEmpty() ? null : casting;
     }
+
 
     /**
      * Determines if there is a common object across multiple casting maps that is casted to different types.

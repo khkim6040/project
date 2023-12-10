@@ -87,10 +87,15 @@ public class LongMethod extends BaseDetectAction {
     private boolean detectSmell(PsiMethod method, int maxLineCount) {
         PsiCodeBlock methodBody = method.getBody();
 
+        if (methodBody == null) {
+            return false;
+        }
+
         Document document = PsiDocumentManager.getInstance(method.getProject()).getDocument(method.getContainingFile());
 
-        assert document != null;
-        assert methodBody != null;
+        if (document == null) {
+            return false;
+        }
 
         // Calculate the line count based on the start and end line numbers
         int startLine = document.getLineNumber(methodBody.getTextRange().getStartOffset());
