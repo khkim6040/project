@@ -85,11 +85,11 @@ public class DeadCode extends BaseDetectAction {
     }
 
     /**
-     * Helper method to check whether variable or method is used or not
-     * exclude 'main' method and args parameter
+     * Checks whether a given PsiElement (variable or method) is used in the code.
+     * Excludes the 'main' method and its 'args' parameter, as they are entry points of the application.
      *
-     * @param element PsiElement
-     * @return true if it is not used
+     * @param element The PsiElement (either a variable or method) to check.
+     * @return true if the element is not used in the code, indicating dead code.
      */
     private boolean detectSmell(PsiElement element) {
         if (element instanceof PsiMethod) {

@@ -107,11 +107,12 @@ public class DuplicatedCode extends BaseDetectAction {
 
 
     /**
-     * calculate the LevenshteinDistance between two string
+     * Calculate the LevenshteinDistance between two strings.
+     * The distance is a measure of the similarity between two strings, where a lower value indicates higher similarity.
      *
-     * @param str1
-     * @param str2
-     * @return distance
+     * @param str1 The first string to compare.
+     * @param str2 The second string to compare.
+     * @return The Levenshtein Distance as a double, normalized by the length of the longer string.
      */
     public double computeLevenshteinDistance(String str1, String str2) {
         int len1 = str1.length();
@@ -141,10 +142,13 @@ public class DuplicatedCode extends BaseDetectAction {
     }
 
     /**
-     * @param a
-     * @param b
-     * @param c
-     * @return the minimum integer
+     * Finds the minimum of three integers.
+     * Used for computation in Levenshtein Distance.
+     *
+     * @param a The first integer.
+     * @param b The second integer.
+     * @param c The third integer.
+     * @return The smallest of the three integers.
      */
     private int min(int a, int b, int c) {
         return Math.min(a, Math.min(b, c));
