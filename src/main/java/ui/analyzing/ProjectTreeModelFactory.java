@@ -2,6 +2,7 @@ package ui.analyzing;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +36,10 @@ class ProjectTreeModelFactory {
         // the root node of the tree
         final DefaultMutableTreeNode root = new DefaultMutableTreeNode(project);
         final Map<String, DefaultMutableTreeNode> rootRef = new HashMap<>();
-
-        for (String actionId : result.keySet()) {
+        List<String> actionIDs = Arrays.asList("COM", "DC", "DPC", "LCF", "LCM", "LM", "LPL", "MC", "PN", "SS");
+        for (String actionId : actionIDs) {
             List<PsiElement> codeSmellElements = result.get(actionId);
-            if (!actionId.isEmpty()) {
+            if (codeSmellElements != null && !codeSmellElements.isEmpty()) {
                 addTreeNodes(root, rootRef, actionId, codeSmellElements);
             }
         }
