@@ -1,7 +1,5 @@
 package ui.customizing;
 
-import static ui.customizing.UserProperties.initializeParam;
-
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.components.JBScrollPane;
@@ -35,7 +33,6 @@ public class CustomizePopupGUI extends JFrame implements TableModelListener {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        initializeParam();
         data = new Object[][]{
             {"Long Method (Lines of code)", UserProperties.getParam("LM")},
             {"Large Class (Number of fields)", UserProperties.getParam("LCF")},

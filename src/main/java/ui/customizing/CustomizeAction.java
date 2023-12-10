@@ -1,5 +1,8 @@
 package ui.customizing;
 
+import static ui.customizing.HandleConfig.getHandler;
+import static ui.customizing.HandleConfig.initializeConfig;
+
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
@@ -28,6 +31,8 @@ public class CustomizeAction extends AnAction {
 
         CustomizePopupGUI dialog = null;
         try {
+            getHandler(e.getProject());
+            initializeConfig();
             dialog = new CustomizePopupGUI(project, e);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
