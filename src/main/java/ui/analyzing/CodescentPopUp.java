@@ -12,13 +12,19 @@ import javax.swing.JPopupMenu;
  */
 public class CodescentPopUp extends JPopupMenu {
 
-    JMenuItem anItem;
-
+    /**
+     * Method that adds a description and a precondition of BaseDetectAction to the PopUp.
+     *
+     * @param object Object
+     */
     public CodescentPopUp(Object object) {
         if (object != null) {
-            if (object instanceof BaseDetectAction) {
-                anItem = new JMenuItem(((BaseDetectAction) object).description());
-                add(anItem);
+            if (object instanceof BaseDetectAction action) {
+                JMenuItem descriptionItem = new JMenuItem(action.description());
+                add(descriptionItem);
+
+                JMenuItem preconditionItem = new JMenuItem(action.precondition());
+                add(preconditionItem);
             }
         }
     }
