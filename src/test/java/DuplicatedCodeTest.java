@@ -26,15 +26,15 @@ public class DuplicatedCodeTest extends SmellDetectorTest {
     public void testDescription() {
         DuplicatedCode duplicatedCode = new DuplicatedCode();
         String expectedDescription = "<html>When there duplicated code. <br/>" +
-            "Detect codes where the same code is repeated..</html>";
+            "Detect methods where the similar code is repeated..</html>";
         assertEquals(expectedDescription, duplicatedCode.description());
     }
 
     public void testPrecondition() {
         DuplicatedCode duplicatedCode = new DuplicatedCode();
         String expectedPrecondition =
-            "<html>Find the parts where identical or very similar code exists in multiple locations. " +
-                "Identical or similar code blocks or methods .</html>";
+            "<html>Find the methods where identical or very similar code exists. " +
+                "Find methods that are similar to a certain level or higher. </html>";
         assertEquals(expectedPrecondition, duplicatedCode.precondition());
     }
 

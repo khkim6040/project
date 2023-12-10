@@ -1,76 +1,85 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiVariable;
 import com.intellij.psi.util.PsiTreeUtil;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import utils.LoadPsi;
 
 /**
- * Class to provide detecting: 'Poor Name'
+ * Class to detect 'Poor Name' based on its variable name.
  *
  * @author Chanho Song
  */
 public class PoorName extends BaseDetectAction {
 
-    public Project project;
-    //private PsiMethod focusMethod;
-
-    /* Returns the story ID. */
+    /**
+     * Returns the unique story ID for this detection.
+     *
+     * @return A String identifier for the 'Poor Name' detection story.
+     */
     @Override
     public String storyID() {
         return "PN";
     }
 
-    /* Returns the story name as a string format, for message. */
+    /**
+     * Provides the name of this detection story.
+     *
+     * @return A String representing the name of this detection story.
+     */
     @Override
     public String storyName() {
         return "Poor Name";
     }
 
-    /* Returns the description of each story. (in html-style) */
+    /**
+     * Describes the criteria for detecting a Poor Name code smell.
+     *
+     * @return A String in HTML format describing when a variable has 'Poor Name'.
+     */
     @Override
     public String description() {
         return "<html>When there are variables with poor names. <br/>" +
-            "detect names that is hardly reflect its function.</html>";
+            "detect names that is a meaningless name.</html>";
     }
 
-    /* Returns the precondition of each story. (in html-style) */
+    /**
+     * Defines the precondition for this code smell detection.
+     *
+     * @return A String in HTML format stating the precondition for detecting poor Name code smell.
+     */
     @Override
     public String precondition() {
-        return "<html>The variable which is just one alphabet or form of repeated alphabet. " +
+        return "<html>The variable which has a sequential alphabet name or form of repeated alphabet. " +
             "The variable whose length is less than or equal to 3.</html>";
     }
 
     /**
-     * Method that checks whether candidate method has long parameter list
+     * Checks whether a variable has poor name.
      *
-     * @param e AnActionEvent
-     * @return list of smelly PsiElement
+     * @param e AnActionEvent representing the context in which the action is performed.
+     * @return A List of PsiElement objects, each is the variable that has a poor name.
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
 
-        List<PsiVariable> variables = new ArrayList<>(PsiTreeUtil.collectElementsOfType(psiFile, PsiVariable.class));
-        List<PsiElement> poorNameVariables = new ArrayList<>();
-        for (PsiVariable var : variables) {
-            if (detectSmell(var)) {
-                poorNameVariables.add(var);
-            }
-        }
-        return poorNameVariables;
+        return Stream.of(psiFile.getChildren())
+            .flatMap(element -> PsiTreeUtil.collectElementsOfType(element, PsiVariable.class).stream())
+            .filter(this::detectSmell)
+            .collect(Collectors.toList());
     }
 
     /**
      * Helper method to check if the method has a poor name
      *
      * @param var PsiVariable
-     * @return true if method has poor name
+     * @return true if variable has poor name
      */
     private boolean detectSmell(PsiVariable var) {
 
@@ -95,7 +104,7 @@ public class PoorName extends BaseDetectAction {
     }
 
     /**
-     * Helper method to check if
+     * Helper method to check if it is a sequential alphabet.ex) abcd, efgh
      *
      * @param name PsiVariable
      * @return true if method has squential name

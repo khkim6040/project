@@ -26,14 +26,15 @@ public class PoorNameTest extends SmellDetectorTest {
     public void testDescription() {
         PoorName poorName = new PoorName();
         String expectedDescription = "<html>When there are variables with poor names. <br/>" +
-            "detect names that is hardly reflect its function.</html>";
+            "detect names that is a meaningless name.</html>";
         assertEquals(expectedDescription, poorName.description());
     }
 
     public void testPrecondition() {
         PoorName poorName = new PoorName();
-        String expectedPrecondition = "<html>The variable which is just one alphabet or form of repeated alphabet. " +
-            "The variable whose length is less than or equal to 3.</html>";
+        String expectedPrecondition =
+            "<html>The variable which has a sequential alphabet name or form of repeated alphabet. " +
+                "The variable whose length is less than or equal to 3.</html>";
         assertEquals(expectedPrecondition, poorName.precondition());
     }
 
