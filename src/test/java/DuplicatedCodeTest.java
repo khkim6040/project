@@ -43,9 +43,9 @@ public class DuplicatedCodeTest extends SmellDetectorTest {
     }
 
     public void testSimilarThreeMethodsAreSmelly() {
-        expectedLocations.add(14);
-        expectedLocations.add(20);
-        expectedLocations.add(26);
+        expectedLocations.add(15);
+        expectedLocations.add(21);
+        expectedLocations.add(27);
         doFindSmellTest(3, expectedLocations);
     }
 
