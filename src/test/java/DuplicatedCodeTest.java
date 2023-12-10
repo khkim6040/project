@@ -52,4 +52,8 @@ public class DuplicatedCodeTest extends SmellDetectorTest {
     public void testCleanCase() {
         doFindSmellTest(4, expectedLocations);
     }
+
+    public void testEmptyMethodBody() {
+        doFindSmellTest(5, expectedLocations);
+    }
 }

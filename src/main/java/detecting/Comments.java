@@ -83,6 +83,10 @@ public class Comments extends BaseDetectAction {
     private boolean detectSmell(PsiComment comment, int maxLineCount) {
         String commentText = comment.getText();
 
+        if (commentText == null) {
+            return false;
+        }
+
         //exclude javadoc comments
         if (commentText.startsWith("/**")) {
             return false;

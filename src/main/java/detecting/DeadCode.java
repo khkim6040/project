@@ -81,6 +81,9 @@ public class DeadCode extends BaseDetectAction {
      * @return true if the element is not used in the code, indicating dead code.
      */
     private boolean detectSmell(PsiElement element) {
+        if (element == null) {
+            return false;
+        }
         if (element instanceof PsiMethod) {
             PsiMethod method = (PsiMethod) element;
             if (isMainMethod(method)) {

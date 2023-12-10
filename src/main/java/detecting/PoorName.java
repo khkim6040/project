@@ -71,6 +71,9 @@ public class PoorName extends BaseDetectAction {
      */
     private boolean detectSmell(PsiVariable var) {
 
+        if (var == null) {
+            return false;
+        }
         String name = var.getName();
 
         //Check the length
