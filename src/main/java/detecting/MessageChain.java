@@ -110,6 +110,9 @@ public class MessageChain extends BaseDetectAction {
     private boolean detectSmell(PsiStatement statement, int chainLength) {
         PsiExpression expression = null;
 
+        if (statement == null) {
+            return false;
+        }
         if (statement instanceof PsiExpressionStatement) { // a.method1().method2()
             expression = ((PsiExpressionStatement) statement).getExpression();
         } else if (statement instanceof PsiDeclarationStatement) { // int a = b.method1().method2()

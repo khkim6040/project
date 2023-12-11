@@ -45,4 +45,8 @@ public class LongMethodTest extends SmellDetectorTest {
         doFindSmellTest(3, expectedLocations);
     }
 
+    public void testEmptyMethodBody() {
+        doFindSmellTest(4, expectedLocations);
+    }
+
 }
