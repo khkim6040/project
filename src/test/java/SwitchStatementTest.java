@@ -55,4 +55,8 @@ public class SwitchStatementTest extends SmellDetectorTest {
         doFindSmellTest(5, expectedLocations);
     }
 
+    public void testTypeCastingButNotMultiCasting() {
+        doFindSmellTest(6, expectedLocations);
+    }
+
 }
