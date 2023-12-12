@@ -74,7 +74,7 @@ public class MessageChainTest extends SmellDetectorTest {
         doFindSmellTest(4, expectedLocations);
     }
 
-    public void testMessageChain5() {
+    public void testManyStatementTypeMessageChain() {
         expectedLocations.add(16);
         expectedLocations.add(19);
         expectedLocations.add(22);
@@ -84,7 +84,7 @@ public class MessageChainTest extends SmellDetectorTest {
         doFindSmellTest(5, expectedLocations);
     }
 
-    public void testMessageChain6() {
+    public void testBlockStatementMessageChainInSwitchStatement() {
         expectedLocations.add(19);
         doFindSmellTest(6, expectedLocations);
     }
