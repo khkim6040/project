@@ -131,7 +131,7 @@ public class TreeStructureWindow extends Tree {
 
             }
         });
-        
+
         /**
          * Set a mouse listener to handle click events
          */

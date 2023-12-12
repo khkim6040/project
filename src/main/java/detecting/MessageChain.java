@@ -185,7 +185,7 @@ public class MessageChain extends BaseDetectAction {
      * @param statement The control flow statement from which to extract branches.
      * @return An array of PsiStatements representing the branches of the given control flow statement.
      */
-    private PsiStatement[] getBranches(PsiStatement statement) {
+    public PsiStatement[] getBranches(PsiStatement statement) {
         if (statement instanceof PsiIfStatement ifStmt) {
             return new PsiStatement[]{ifStmt.getThenBranch(), ifStmt.getElseBranch()};
         } else if (statement instanceof PsiWhileStatement whileStmt) {

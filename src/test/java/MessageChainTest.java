@@ -1,3 +1,7 @@
+import com.intellij.psi.JavaPsiFacade;
+import com.intellij.psi.PsiElementFactory;
+import com.intellij.psi.PsiReturnStatement;
+import com.intellij.psi.PsiStatement;
 import detecting.BaseDetectAction;
 import detecting.MessageChain;
 
@@ -27,6 +31,16 @@ public class MessageChainTest extends SmellDetectorTest {
         MessageChain messageChain = new MessageChain();
         String expectedDescription = "There are message chain whose length is longer than a set standard. When a sequence of method calls is chained together,detect it as code smell 'message chain'.";
         assertEquals(expectedDescription, messageChain.description());
+    }
+
+    public void testGetBranchesWithNonBranchStatement() {
+        PsiElementFactory factory = JavaPsiFacade.getElementFactory(getProject());
+        // Create a PsiReturnStatement or any non-branch statement.
+        PsiReturnStatement nonBranchStatement = (PsiReturnStatement) factory.createStatementFromText("return;", null);
+        MessageChain messageChain = new MessageChain();
+        PsiStatement[] branches = messageChain.getBranches(nonBranchStatement);
+        // Assert getBranches return new PsiStatement[0];
+        assertEquals(0, branches.length);
     }
 
     public void testStatementHasLongerThanConfigurationChainLengthIsSmelly() {
@@ -70,4 +84,8 @@ public class MessageChainTest extends SmellDetectorTest {
         doFindSmellTest(5, expectedLocations);
     }
 
+    public void testMessageChain6() {
+        expectedLocations.add(19);
+        doFindSmellTest(6, expectedLocations);
+    }
 }
