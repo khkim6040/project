@@ -1,6 +1,7 @@
 /**
  * Example code to test other 6 types of statements
- * An example code with 11 instances of message chain code smells
+ * This code doesn't have message chain inside for, if, while ,switch
+ * An example code with 6 instances of message chain code smells
  * (with all chain lengths of 7)
  *
  * Default condition for message chain code smell is 5
@@ -19,29 +20,26 @@ public class TestClass {
 
         // Case 3: PsiIfStatement (length = 7)
         if (getObject().getSubObject().getNext().getNext().getNext().getNext().getNext().checkCondition()) {
-            // Inside if block (length = 7)
-            getObject().getSubObject().getNext().getNext().getNext().getNext().getNext().performAction();
+
         }
 
         // Case 4: PsiWhileStatement (length = 7)
         while (getObject().getSubObject().getNext().getNext().getNext().getNext().getNext().isTrue()) {
-            // Inside while loop (length = 7)
-            getObject().getSubObject().getNext().getNext().getNext().getNext().getNext().performAction();
+
         }
 
         // Case 5: PsiForStatement (length = 7)
         for (int i = 0; getObject().getSubObject().getNext().getNext().getNext().getNext().getNext().hasNext(i); i++) {
-            // Inside for loop (length = 7)
-            getObject().getSubObject().getNext().getNext().getNext().getNext().getNext().performAction();
+
         }
 
         // Case 6: PsiSwitchStatement (length = 7)
         switch (getObject().getSubObject().getNext().getNext().getNext().getNext().getNext().getState()) {
-            case STATE1: // Inside switch case 1 (length = 7)
-                getObject().getSubObject().getNext().getNext().getNext().getNext().getNext().performAction();
+            case STATE1:
+                int a = 5;
                 break;
-            case STATE2: // Inside switch case 2 (length = 7)
-                getObject().getSubObject().getNext().getNext().getNext().getNext().getNext().performAction();
+            case STATE2:
+                int b = 3;
                 break;
         }
 

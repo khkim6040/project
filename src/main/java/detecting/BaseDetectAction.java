@@ -1,6 +1,5 @@
 package detecting;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.psi.PsiElement;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  * @author CSED332 2020 Team Wanted
  */
 
-public abstract class BaseDetectAction extends AnAction {
+public abstract class BaseDetectAction {
 
     /**
      * Returns the story ID.
@@ -37,25 +36,11 @@ public abstract class BaseDetectAction extends AnAction {
     public abstract String description();
 
     /**
-     * Returns the precondition of each story.
-     * Use html-style (<html>content</html>) for multi-line explanation.
+     * Identifies and returns a list of code smells within the code.
      *
-     * @return description of each story as string
-     */
-    public abstract String precondition();
-
-    /**
-     * Method that checks whether candidate method has code smell.
-     *
-     * @param e AnActionEvent
-     * @return true if method has code smell
+     * @param e AnActionEvent representing the context in which the action is performed.
+     * @return A List of PsiElement objects, each representing a detected code smell in the code.
      */
     public abstract List<PsiElement> findSmells(AnActionEvent e);
-
-    @Override
-    public void actionPerformed(AnActionEvent e) {
-
-    }
-
 
 }

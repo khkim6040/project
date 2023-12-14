@@ -28,15 +28,15 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Code Scent" anchor="bottom" factoryClass="ui.MyToolWindowFactory"/>
+        <toolWindow id="Code Scent" anchor="bottom" factoryClass="ui.MyToolWindowFactory" icon="/icons/4nix.png"/>
     </extensions>
     <actions>
 
-        <action id="Analyze" class="ui.AnalyzeAction" text="Analyze">
+        <action id="Analyze" class="ui.analyzing.AnalyzeAction" text="Analyze">
         </action>
         <action id="AnalyzeAll" class="ui.MyToolWindowAction" text="Analyze All">
         </action>
-        <action id="Customize" class="ui.CustomizeAction" text="Customize">
+        <action id="Customize" class="ui.customizing.CustomizeAction" text="Customize">
         </action>
 
     </actions>

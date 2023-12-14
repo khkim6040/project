@@ -2,9 +2,9 @@ import detecting.BaseDetectAction;
 import detecting.PoorName;
 
 /**
- * Test for detecting: 'Poor name'
+ * Test for detecting: 'PoorName'
  *
- * @author Chanho Song
+ * @author Chanho Song, Gwanho Kim, Jinmin Goh
  */
 public class PoorNameTest extends SmellDetectorTest {
 
@@ -25,31 +25,26 @@ public class PoorNameTest extends SmellDetectorTest {
 
     public void testDescription() {
         PoorName poorName = new PoorName();
-        String expectedDescription = "<html>When there are variables with poor names. <br/>" +
-            "detect names that is hardly reflect its function.</html>";
+        String expectedDescription = "There are variables which have too short name, sequential alphabet name or form of repeated alphabet. Detect the variables as a 'poor name' code smell.";
         assertEquals(expectedDescription, poorName.description());
     }
-    
-    public void testPrecondition() {
-        PoorName poorName = new PoorName();
-        String expectedPrecondition = "<html>The variable which is just one alphabet or form of repeated alphabet. " +
-            "The variable whose length is less than or equal to 3.</html>";
-        assertEquals(expectedPrecondition, poorName.precondition());
+
+    public void testVariableNameLengthLessThanFourIsSmelly() {
+        expectedLocations.add(13);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testPoorName1() {
-        doDetectSmellTest(1, 1);
+    public void testVariableNameWithRepeatedAlphabetIsSmelly() {
+        expectedLocations.add(13);
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testPoorName2() {
-        doDetectSmellTest(2, 1);
+    public void testVariableNameWithSequentialAlphabetIsSmelly() {
+        expectedLocations.add(13);
+        doFindSmellTest(3, expectedLocations);
     }
 
-    public void testPoorName3() {
-        doDetectSmellTest(3, 1);
-    }
-
-    public void testPoorName4() {
-        doDetectSmellTest(4, 0);
+    public void testCleanVariableName() {
+        doFindSmellTest(4, expectedLocations);
     }
 }

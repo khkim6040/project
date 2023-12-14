@@ -2,9 +2,9 @@ import detecting.BaseDetectAction;
 import detecting.DuplicatedCode;
 
 /**
- * Test for detecting: 'Duplicated code'
+ * Test for detecting: 'DuplicatedCode'
  *
- * @author Chanho Song
+ * @author Chanho Song, Gwanho Kim, Jinmin Goh
  */
 public class DuplicatedCodeTest extends SmellDetectorTest {
 
@@ -25,32 +25,35 @@ public class DuplicatedCodeTest extends SmellDetectorTest {
 
     public void testDescription() {
         DuplicatedCode duplicatedCode = new DuplicatedCode();
-        String expectedDescription = "<html>When there duplicated code. <br/>" +
-            "Detect codes where the same code is repeated..</html>";
+        String expectedDescription = "There are identical or very similar methods. Repeated methods are 'duplicated code' code smell.";
         assertEquals(expectedDescription, duplicatedCode.description());
     }
 
-    public void testPrecondition() {
-        DuplicatedCode duplicatedCode = new DuplicatedCode();
-        String expectedPrecondition =
-            "<html>Find the parts where identical or very similar code exists in multiple locations. " +
-                "Identical or similar code blocks or methods .</html>";
-        assertEquals(expectedPrecondition, duplicatedCode.precondition());
+    public void testSimilarMethodsAreSmelly() {
+        expectedLocations.add(13);
+        expectedLocations.add(20);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testDuplicatedCode1() {
-        doDetectSmellTest(1, 2);
+
+    public void testSameMethodsAreSmelly() {
+        expectedLocations.add(13);
+        expectedLocations.add(18);
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testDuplicatedCode2() {
-        doDetectSmellTest(2, 2);
+    public void testSimilarThreeMethodsAreSmelly() {
+        expectedLocations.add(15);
+        expectedLocations.add(21);
+        expectedLocations.add(27);
+        doFindSmellTest(3, expectedLocations);
     }
 
-    public void testDuplicatedCode3() {
-        doDetectSmellTest(3, 3);
+    public void testCleanCase() {
+        doFindSmellTest(4, expectedLocations);
     }
 
-    public void testDuplicatedCode4() {
-        doDetectSmellTest(4, 0);
+    public void testEmptyMethodBody() {
+        doFindSmellTest(5, expectedLocations);
     }
 }

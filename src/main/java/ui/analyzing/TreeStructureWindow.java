@@ -1,4 +1,4 @@
-package ui;
+package ui.analyzing;
 
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
@@ -64,10 +64,12 @@ public class TreeStructureWindow extends Tree {
      *
      * @param project a project
      */
-    TreeStructureWindow(@NotNull Project project, Map<String, List<PsiElement>> result) {
+    public TreeStructureWindow(@NotNull Project project, Map<String, List<PsiElement>> result) {
         setModel(ProjectTreeModelFactory.createProjectTreeModel(project, result));
 
-        // Set a cell renderer to display the name and icon of each node
+        /**
+         * Set a cell renderer to display the name and icon of each node
+         */
         setCellRenderer(new ColoredTreeCellRenderer() {
             @Override
             public void customizeCellRenderer(@NotNull JTree tree, Object value, boolean selected,
@@ -130,7 +132,9 @@ public class TreeStructureWindow extends Tree {
             }
         });
 
-        // Set a mouse listener to handle click events
+        /**
+         * Set a mouse listener to handle click events
+         */
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -141,28 +145,30 @@ public class TreeStructureWindow extends Tree {
                     DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
                     Object element = node.getUserObject();
                     Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
-                    MarkupModel markupModel = editor.getMarkupModel();
-                    if (currentHighlighter != null) {
-                        markupModel.removeHighlighter(currentHighlighter);
-                        currentHighlighter = null;
-                    }
+                    if (editor != null) {
+                        MarkupModel markupModel = editor.getMarkupModel();
+                        if (currentHighlighter != null) {
+                            markupModel.removeHighlighter(currentHighlighter);
+                            currentHighlighter = null;
+                        }
 
-                    if (element != null) {
-                        if (element instanceof PsiElement) {
-                            int offset = ((PsiElement) element).getTextOffset();
+                        if (element != null) {
+                            if (element instanceof PsiElement) {
+                                int offset = ((PsiElement) element).getTextOffset();
 
-                            TextAttributes attributes = new TextAttributes();
-                            attributes.setBackgroundColor(JBColor.YELLOW);
+                                TextAttributes attributes = new TextAttributes();
+                                attributes.setBackgroundColor(JBColor.YELLOW);
 
-                            currentHighlighter = markupModel.addRangeHighlighter(
-                                offset,
-                                offset,
-                                HighlighterLayer.ERROR,
-                                attributes,
-                                HighlighterTargetArea.EXACT_RANGE
-                            );
-                            currentHighlighter.setErrorStripeMarkColor(JBColor.RED);
-                            currentHighlighter.setErrorStripeTooltip("Codesmell Detected");
+                                currentHighlighter = markupModel.addRangeHighlighter(
+                                    offset,
+                                    offset,
+                                    HighlighterLayer.ADDITIONAL_SYNTAX,
+                                    attributes,
+                                    HighlighterTargetArea.EXACT_RANGE
+                                );
+                                currentHighlighter.setErrorStripeMarkColor(JBColor.PINK);
+                                currentHighlighter.setErrorStripeTooltip("Codesmell Detected");
+                            }
                         }
                     }
                 }

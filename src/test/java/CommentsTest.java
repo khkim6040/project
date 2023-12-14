@@ -1,6 +1,11 @@
 import detecting.BaseDetectAction;
 import detecting.Comments;
 
+/**
+ * Test for detecting: 'Comments'
+ *
+ * @author Chanho Song, Gwanho Kim, Jinmin Goh
+ */
 public class CommentsTest extends SmellDetectorTest {
 
     @Override
@@ -19,30 +24,27 @@ public class CommentsTest extends SmellDetectorTest {
 
     public void testDescription() {
         Comments comments = new Comments();
-        String expectedDescription = "<html>When comments are smelly<br/>" +
-            " ,detect it as a code smell.</html>";
+        String expectedDescription = "There are comments longer than user defined length or include TODO, or Fix. These are smelly comments.";
         assertEquals(expectedDescription, comments.description());
     }
-    
-    public void testPrecondition() {
-        Comments comments = new Comments();
-        String expectedPrecondition = "<html>There are comments longer than three line or TODO, or Fix.</html>";
-        assertEquals(expectedPrecondition, comments.precondition());
+
+    public void testCommentLongerThanConfigurationLineIsSmelly() {
+        expectedLocations.add(10);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testComments1() {
-        doDetectSmellTest(1, 1);
+    public void testTODOCommentIsSmelly() {
+        expectedLocations.add(11);
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testComments2() {
-        doDetectSmellTest(2, 1);
+    public void testFixCommentIsSmelly() {
+        expectedLocations.add(10);
+        doFindSmellTest(3, expectedLocations);
     }
 
-    public void testComments3() {
-        doDetectSmellTest(3, 1);
+    public void testCleanComment() {
+        doFindSmellTest(4, expectedLocations);
     }
 
-    public void testComments4() {
-        doDetectSmellTest(4, 0);
-    }
 }

@@ -2,9 +2,9 @@ import detecting.BaseDetectAction;
 import detecting.LongParameterList;
 
 /**
- * Test for detecting: 'Long parameter list'
+ * Test for detecting: 'LongParameterList'
  *
- * @author Jinyoung Kim
+ * @author Jinyoung Kim, Gwanho Kim, Jinmin Goh
  */
 public class LongParameterListTest extends SmellDetectorTest {
 
@@ -25,26 +25,23 @@ public class LongParameterListTest extends SmellDetectorTest {
 
     public void testDescription() {
         LongParameterList longParameterList = new LongParameterList();
-        String expectedDescription = "<html>When there are too many parameters in the method<br/>" +
-            " ,detect it as code smell long parameter list.</html>";
+        String expectedDescription = "There are more parameters in a method than a set standard. When there are too many parameters in the method, detect it as code smell 'long parameter list'.";
         assertEquals(expectedDescription, longParameterList.description());
     }
 
-    public void testPrecondition() {
-        LongParameterList longParameterList = new LongParameterList();
-        String expectedPrecondition = "<html>There are more parameters in the method than a set standard</html>";
-        assertEquals(expectedPrecondition, longParameterList.precondition());
+    public void testMethodHasMoreThanConfigurationParameterIsSmelly() {
+        expectedLocations.add(21);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testLongParameterList1() {
-        doDetectSmellTest(1, 1);
+    public void testMethodHasLessOrEqualThanConfigurationParameterIsSmelly() {
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testLongParameterList2() {
-        doDetectSmellTest(2, 0);
-    }
-
-    public void testLongParameterList3() {
-        doDetectSmellTest(3, 3);
+    public void testMixedCase() {
+        expectedLocations.add(27);
+        expectedLocations.add(32);
+        expectedLocations.add(37);
+        doFindSmellTest(3, expectedLocations);
     }
 }

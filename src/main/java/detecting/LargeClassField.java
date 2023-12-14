@@ -1,79 +1,79 @@
 package detecting;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiFile;
-import java.util.ArrayList;
 import java.util.List;
-import ui.UserProperties;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import ui.customizing.UserProperties;
 import utils.LoadPsi;
 
 /**
- * Class to provide detecting: 'LargeClass' based on number of fields
+ * Class to detect 'LargeClass' based on the number of fields.
+ * It extends BaseDetectAction, inheriting its basic functionality and
+ * specializing it to identify large class field code smells.
  *
  * @author Jinyoung Kim
  */
 public class LargeClassField extends BaseDetectAction {
 
-    public Project project;
-
-    /* Returns the story ID. */
+    /**
+     * Returns the unique story ID for this detection.
+     *
+     * @return A String identifier for the 'Large Class Field' detection story.
+     */
     @Override
     public String storyID() {
         return "LCF";
     }
 
-    /* Returns the story name as a string format for message. */
+    /**
+     * Provides the name of this detection story.
+     *
+     * @return A String representing the name of this detection story.
+     */
     @Override
     public String storyName() {
         return "Large Class based on number of fields";
     }
 
-    /* Returns the description of each story. (in html-style) */
+    /**
+     * Describes the criteria for detecting a large class code smell.
+     *
+     * @return A String in HTML format describing when a class is considered 'large'.
+     */
     @Override
     public String description() {
-        return "<html>When there are too many fields in the class<br/>" +
-            " ,detect it as code smell large class.</html>";
-    }
-
-    @Override
-    public String precondition() {
-        return "<html>There are more fields in the class than a set standard</html>";
+        return "There are more fields in the class than a set standard. When there are too many fields in the class, detect it as code smell 'large class'.";
     }
 
     /**
-     * Method that checks whether class is large class due to many fields
+     * Checks whether a class in the given action event context is a large class due to many fields.
      *
-     * @param e AnActionEvent
-     * @return list of smelly PsiElement
+     * @param e AnActionEvent representing the context in which the action is performed.
+     * @return A List of PsiElement objects, each representing a class considered as 'large'.
      */
     @Override
     public List<PsiElement> findSmells(AnActionEvent e) {
-        List<PsiElement> largeClassesField = new ArrayList<>();
         PsiFile psiFile = LoadPsi.loadPsiFile(e);
-
         int userDefinedMaxFields = UserProperties.getParam(storyID());
 
-        for (PsiElement element : psiFile.getChildren()) {
-            if (element instanceof PsiClass) {
-                PsiClass psiClass = (PsiClass) element;
-                if (detectSmell(psiClass, userDefinedMaxFields)) {
-                    largeClassesField.add(psiClass);
-                }
-            }
-        }
-        return largeClassesField; // No large class code smell detected
+        return Stream.of(psiFile.getChildren())
+            .filter(PsiClass.class::isInstance)
+            .map(PsiClass.class::cast)
+            .filter(psiClass -> detectSmell(psiClass, userDefinedMaxFields))
+            .collect(Collectors.toList());
     }
 
     /**
-     * Helper method to check if the class is considered 'large'.
+     * Helper method to check if the class is considered 'large' based on the number of fields.
      *
-     * @param psiClass  PsiClass
-     * @param maxFields Number of maximum fields possible
-     * @return true if the class is larger than set thresholds for fields and methods
+     * @param psiClass  PsiClass object representing a class in the code.
+     * @param maxFields The maximum number of fields defined by the user as the threshold.
+     * @return true if the class has more fields than the specified maxFields threshold.
      */
     private boolean detectSmell(PsiClass psiClass, int maxFields) {
         PsiField[] fields = psiClass.getFields();

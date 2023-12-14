@@ -1,8 +1,8 @@
 /**
- * @author Chanho Song
  * Test code for clean code. There is no duplicated code.
+ *
+ * @author Chanho Song
  */
-
 public class VendingMachine {
 
     public static void main(String[] args) {

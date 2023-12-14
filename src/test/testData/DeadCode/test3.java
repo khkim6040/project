@@ -1,6 +1,7 @@
 /**
- * @author: Chanho Song
  * Test code for check unused Method.
+ *
+ * @author: Chanho Song
  */
 
 public class DeadCode {

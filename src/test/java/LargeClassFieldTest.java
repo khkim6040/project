@@ -2,9 +2,9 @@ import detecting.BaseDetectAction;
 import detecting.LargeClassField;
 
 /**
- * Test for detecting large class due to fields
+ * Test for detecting: 'LargeClassField'
  *
- * @author Jinyoung Kim
+ * @author Jinyoung Kim, Gwanho Kim, Jinmin Goh
  */
 
 public class LargeClassFieldTest extends SmellDetectorTest {
@@ -26,27 +26,25 @@ public class LargeClassFieldTest extends SmellDetectorTest {
 
     public void testDescription() {
         LargeClassField largeClassField = new LargeClassField();
-        String expectedDescription = "<html>When there are too many fields in the class<br/>" +
-            " ,detect it as code smell large class.</html>";
+        String expectedDescription = "There are more fields in the class than a set standard. When there are too many fields in the class, detect it as code smell 'large class'.";
         assertEquals(expectedDescription, largeClassField.description());
     }
 
-    public void testPrecondition() {
-        LargeClassField largeClassField = new LargeClassField();
-        String expectedPrecondition = "<html>There are more fields in the class than a set standard</html>";
-        assertEquals(expectedPrecondition, largeClassField.precondition());
+    public void testClassHasMoreThanConfigurationFieldIsSmelly() {
+        expectedLocations.add(12);
+        doFindSmellTest(1, expectedLocations);
+
     }
 
-    public void testLargeClassField1() {
-        doDetectSmellTest(1, 1);
+    public void testClassHasLessOrEqualThanConfigurationFieldIsClean() {
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testLargeClassField2() {
-        doDetectSmellTest(2, 0);
-    }
-
-    public void testLargeClassField3() {
-        doDetectSmellTest(3, 3);
+    public void testMixedCase() {
+        expectedLocations.add(21);
+        expectedLocations.add(30);
+        expectedLocations.add(38);
+        doFindSmellTest(3, expectedLocations);
     }
 }
 
