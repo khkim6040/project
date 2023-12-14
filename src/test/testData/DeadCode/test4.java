@@ -3,8 +3,9 @@
  */
 
 /**
- * @author: Chanho Song
  * Test code for clean code. all 2 methods are used.
+ *
+ * @author: Chanho Song
  */
 public class DeadCode {
 

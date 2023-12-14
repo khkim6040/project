@@ -1,9 +1,8 @@
 /**
- * @author Chanho Song
  * Test code for type casting in switch statement.
+ *
+ * @author Chanho Song
  */
-
-
 class Shape {
 
     String type;

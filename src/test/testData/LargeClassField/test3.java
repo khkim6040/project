@@ -8,7 +8,6 @@
  *
  * @author Jinyoung Kim
  */
-
 public class ClassWithFewFields {
 
     private String name;

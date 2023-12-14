@@ -1,11 +1,11 @@
+/**
+ * An example method with 3 long method code smell.
+ * These methods has 33, 40, 30, 10 lines of code.
+ *
+ * @author Jinyoung Kim
+ */
 public class TestLongMethod {
 
-    /**
-     * An example method with 3 long method code smell.
-     * These methods has 33, 40, 30, 10 lines of code.
-     *
-     * @author Jinyoung Kim
-     */
     public static void main(String[] args) {
         TestLongMethod example = new TestLongMethod();
         example.tooLongMethod();

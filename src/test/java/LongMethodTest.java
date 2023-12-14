@@ -4,7 +4,7 @@ import detecting.LongMethod;
 /**
  * Test for detecting: 'LongMethod'
  *
- * @author Jinyoung Kim
+ * @author Jinyoung Kim, Gwanho Kim, Jinmin Goh
  */
 public class LongMethodTest extends SmellDetectorTest {
 
@@ -25,27 +25,28 @@ public class LongMethodTest extends SmellDetectorTest {
 
     public void testDescription() {
         LongMethod longMethod = new LongMethod();
-        String expectedDescription = "<html>When there are too many lines in the method<br/>" +
-            " ,detect it as code smell long method.</html>";
+        String expectedDescription = "There are more lines in the method than a set standard. When there are too many lines in the method,detect it as code smell 'long method'.";
         assertEquals(expectedDescription, longMethod.description());
     }
 
-    public void testPrecondition() {
-        LongMethod longMethod = new LongMethod();
-        String expectedPrecondition = "<html>There are more lines in the method than a set standard</html>";
-        assertEquals(expectedPrecondition, longMethod.precondition());
+    public void testMethodHasMoreThanConfigurationLineIsSmelly() {
+        expectedLocations.add(14);
+        doFindSmellTest(1, expectedLocations);
     }
 
-    public void testLongMethod1() {
-        doDetectSmellTest(1, 1);
+    public void testMethodHasLessOrEqualThanConfigurationLineIsClean() {
+        doFindSmellTest(2, expectedLocations);
     }
 
-    public void testLongMethod2() {
-        doDetectSmellTest(2, 0);
+    public void testMixedCase() {
+        expectedLocations.add(14);
+        expectedLocations.add(51);
+        expectedLocations.add(95);
+        doFindSmellTest(3, expectedLocations);
     }
 
-    public void testLongMethod3() {
-        doDetectSmellTest(3, 3);
+    public void testEmptyMethodBody() {
+        doFindSmellTest(4, expectedLocations);
     }
 
 }

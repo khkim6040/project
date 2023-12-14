@@ -1,8 +1,8 @@
 /**
- * @author Hyeonbeen Park
  * Test code for type casting in single if statement.
+ *
+ * @author Hyeonbeen Park
  */
-
 public class Test {
 
     long computeWeight(Element e) {

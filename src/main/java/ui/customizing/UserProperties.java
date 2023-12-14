@@ -1,4 +1,4 @@
-package ui;
+package ui.customizing;
 
 import java.io.IOException;
 
@@ -26,10 +26,6 @@ public class UserProperties {
             case "COM" -> COM;
             default -> 0;
         };
-    }
-
-    public static void initializeParam() throws IOException {
-        HandleConfig.initializeConfig();
     }
 
     public static void setLM(int LM) throws IOException {
